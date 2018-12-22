@@ -1,0 +1,237 @@
+\documentclass[12pt]{article}
+
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\geometry{top=1in, bottom=1in, left=1in, right=1in, marginparsep=4pt, marginparwidth=1in}
+
+\renewcommand{\headrulewidth}{0pt}
+\pagestyle{fancyplain}
+\fancyhf{}
+\lfoot{As of 2018-02-14}
+\rfoot{page \thepage\ of \pageref{LastPage}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% \setromanfont [Ligatures={Common}, Numbers={OldStyle}, Variant=01,
+%  BoldFont={LinLibertine_RB.otf},
+%  ItalicFont={LinLibertine_RI.otf},
+%  BoldItalicFont={LinLibertine_RBI.otf}
+%  ]{LinLibertine_R.otf}
+
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+
+\usepackage{xunicode}
+\defaultfontfeatures{Mapping=tex-text}
+
+\setromanfont{YaleNew}
+
+\begin{document}
+
+\begin{center}
+{\bf MATH/STAT 209: Introduction to Statistical Modelling, Spring 2019} \\
+Tuesday, Thursday 12:00-13:15 \quad MRC LL1\\
+Tuesday, Thursday 13:30-14:45 \quad MRC LL1
+\end{center}
+
+\bigskip
+
+\noindent
+\begin{tabular}{ l l }
+{\bf Instructor:} &  {\bf Taylor Arnold} \\
+E-mail: & \href{mailto:tarnold2@richmond.edu}{tarnold2@richmond.edu} \\
+Office: & Jepson Hall, Rm 218 \\
+Office hours: & Monday 15:00-16:00 and 17:30-18:30
+\end{tabular}
+
+\vspace{0.5cm}
+
+\textbf{Description:} \vspace{6pt}
+
+This course broadly covers the entire processing of collecting, visualizing,
+and modeling data. It has a MATH designation but is not a \textit{mathematics}
+course. The focus is on applied statistics and data analysis rather than a
+detailed study of symbolic mathematics. By the end of the semester you will
+feel confident collecting, analyzing, and writing about datasets from a
+variety of fields. You will be able to use these skills to address data-driven
+problems in a wide range of application domains.
+
+\bigskip
+
+\textbf{Computing:} \vspace{6pt}
+
+To facilitate your ability to actually \textit{do} statistics, most class
+meetings will involve some form of computing. No prior programming experience
+is assumed or required.
+
+\medskip
+
+We will use the \textbf{R} programming environment throughout the
+semester. It is freely available for all major operating systems and
+is pre-installed on many campus computers. You can download it and
+all supporting files for your own machine via these links:
+\begin{center}
+\url{https://cran.r-project.org/} \\
+\url{https://www.rstudio.com/}
+\end{center}
+You are required to bring a laptop to each class meeting with R installed
+and running. This requires that you have a computer with an up-to-date
+version of macOS, Windows, or Linux (iPads and Chromebooks will not suffice).
+If this is not possible, or becomes a problem during the semester, it is your
+responsibility to inform me as soon as possible so that we can find an
+alternative solution.
+
+\bigskip
+
+\textbf{Course Website:} \vspace{6pt}
+
+All of the materials and assignments for the course will be posted
+on the class website:
+\begin{quote}
+\url{https://statsmaths.github.io/stat209-s19}
+\end{quote}
+The website contains notes, assignment details, and supplemental materials.
+At the end of the semester, this version of the course will be archived and
+available for your reference.
+
+\vspace{0.4cm}
+
+\textbf{Labs:} \vspace{6pt}
+
+During most class meetings, you will work on a series of assignments I refer
+to as `Labs'. These may be a paper handout with questions or a code file that
+requires that you fill in answers digitally. In order to succeed in the course
+you should complete these prior to the next class meeting. Rather than
+formally handing them in, you must instead fill out an online questionnaire
+at some point prior to the next class meeting. I will not accept late
+submissions. The questionnaire can be found through a link on the course
+website. You have a grace period of forgetting to hand in \textbf{two}
+questionnaires. Beyond these you will lose one point on your final grade for
+every missing questionnaire.
+
+\vspace{0.4cm}
+
+\textbf{Exams:} \vspace{6pt}
+
+We will have three exams given during the semester. Exams will focus on
+the material in each section of the course, but due to the cumulative nature
+of the material each requires understanding previous sections. There may be
+in-class and take-home components of each exam. The in-class portion will take
+place on the following days:
+
+\begin{itemize}\setlength\itemsep{0em}
+\item 2019-02-12 (Tue)
+\item 2019-03-21 (Thur)
+\item 2019-04-18 (Thur)
+\end{itemize}
+
+Any take-home component will be due the class \textit{after} the day on which
+the in-class exam is assigned.
+
+\vspace{0.4cm}
+
+\textbf{Final Project:} \vspace{6pt}
+
+In lieu of a final exam, the course concludes with a final project.
+The project is due on the second to last class of the semester so that we can
+accommodate in-class presentations during the final week of the semester.
+More details on the project will be given prior to Spring Break.
+
+\vspace{0.4cm}
+
+\textbf{Final Grades:} \vspace{6pt}
+
+You will receive a numeric score from 0-100 for each exams and the final
+project. Your final numeric grade is determined by taking the average score
+of your three best grades, rounded to the nearest integer. Finally, subtract
+one point for every missing lab/worksheet for which you failed to turn a form
+in (beyond the grace window of two missing forms).
+
+\medskip
+
+The mapping from numeric grades to letter grades is given as follows:
+\begin{itemize}\setlength\itemsep{0em}
+\item[] \textbf{A} $\Rightarrow$ 90 to 100
+\item[] \textbf{B} $\Rightarrow$ 80 to 89
+\item[] \textbf{C} $\Rightarrow$ 70 to 79
+\end{itemize}
+I may assign pluses and minuses as needed. When appropriate, I may also modify
+these cut-off scores to make them more generous (but will not make them more
+strict).
+
+\vspace{0.4cm}
+
+\textbf{Attendance:} \vspace{6pt}
+
+There is no formal attendance policy for this course. However, if you miss a
+class it is your responsibility to catch up with the material. E-mail and
+office hours are not a replacement for attendance. When you are present,
+I expect you to arrive on time, engage with the material, and give us your
+full attention.
+
+\vspace{0.4cm}
+
+\textbf{Class Policies:} \vspace{6pt}
+
+The following class policies address some of the most common
+questions and concerns that students have. If anything is
+unclear, please feel free to contact me for clarification at
+any point in the semester.
+
+\begin{itemize}\setlength\itemsep{0em}
+\item \textbf{Academic honesty:} Cheating and plagiarism are grave scholarly
+offenses and potential grounds
+for expulsion; they are also a major barrier to your intellectual development.
+You are expected to familiarize yourself with the entirety of the
+University of Richmond’s Honor Code. If you are confused or unsure about
+appropriate citation protocol or any other aspect of the Honor code,
+please consult me before turning in an assignment.
+\item \textbf{Special approval:} If you have special approval forms for extra
+time on exams or any other circumstances I should know about, please speak
+with me as early as possible so that we can best accommodate your needs.
+\item \textbf{Late work:} You are expected to submit all work on-time. The
+final project will be accepted after the due date with a 10-point deduction
+for each 24 hour period it is late (rounded up).
+\item \textbf{Make-up exams:} There are no make-up exams. If you fail to
+attend an exam without a valid excuse (given to me by email within 24-hours
+of the exam) you will receive a score of zero. In the event of a valid reason
+for missing the exam, the missing score will be filled in with the median
+grade from the remaining elements.
+\item \textbf{Class conduct:} During class I expect you to refrain from checking
+email, being on phones, or working on assignments for other classes.
+\item \textbf{Office hours}: If you would like to meet during my office hours,
+please just come by. No need to schedule an appointment. If you find me in
+my office at other times of the week, I am usually glad to meet then as well.
+Finally, I am also happy to make appointments outside of my normal
+office hours. These appointments are meant for discussing
+longer issues that are not appropriate for regular office hours (i.e., asking
+for recommendation letters or discussing an extended absence) or for students
+who cannot make my normal office hours. Please note that appointments should
+be booked at least 24 hours ahead of time.
+\item \textbf{Email:} I will also answer questions by email (it can, in fact,
+be much faster than scheduling an appointment for small issues). During the
+week, I aim to respond within 24 hours, with emails sent over the weekend
+responded to by Monday morning. If your question involves code, please attach
+your current lab or report as that will expedite my answering your question(s).
+\end{itemize}
+
+\bigskip
+
+\textbf{Notice:} \vspace{6pt}
+
+I reserve the right to modify this syllabus, with advanced warning, throughout
+the semester. If necessary, I will email the class list and post an updated
+version of the document on the course website.
+
+
+\end{document}
+
+
+
+
+
