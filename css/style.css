@@ -1,0 +1,37 @@
+body {
+  font: 16px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+}
+
+#header {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: #2aa198;
+  line-width: 2;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: 300;
+  text-align: center;
+}
+h2 {
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.sec {
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  color: #073642;
+}
+
+.sechighlight {
+  background-color: #fdf6e3;
+  color: #586e75;
+}
+
+td { min-width: 200px; max-width: 200px; }
