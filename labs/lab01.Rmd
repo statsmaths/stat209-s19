@@ -1,0 +1,51 @@
+---
+title: "Lab 01: Introduction to R"
+output: html_document
+---
+
+**Question 1**
+
+```{r}
+
+```
+
+**Question 2**
+
+```{r}
+myvar <- 2 + 2
+```
+
+**Question 3**
+
+```{r}
+rvals <- runif(10)
+rvals
+```
+
+**Question 4**
+
+```{r, message=FALSE}
+if (!require("dplyr")) install.packages("dplyr")
+if (!require("ggplot2")) install.packages("ggplot2")
+if (!require("plotly")) install.packages("plotly")
+if (!require("readr")) install.packages("readr")
+if (!require("devtools")) install.packages("devtools")
+```
+
+**Question 5**
+
+```{r}
+library(dplyr)
+```
+
+**Question 6**
+
+```{r}
+dframe <- data_frame(state = sample(state.name, 100, replace=TRUE),
+                     number = sample(100, replace=TRUE))
+dframe
+```
+
+
+
+
