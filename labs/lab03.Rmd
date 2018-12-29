@@ -1,0 +1,45 @@
+---
+title: "Lab 03"
+output: html_document
+---
+
+**Question 2**
+
+The following code draws random samples from heads and tails, assuming that
+there is an equal probability of each and stores the proportion of heads.
+
+```{r}
+N <- 10000
+phat_set <- rep(0, N)
+for (i in seq_len(N))
+{
+  coin <- sample(c("heads", "tails"), size=300, replace=TRUE)
+  phat <- mean(coin == "heads") * 100
+
+  phat_set[i] <- phat
+}
+```
+
+The following gives the p-value of the experiment for an observed value.
+
+```{r}
+your_phat_value <- 55
+mean(abs(phat_hat) >= your_phat_value)
+```
+
+If you want the plot as well, run this code:
+
+```{r}
+your_dhat_value <- 55
+
+library(dplyr)
+library(ggplot2)
+
+df <- data_frame(phat = round(phat_set))
+ggplot(df, aes(factor(phat))) +
+  geom_bar(color = "black", fill = "white") +
+  geom_bar(color = "black", fill = "black",
+           data = filter(df, abs(phat) >= your_phat_value)) +
+  xlab("Values of phat") + ylab("Count") +
+  theme_minimal()
+```

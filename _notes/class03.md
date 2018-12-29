@@ -14,14 +14,14 @@ output: html_document
 
 Last class we walked through an example of statistical inference applied to an
 experimental procedure. The research question was to determine whether pea
-plants were more likely to survive under white light compared to blue LED
+plants were more likely to survive under white light compared to red LED
 lights. Today, we are going to go through this same example, but this time
 introducing the formal language of statistical inference.
 
 As a reminder, here is the design of the experiment. We took 100 newly
 planted pea plants and place them under a white LED light and took another
 100 newly planted pea plants and placed them under
-a blue LED light. In all other respects the plants were treated the same
+a red LED light. In all other respects the plants were treated the same
 (same seed source, same water, same temperature, ect.). After 30 days, we
 measured whether a particular plant is still alive.
 
@@ -31,14 +31,14 @@ In the language of statistical inference, we start with a statement known as
 the **null hypothesis**. The **null hypothesis** is a statement about an
 unknown parameter, usually that there is no relationship between two measured
 phenomena, or no association among groups. Typically the null hypothesis is
-denoted by $H_{0}$. The goal of the experiment is to see if we have strong
+denoted by $$H_{0}$$. The goal of the experiment is to see if we have strong
 evidence to *reject* the null hypothesis.
 
 In our example, the null hypothesis is that there is no difference between the
-survival probability of a plant under a white light and a plant under a blue
+survival probability of a plant under a white light and a plant under a red
 light. Symbolically, we can write this as:
 
-$$ H_{0}: p_W = p_B $$.
+$$ H_{0}: p_W = p_R $$
 
 I like to think of an analogy of a court case to understand the null
 hypothesis. You've probably heard to phrase "innocent until proven guilty".
@@ -53,9 +53,9 @@ hypothesis is some statement that directly contradicts the null hypothesis.
 
 In our example, the alternative hypothesis is that the probability of
 survival under the white light is different than the probability under the
-blue light. In symbols, we have:
+red light. In symbols, we have:
 
-$$ H_{0}: p_W \neq p_B $$.
+$$ H_{0}: p_W \neq p_R $$
 
 In the court example, the alternative hypothesis is like finding someone
 guilty. Do we have evidence that we can *reject* the null hypothesis of
@@ -72,12 +72,23 @@ A test statistic is a number that summarizes the data in the experiment.
 
 In our example, the observed data looked like this:
 
-
-|                  | Died (D)  | Survived (S) |
-|------------------|-----------|--------------|
-| White light (W)  |  40       | 60           |
-| Red light (R)    |  50       | 50           |
-
+<table>
+<tr>
+  <td></td>
+  <td>Died (D)</td>
+  <td>Survived (S)</td>
+</tr>
+<tr>
+  <td>White light (W)</td>
+  <td>40</td>
+  <td>60</td>
+</tr>
+<tr>
+  <td>Red light (B)</td>
+  <td>50</td>
+  <td>50</td>
+</tr>
+</table>
 
 We summarized the data by first computing the probability of survival under
 the two lights:
@@ -88,7 +99,7 @@ $$ \widehat{p}_R = \frac{\text{survived red light}}{\text{total red light}} = \f
 
 And then producing the test statistic given by:
 
-$$ \widehat{D} = \widehat{p}_W - \widehat{p}_R = 0.6 - 0.5 = 0.1 $$.
+$$ \widehat{D} = \widehat{p}_W - \widehat{p}_R = 0.6 - 0.5 = 0.1 $$
 
 This one number summarizes the output of the experiment. (Note: Last time I
 used the term "summary statistic". A test statistic is a special case of
@@ -97,9 +108,9 @@ summary statistic that is used to compute the next two concepts.)
 ### Sampling distribution
 
 I asked us to consider last time how strong the evidence of observing
-$\widehat{D} = 0.1$ is in support of the alternative hypothesis (just without
+$$\widehat{D} = 0.1$$ is in support of the alternative hypothesis (just without
 that terminology). To do this, we simulated what the *distribution* of
-$\widehat{D}$ looks like when the null hypothesis is true. The distribution of
+$$\widehat{D}$$ looks like when the null hypothesis is true. The distribution of
 a test statistic under the assumption that the null hypothesis is true is
 called the *sampling distribution*.
 
@@ -141,7 +152,7 @@ This proportion is called the *p-value*; it's a number from 0 to 1, with
 smaller values providing stronger evidence that the alternative hypothesis
 is preferred in regards to the null hypothesis.
 
-Visually, we can compute the $p-value$ as the proportion of data points in
+Visually, we can compute the p-value as the proportion of data points in
 the black region here:
 
 <img src="../assets/class03/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="100%" />
@@ -189,8 +200,8 @@ alternative hypothesis." Otherwise, we say that we "failed to reject the null
 hypothesis."
 
 By far the most common cut-off value (called the *critical value*) in the
-sciences and social sciences is $0.05$. Many statisticians (myself included)
-suggest that value of $0.005$ is preferable. More on this later. It is also
+sciences and social sciences is 0.05. Many statisticians (myself included)
+suggest that value of 0.005 is preferable. More on this later. It is also
 generally agreed that more attention should be paid to the p-value itself
 rather than whether is just below a particular value or not.
 
