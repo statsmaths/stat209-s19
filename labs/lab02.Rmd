@@ -1,51 +1,35 @@
 ---
-title: "Lab 01: Introduction to R"
+title: "Lab 02"
 output: html_document
 ---
 
-**Question 1**
-
-```{r}
-
-```
-
-**Question 2**
-
-```{r}
-myvar <- 2 + 2
-```
-
-**Question 3**
-
-```{r}
-rvals <- runif(10)
-rvals
-```
-
 **Question 4**
 
-```{r, message=FALSE}
-if (!require("dplyr")) install.packages("dplyr")
-if (!require("ggplot2")) install.packages("ggplot2")
-if (!require("plotly")) install.packages("plotly")
-if (!require("readr")) install.packages("readr")
-if (!require("devtools")) install.packages("devtools")
+```{r}
+
 ```
+
+If you want the plot as well, run this code (but don't worry about
+what it is doing at this point):
+
+```{r}
+your_dhat_value <- 10
+
+library(dplyr)
+library(ggplot2)
+
+df <- data_frame(dhat = round(dhat_set))
+ggplot(df, aes(factor(dhat))) +
+  geom_bar(color = "black", fill = "white") +
+  geom_bar(color = "black", fill = "black",
+           data = filter(df, dhat >= your_dhat_value)) +
+  xlab("Values of dhat") + ylab("Count") +
+  theme_minimal()
+```
+
 
 **Question 5**
 
 ```{r}
-library(dplyr)
+
 ```
-
-**Question 6**
-
-```{r}
-dframe <- data_frame(state = sample(state.name, 100, replace=TRUE),
-                     number = sample(100, replace=TRUE))
-dframe
-```
-
-
-
-

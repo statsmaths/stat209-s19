@@ -19,68 +19,55 @@
 
 \justify
 
-{\LARGE Lab 01}
+{\LARGE Lab 02}
 
 \vspace*{18pt}
 
-Download the \texttt{lab01.Rmd} file and open it using RStudio. Then, use the
+Download the \texttt{lab02.Rmd} file and open it using RStudio. Then, use the
 R programming language to help you answer the questions below. \textbf{Don't
 forget to fill out the worksheet form before the next class!}
 
 \vspace*{12pt}
 
-\textbf{1.} You can use R as an overpowered calculator. Compute the sum of
-$14^2 + 6^4$ by typing the expression into the grey box on line 9 of the
-Rmd file. Note that to use powers you can type something like \verb|2^2|
-(the shifted version of the 6 key on a U.S. keyboard). To run the code, click
-on the green play button at the end of line 8.
+\textbf{1.} Describe an experiment in a field of interest that can be
+described by a 2x2 contingency table. What are the two categorical inputs
+and what are the two categorical outputs? Provide a guess of what the two
+probabilities are and write them down using notation similar to the notes.
 
-\bigskip
+\textbf{2.} In pairs, describe an experiment that can described by a 2x2
+contingency table and can be completed without leaving the room. Some examples
+include:
+\begin{itemize}
+\item Have one person quiz the other on naming country capitals from two
+continents. Are they better at, say, European capitals compared to African
+capitals?
+\item Using two news aggregation sites (such as hackernews and reddit), open
+the first page of results. Record how many sites have a photograph that you
+can see without scrolling. Does the proportion of sites with photographs
+differ by site?
+\item Look at the first 50 pages of two books and record whether a page ends
+or breaks across a sentence boundary. Does this proportion differ between the
+two books.
+\end{itemize}
+It does not need to be something amazingly important. Just an idea to practice
+with.
 
-\textbf{2.} You can also save the result of a computation by using the arrow
-symbol \texttt{<-} and saving the result as a \textit{variable}. On line 15,
-I have already written the code to assign the result of \texttt{2 + 2} to the
-variable \texttt{myvar}. Run the code and notice that result shows up in the
-\textit{Environment pane} in the upper right hand corner of the screen.
+\textbf{3.} Actually run the experiment and record your results in a
+contingency table. Compute the two observed probabilities $\widehat{p}_A$
+and $\widehat{p}_B$ and their difference $\widehat{D}$.
 
-\bigskip
+\textbf{4.} Using R, copy the code from the notes, simulate what differences
+you would get if there was not effect between the two categories. How extreme
+is the value you observed as a result of the simulation.
 
-\textbf{3.} R also allows us to simulate random values. Run the code I wrote
-on line 21 to generate 10 random numbers between $0$ and $1$, save it as the
-variable \texttt{rvals}, and then print out the results. Run the code a couple
-of times to see that the output changes each time. Can you figure out what the
-numbers in square brackets (like \texttt{[1]} and \texttt{[9]}) mean?
+\textbf{5.} Modify the simulation so that the number of point collected is
+increased by a factor of 10. How extreme would the difference $\widehat{D}$
+that you observed be if the number of points you collected was larger? How
+does this compare to your answer to the previous question? Does the change
+make sense to you?
 
-\bigskip
-
-\textbf{4.} The basic version of R that you have downloaded can do a lot, but
-the real power of the programming language comes from additional components
-called \textit{packages}. The code block in question 4 installs four packages
-that we will need this semester. It will also install other packages that are
-needed by these three (in all, it's about 60 and may take a few minutes).
-
-\bigskip
-
-\textbf{5.} Once you have downloaded the packages (question 4), you need to
-also load them using the \texttt{library()} function. Run the code here to
-load the \textbf{dplyr} package. It may produce some warnings in red, but
-unless it actually uses the word ``Error'' you should be fine.
-
-\bigskip
-
-\textbf{6.} There are two basic types of R objects that we will work with
-this semester. The first is called a \textit{vector}, consisting of one or
-more ordered values. You already saw an example of this with the object we
-created called \texttt{rvals}. The second object type is called a \textit{data
-frame} or \textit{tibble}. A data frame contains a grid of values, similar to
-an excel sheet. The code in this question creates a random (entirely
-meaningless) example of a data frame and saves it as the object
-\texttt{dframe}. Notice that after running the code, the object shows up in
-the \textit{Environment pane} in the upper right hand corner of the screen.
-Click on the data frame in the \textit{Environment pane} to see a tabular
-version of the data.
-
-
+\textbf{6.} Describe why the plot of simulated values are (a) centered around
+zero, and (b) relatively symmetric around zero.
 
 \end{document}
 
