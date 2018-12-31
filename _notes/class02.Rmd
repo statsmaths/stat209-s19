@@ -20,7 +20,11 @@ set.seed(1)
 
 ### Learning Objectives
 
--
+- Learn the goal of inferential statistics.
+- Understands the general concepts behind statistical inference in a simple
+2-by-2 contingency table.
+- Distinguish between the **explanatory variable(s)** and the
+**response variable** in an experiment.
 
 ### Inference versus EDA
 
@@ -80,7 +84,12 @@ to summarize the data is through a table such as this one:
 
 This is called a **contingency table**, specifically a 2-by-2 (or 2x2)
 contingency table. Notice that all of the information about the study
-is captured by these four numbers.
+is captured by these four numbers. The rows describe the explanatory
+variable (also known by many other names: independent, regressor, covariate,
+predictor) and the columns describe the response variable (also known by:
+regressand, criterion, predicted variable, measured variable,
+explained variable, experimental variable, responding variable,
+outcome variable, output variable, and label).
 
 ### Summary statistics from 2x2 contingency table
 
@@ -237,7 +246,4 @@ you to be familiar with the general approach and have a high-level
 understanding of the goal of inference for 2x2 contingency tables.
 Next class we will go through the exact same process but introduce
 the formal language of statistical inference.
-
-
-
 

@@ -20,7 +20,13 @@ set.seed(1)
 
 ### Learning Objectives
 
--
+- Understand the role of the **null hypothesis** and **alternative hypothesis**
+in inferential statistics.
+- Define a **test statistic** and its **sampling distribution** under
+the null hypothesis ($$H_{0}$$).
+- Describe the \textbf{p-value} in terms of a inferential statistics.
+- Understand how simulation can be used to produce a estimation of a sampling
+distribution.
 
 ### Experiment, again
 

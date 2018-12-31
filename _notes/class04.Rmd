@@ -1,0 +1,35 @@
+---
+title: "Class 04: Organizing Data and Running Odds Ratio Test"
+author: "Taylor Arnold"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(fig.path = "../assets/class03/")
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(dplyr)
+library(ggplot2)
+
+set.seed(1)
+```
+
+### Learning Objectives
+
+- Organize tabular data using the **unit of observation**.
+- Produce a comma separated values (CSV) file. Memorize code for reading
+the data into R.
+- Compute and interpret the **odds ratio** (OR) of an outcome between two
+groups.
+- Apply and interpret the use of the odds-ratio test in **R**.
+Memorize code for producing the test output from a dataset. Identify
+the null and alternative hypotheses, test statistic, p-value, and observed
+odds ratio.
+
+
+
+
