@@ -4,19 +4,7 @@ author: "Taylor Arnold"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(eval = TRUE)
-knitr::opts_chunk$set(fig.path = "../assets/class04/")
-knitr::opts_chunk$set(fig.height = 5)
-knitr::opts_chunk$set(fig.width = 8.5)
-knitr::opts_chunk$set(out.width = "100%")
-knitr::opts_chunk$set(dpi = 300)
 
-library(dplyr)
-library(ggplot2)
-
-set.seed(1)
-```
 
 <style>
 #dtable {
@@ -240,18 +228,20 @@ Now, let's see how to read the data into R. If you saved the dataset as an
 excel file, you need to use the **readxl** package and the `read_excel`
 function as follows:
 
-```{r, message=FALSE}
+
+{% highlight r %}
 library(readxl)
 plant <- read_excel("/Users/taylor/gh/teaching/2019_01/stat209/data/plant-example.xlsx")
-```
+{% endhighlight %}
 
 Alternatively, here is how to read in a CSV file using the **readcsv**
 package:
 
-```{r, message=FALSE}
+
+{% highlight r %}
 library(readr)
 plant <- read_csv("/Users/taylor/gh/teaching/2019_01/stat209/data/plant-example.csv")
-```
+{% endhighlight %}
 
 Either way, the end result should be the same. You should now see the dataset
 show up in the environment pane in RStudio:
@@ -265,9 +255,32 @@ on the data in the environment pane:
 
 You can also see the data by typing the name of the data in a code block
 
-```{r}
+
+{% highlight r %}
 plant
-```
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## # A tibble: 14 x 3
+##    number light result
+##     <dbl> <chr> <chr> 
+##  1      1 white died  
+##  2      2 white alive 
+##  3      3 white alive 
+##  4      4 white alive 
+##  5      5 white died  
+##  6      6 white died  
+##  7      7 white alive 
+##  8      8 red   alive 
+##  9      9 red   died  
+## 10     10 red   died  
+## 11     11 red   died  
+## 12     12 red   alive 
+## 13     13 red   died  
+## 14     14 red   died
+{% endhighlight %}
 
 Now, with the data read into R, we are ready to apply our hypothesis testing
 framework to the data directly within R.
@@ -280,9 +293,10 @@ exists in other common packages, but for historical reasons the function
 calls and output are not entire standardized. I have tried to fix this as
 much as possible. Start by reading the package into R:
 
-```{r}
+
+{% highlight r %}
 library(tmodels)
-```
+{% endhighlight %}
 
 To fit a model from the data, we will start by using the function
 named `tmod_odds_ratio` (more on what it does in a moment). To run a
@@ -292,9 +306,34 @@ variable. Finally, we indicate what dataset is being used for the model.
 You can read the tilda sign as "a function of". Here is a full example with
 the R output:
 
-```{r}
+
+{% highlight r %}
 tmod_odds_ratio(result ~ light, data = plant)
-```
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## Waiting for profiling to be done...
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## 
+## Odds Ratio Test (2 groups)
+## 
+## 	H0: odds ratio is equal to 1
+## 	HA: odds ratio is not equal to 1
+## 
+## 	Test statistic: Z = -1.0628
+## 	P-value: 0.2879
+## 
+## 	Parameter: odds ratio (red / white) of died
+## 	Point estimate: 0.3
+## 	Standard Error: 1.1328
+## 	Confidence interval: [0.026576, 2.579100]
+{% endhighlight %}
 
 You should recognize a number of elements in the output, including the null
 and alternative hypotheses, a test statistic, and a p-value. Other elements

@@ -20,9 +20,38 @@ set.seed(1)
 
 ### Learning Objectives
 
-- Follow general naming conventions when constructing variable names.
+- Compute and interpret the **odds ratio** (OR) of an outcome between two
+groups.
+- Apply and interpret the use of the odds-ratio test in **R**.
+Memorize code for producing the test output from a dataset. Identify
+the null and alternative hypotheses, test statistic, p-value, and observed
+odds ratio.
 - See how to make use of the Fisher and Chi-squared test's as alternatives to
 the odds-ratio test.
+
+## Odds ratio test
+
+Finally, let's talk about what the hypothesis test is that we are running in
+the example here. It differs slightly from the test that we previously used
+for 2x2 contingency tables. To understand what it is doing, we first need
+to understand the concept of an *odds*. If we have a probability p of some
+event occurring, the odds of the event is the ratio of the probability that
+the event occurs divided by the probability that it does not occur:
+
+$$ \text{odds} = p / (1 - p) $$
+
+If the odds is 1, then the event happen half of the time. A high odds means
+that the events occurs more likely than not, and a low odds indicates that
+the event is unlikely to occur.
+
+Now, say we have a probability for an event occurring in group $$A$$ denoted
+as $$p_A$$ and the probability for an event occurring in group $$B$$ denoted
+as $$p_B$. The **odds ratio** is the ratio between the odds for the two
+groups:
+
+$$ \text{odds ratio} = \frac{\text{odds}_A}{\text{odds}_B} = \frac{p_A / (1 - p_A)}{p_B / (1 - p_B)} $$
+
+
 
 
 
