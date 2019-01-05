@@ -91,3 +91,10 @@ Now, install R or RStudio as you would any other program. It
 should link automatically to the version of R you just
 installed.
 
+## Prior Versions
+
+I always leave course webpages open and available at the conclusion of the
+semester. You can easily find old versions of this course through my website.
+Feel free to peruse them, but note that I am making substantial changes from
+past iterations, so do not expect the material to line up or be consistent
+with our class this semester.

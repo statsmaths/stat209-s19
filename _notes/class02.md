@@ -124,7 +124,7 @@ outcome variable, output variable, and label).
 The research question we have is whether the probability of survival
 of the plants under the white light is different than the probability
 of survival under the red light. What is the proportion of plants that
-survived under the white light? Let's call this $\widehat{p}_W$ and
+survived under the white light? Let's call this $$\widehat{p}_W$$ and
 compute it through:
 
 $$ \widehat{p}_W = \frac{\text{survived white light}}{\text{total white light}} = \frac{60}{60 + 40} = \frac{60}{100} = 0.6 = 60\% $$
@@ -147,17 +147,17 @@ What we want to infer here is the effect of white versus blue LED lights
 when the same parameters are applied to any set of pea plants (e.g., not
 just the 200 in this particular experiment).
 
-I used the hat notation ($\widehat{p}$) above to indicate that the
-values are from a particular experiment. The values $p_W$ and $p_R$
+I used the hat notation ($$\widehat{p}$$) above to indicate that the
+values are from a particular experiment. The values $$p_W$$ and $$p_R$$
 are the "true" probabilites of survival if we repeated the experiment
 with every single pea plant seed in the world. We do not know these
-two values. What can we say about $D = p_W - p_R$ if we only know the
-value $\widehat{D} = \widehat{p}_W - \widehat{p}_R$? This is **the**
+two values. What can we say about $$D = p_W - p_R$$ if we only know the
+value $$\widehat{D} = \widehat{p}_W - \widehat{p}_R$$? This is **the**
 question that much of statistical theory attempts to answer.
 
 Let's simplify our question a bit by focusing on a sub-question. Given
 the experimental evidence, how strongly do we feel that the "true" value
-of $D$ is greater than 0? That is, how certain can we be that white light
+of $$D$$ is greater than 0? That is, how certain can we be that white light
 provides better survival odds than red light?
 
 ### Inference on a 2x2 contingency table -- simulation
@@ -272,10 +272,10 @@ dhat
 ## [1] 6
 {% endhighlight %}
 
-We could compare our observed value of $\widehat{D}$ to this simulated
+We could compare our observed value of $$\widehat{D}$$ to this simulated
 value, but it would be better to have **R** generate thousands of
-examples for us and compare our $\widehat{D}$ to all of these samples.
-We can do this $10,000$ times with the following code:
+examples for us and compare our $$\widehat{D}$$ to all of these samples.
+We can do this automatically 10,000 times with the following code:
 
 
 {% highlight r %}
@@ -317,7 +317,7 @@ to make such graphics):
 
 <img src="../assets/class02/unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="100%" />
 
-Now, how extreme is the value of $\widehat{D} = 10$ that we observed in our
+Now, how extreme is the value of $$\widehat{D} = 10$$ that we observed in our
 actual experiment? In other words, what proportion of tests are in the black
 region in this plot:
 
@@ -336,7 +336,7 @@ mean(dhat_set >= 10) * 100
 ## [1] 8.82
 {% endhighlight %}
 
-So our observed value of $10$ could occur just by chance about 8.8%
+So our observed value of 10 could occur just by chance about 8.8%
 even if there is no real difference between the lighting choice. This
 is not particularly strong evidence that blue lights kill pea plants
 more than white light.

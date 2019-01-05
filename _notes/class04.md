@@ -34,11 +34,11 @@ output: html_document
 ### Learning Objectives
 
 - Organize tabular data using the **unit of observation**.
-- Understand the terms **variable**, *observation**, and
+- Understand the terms **variable**, **observations**, and
 **unit of observation** as they pertain to tabular data sets.
 - Follow general naming conventions when constructing variable names.
-- Produce a tabular dataset and save as a comma separated values (CSV) file.
-Memorize code for reading the data into R.
+- Produce a tabular dataset and save as a comma separated values (CSV) or
+Excel file. Memorize code for reading the data into R.
 
 ### Collecting and organizing 2x2 contingency experimental data
 
@@ -336,3 +336,33 @@ course.
 The null hypothesis and alternative hypothesis here is equivalent to there
 being no difference between the probability of the result (alive or dead)
 in either group (white or red light).
+
+## Links
+
+These are links to random Wikipedia pages in multiple languages (we may use
+these a few times this semester). More details are available in the lab:
+
+<ul>
+<li><a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Wikipedia:Random">English</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://de.wikipedia.org/wiki/Wikipedia:Random">German</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://es.wikipedia.org/wiki/Wikipedia:Random">Spanish</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://fr.wikipedia.org/wiki/Wikipedia:Random">French</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://it.wikipedia.org/wiki/Wikipedia:Random">Italian</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://pt.wikipedia.org/wiki/Wikipedia:Random">Portuguese</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://ja.wikipedia.org/wiki/Wikipedia:Random">Japanese</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://ru.wikipedia.org/wiki/Wikipedia:Random">Russian</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://zh.wikipedia.org/wiki/Wikipedia:Random">Chinese</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://pl.wikipedia.org/wiki/Wikipedia:Random">Polish</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://hu.wikipedia.org/wiki/Wikipedia:Random">Hungarian</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://nl.wikipedia.org/wiki/Wikipedia:Random">Dutch</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://sv.wikipedia.org/wiki/Wikipedia:Random">Swedish</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://vi.wikipedia.org/wiki/Wikipedia:Random">Vietnamese</a></li>
+</ul>
+
+
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+---
+title: "Lab 04"
+output: html_document
+---
+
+**Question 3**
+
+Read your dataset into R. Note that you will need to load the relevant
+library and include the full path of your dataset. Name the data something
+short and simple (remember, no caps or spaces).
+
+```{r}
+
+```
+
+**Question 5**
+
+Run the hypothesis test using the **tmodels** package.
+
+```{r}
+
+```
+
+**Question 6**
+
+Run the function `tmod_prop_by_group` on the data to evaluate the specific
+proportions within each group of the data.
+
+```{r}
+
+```
+
+

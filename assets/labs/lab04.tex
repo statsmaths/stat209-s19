@@ -1,0 +1,77 @@
+\documentclass{tufte-handout}
+
+\usepackage{amssymb,amsmath}
+% \usepackage{mathspec}
+\usepackage{graphicx,grffile}
+\usepackage{longtable}
+\usepackage{booktabs}
+
+\newtheorem{mydef}{Definition}
+\newtheorem{thm}{Theorem}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{12pt}
+
+\begin{document}
+
+\justify
+
+{\LARGE Lab 04}
+
+\vspace*{18pt}
+
+Download the \texttt{lab04.Rmd} file and open it using RStudio. Then, use the
+R programming language to help you answer the questions below. \textbf{Don't
+forget to fill out the worksheet form before the next class!}
+
+In this lab we are going to collect a dataset in a spreadsheet
+program, read the dataset into R, and run an hypothesis test. To simplify
+things, I will describe the experiment that I want you to run. If you go
+to the following link:
+
+\begin{center}
+\texttt{https://en.wikipedia.org/wiki/Wikipedia:Random}
+\end{center}
+
+It will open a random Wikipedia page from the English language version of
+Wikipedia. If you change the subdomain "en" at the beginning to another
+language (such as "fr" for french or "zh" for Chinese), you will get a random
+page on the respective version of Wikipedia. I want you to collect data about
+100 random pages from English Wikipedia and 100 pages from another language of
+your choosing. Record whether a page has at least one image or not and test
+the null-hypothesis that the proportion of English Wikipedia pages with images
+is the same as your chosen language.
+
+\vspace*{12pt}
+
+\textbf{1.} Pick a language that you want to compare to English and record
+your data for 100 pages. The easiest way to do this is to open up pages using
+the link on the course notes an just count on a piece of paper. You can do
+this step in pairs, but I want you to make and read the data in the next
+question yourself.
+
+\textbf{2.} Now, convert the count data into a tabular data format in your
+preferred spreadsheet program. Make sure to use column names follow the rules
+covered in class.
+
+\textbf{3.} Save the dataset as an \texttt{xlsx} or \texttt{csv} file
+somewhere easy to find on your computer. Read the dataset into R. If you need
+help  describing absolute paths on your computer, just ask for it!
+
+\textbf{4.} Describe the null-hypothesis and alternative hypothesis in terms
+of the data you have collected here.
+
+\textbf{5.} Run the function \texttt{tmod\_z\_test\_prop} on your dataset.
+What is the $p$-value of the hypothesis test? Is the result significant at a
+$0.05$ percent level? Which proportion is larger? Does this match or conflict
+with your own expectations?
+
+\textbf{6.} Finally, run the function \texttt{tmod\_prop\_by\_group} using
+the same data and formula argument as in question 4. It gives more summary
+information about the proportions. Which proportion
+
+\end{document}
+
