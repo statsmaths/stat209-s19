@@ -285,7 +285,7 @@ library(tmodels)
 ```
 
 To fit a model from the data, we will start by using the function
-named `tmod_odds_ratio` (more on what it does in a moment). To run a
+named `tmod_z_test_prop` (more on what it does in a moment). To run a
 statistical hypothesis test, we start by providing a *formula* object with
 the response, followed by a tilda (`~`) sign, followed by the independent
 variable. Finally, we indicate what dataset is being used for the model.
@@ -293,7 +293,7 @@ You can read the tilda sign as "a function of". Here is a full example with
 the R output:
 
 ```{r}
-tmod_odds_ratio(result ~ light, data = plant)
+tmod_z_test_prop(result ~ light, data = plant)
 ```
 
 You should recognize a number of elements in the output, including the null
@@ -303,5 +303,4 @@ course.
 
 The null hypothesis and alternative hypothesis here is equivalent to there
 being no difference between the probability of the result (alive or dead)
-in either group (white or red light). The exact test is slightly different
-from what we used so far, a point that we will investigate next week.
+in either group (white or red light).

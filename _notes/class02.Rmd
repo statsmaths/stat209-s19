@@ -18,6 +18,31 @@ library(ggplot2)
 set.seed(1)
 ```
 
+<style>
+#dtable {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#dtable td, #dtable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#dtable tr:nth-child(even){background-color: #f2f2f2;}
+
+#dtable tr:hover {background-color: #ddd;}
+
+#dtable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
 ### Learning Objectives
 
 - Learn the goal of inferential statistics.
@@ -77,10 +102,25 @@ to just blue light.
 What is the data from this experiment going to look like? One easy way
 to summarize the data is through a table such as this one:
 
-|                  | Died (D)  | Survived (S) |
-|------------------|-----------|--------------|
-| White light (W)  |  40       | 60           |
-| Red light (R)    |  50       | 50           |
+<table id="dtable">
+<tr>
+  <td></td>
+  <td>Died (D)</td>
+  <td>Survived (S)</td>
+</tr>
+<tr>
+  <td>White light (W)</td>
+  <td>40</td>
+  <td>60</td>
+</tr>
+<tr>
+  <td>Red light (B)</td>
+  <td>50</td>
+  <td>50</td>
+</tr>
+</table>
+
+
 
 This is called a **contingency table**, specifically a 2-by-2 (or 2x2)
 contingency table. Notice that all of the information about the study

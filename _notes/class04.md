@@ -299,7 +299,7 @@ library(tmodels)
 {% endhighlight %}
 
 To fit a model from the data, we will start by using the function
-named `tmod_odds_ratio` (more on what it does in a moment). To run a
+named `tmod_z_test_prop` (more on what it does in a moment). To run a
 statistical hypothesis test, we start by providing a *formula* object with
 the response, followed by a tilda (`~`) sign, followed by the independent
 variable. Finally, we indicate what dataset is being used for the model.
@@ -308,31 +308,24 @@ the R output:
 
 
 {% highlight r %}
-tmod_odds_ratio(result ~ light, data = plant)
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Waiting for profiling to be done...
+tmod_z_test_prop(result ~ light, data = plant)
 {% endhighlight %}
 
 
 
 {% highlight text %}
 ## 
-## Odds Ratio Test (2 groups)
+## Z-Test for Equality of Proportions (2 groups)
 ## 
-## 	H0: odds ratio is equal to 1
-## 	HA: odds ratio is not equal to 1
+## 	H0: true probability of effect is the same between groups
+## 	HA: true probability of effect is difference between groups
 ## 
-## 	Test statistic: Z = -1.0628
-## 	P-value: 0.2879
+## 	Test statistic: Z = 1.1282
+## 	P-value: 0.2593
 ## 
-## 	Parameter: odds ratio (red / white) of died
-## 	Point estimate: 0.3
-## 	Standard Error: 1.1328
-## 	Confidence interval: [0.026576, 2.579100]
+## 	Parameter: Pr(died|red) - Pr(died|white)
+## 	Point estimate: 0.28571
+## 	Confidence interval: [-0.21066,  0.78209]
 {% endhighlight %}
 
 You should recognize a number of elements in the output, including the null
@@ -342,5 +335,4 @@ course.
 
 The null hypothesis and alternative hypothesis here is equivalent to there
 being no difference between the probability of the result (alive or dead)
-in either group (white or red light). The exact test is slightly different
-from what we used so far, a point that we will investigate next week.
+in either group (white or red light).
