@@ -6,9 +6,38 @@ output: html_document
 
 
 
+<style>
+#dtable {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#dtable td, #dtable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#dtable tr:nth-child(even){background-color: #f2f2f2;}
+
+#dtable tr:hover {background-color: #ddd;}
+
+#dtable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
 ### Learning Objectives
 
--
+- Learn the goal of inferential statistics.
+- Understands the general concepts behind statistical inference in a simple
+2-by-2 contingency table.
+- Distinguish between the **explanatory variable(s)** and the
+**response variable** in an experiment.
 
 ### Inference versus EDA
 
@@ -61,14 +90,34 @@ to just blue light.
 What is the data from this experiment going to look like? One easy way
 to summarize the data is through a table such as this one:
 
-|                  | Died (D)  | Survived (S) | 
-|------------------|-----------|--------------|
-| White light (W)  |  40       | 60           | 
-| Red light (R)    |  50       | 50           | 
+<table id="dtable">
+<tr>
+  <td></td>
+  <td>Died (D)</td>
+  <td>Survived (S)</td>
+</tr>
+<tr>
+  <td>White light (W)</td>
+  <td>40</td>
+  <td>60</td>
+</tr>
+<tr>
+  <td>Red light (B)</td>
+  <td>50</td>
+  <td>50</td>
+</tr>
+</table>
+
+
 
 This is called a **contingency table**, specifically a 2-by-2 (or 2x2)
 contingency table. Notice that all of the information about the study
-is captured by these four numbers.
+is captured by these four numbers. The rows describe the explanatory
+variable (also known by many other names: independent, regressor, covariate,
+predictor) and the columns describe the response variable (also known by:
+regressand, criterion, predicted variable, measured variable,
+explained variable, experimental variable, responding variable,
+outcome variable, output variable, and label).
 
 ### Summary statistics from 2x2 contingency table
 
@@ -91,15 +140,15 @@ our experimental sample is, therefore, 10%.
 
 ## Inference on a 2x2 contingency table
 
-I said earlier that the goal of inference is to *infer* something 
+I said earlier that the goal of inference is to *infer* something
 about a larger population from the result of an experiment. So far
 we have only said something about the data that we actually observered.
 What we want to infer here is the effect of white versus blue LED lights
 when the same parameters are applied to any set of pea plants (e.g., not
-just the 200 in this particular experiment). 
+just the 200 in this particular experiment).
 
 I used the hat notation ($\widehat{p}$) above to indicate that the
-values are from a particular experiment. The values $p_W$ and $p_R$ 
+values are from a particular experiment. The values $p_W$ and $p_R$
 are the "true" probabilites of survival if we repeated the experiment
 with every single pea plant seed in the world. We do not know these
 two values. What can we say about $D = p_W - p_R$ if we only know the
@@ -108,7 +157,7 @@ question that much of statistical theory attempts to answer.
 
 Let's simplify our question a bit by focusing on a sub-question. Given
 the experimental evidence, how strongly do we feel that the "true" value
-of $D$ is greater than 0? That is, how certain can we be that white light 
+of $D$ is greater than 0? That is, how certain can we be that white light
 provides better survival odds than red light?
 
 ### Inference on a 2x2 contingency table -- simulation
@@ -236,12 +285,12 @@ for (i in seq_len(N))
 {
   white <- sample(c("survived", "died"), size=100, replace=TRUE)
   phat_w <- mean(white == "survived") * 100
-  
+
   red <- sample(c("survived", "died"), size=100, replace=TRUE)
   phat_r <- mean(red == "survived") * 100
-  
+
   dhat <- phat_w - phat_r
-  dhat_set[i] <- dhat 
+  dhat_set[i] <- dhat
 }
 {% endhighlight %}
 
@@ -298,8 +347,5 @@ We have introduced a lot of new information today. I primarily want
 you to be familiar with the general approach and have a high-level
 understanding of the goal of inference for 2x2 contingency tables.
 Next class we will go through the exact same process but introduce
-the formal language of statistical inference. 
-
-
-
+the formal language of statistical inference.
 

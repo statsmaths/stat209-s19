@@ -6,9 +6,40 @@ output: html_document
 
 
 
+<style>
+#dtable {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#dtable td, #dtable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#dtable tr:nth-child(even){background-color: #f2f2f2;}
+
+#dtable tr:hover {background-color: #ddd;}
+
+#dtable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
 ### Learning Objectives
 
--
+- Understand the role of the **null hypothesis** and **alternative hypothesis**
+in inferential statistics.
+- Define a **test statistic** and its **sampling distribution** under
+the null hypothesis ($$H_{0}$$).
+- Describe the \textbf{p-value} in terms of a inferential statistics.
+- Understand how simulation can be used to produce a estimation of a sampling
+distribution.
 
 ### Experiment, again
 
@@ -72,7 +103,7 @@ A test statistic is a number that summarizes the data in the experiment.
 
 In our example, the observed data looked like this:
 
-<table>
+<table id="dtable">
 <tr>
   <td></td>
   <td>Died (D)</td>
