@@ -311,20 +311,20 @@ These are links to random Wikipedia pages in multiple languages (we may use
 these a few times this semester). More details are available in the lab:
 
 <ul>
-<li><a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Wikipedia:Random">English</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://de.wikipedia.org/wiki/Wikipedia:Random">German</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://es.wikipedia.org/wiki/Wikipedia:Random">Spanish</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://fr.wikipedia.org/wiki/Wikipedia:Random">French</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://it.wikipedia.org/wiki/Wikipedia:Random">Italian</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://pt.wikipedia.org/wiki/Wikipedia:Random">Portuguese</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://ja.wikipedia.org/wiki/Wikipedia:Random">Japanese</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://ru.wikipedia.org/wiki/Wikipedia:Random">Russian</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://zh.wikipedia.org/wiki/Wikipedia:Random">Chinese</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://pl.wikipedia.org/wiki/Wikipedia:Random">Polish</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://hu.wikipedia.org/wiki/Wikipedia:Random">Hungarian</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://nl.wikipedia.org/wiki/Wikipedia:Random">Dutch</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://sv.wikipedia.org/wiki/Wikipedia:Random">Swedish</a></li>
-<li><a target="_blank" rel="noopener noreferrer" href="https://vi.wikipedia.org/wiki/Wikipedia:Random">Vietnamese</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Special:Random">English</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://de.wikipedia.org/wiki/Special:Random">German</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://es.wikipedia.org/wiki/Special:Random">Spanish</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://fr.wikipedia.org/wiki/Special:Random">French</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://it.wikipedia.org/wiki/Special:Random">Italian</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://pt.wikipedia.org/wiki/Special:Random">Portuguese</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://ja.wikipedia.org/wiki/Special:Random">Japanese</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://ru.wikipedia.org/wiki/Special:Random">Russian</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://zh.wikipedia.org/wiki/Special:Random">Chinese</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://pl.wikipedia.org/wiki/Special:Random">Polish</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://hu.wikipedia.org/wiki/Special:Random">Hungarian</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://nl.wikipedia.org/wiki/Special:Random">Dutch</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://sv.wikipedia.org/wiki/Special:Random">Swedish</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://vi.wikipedia.org/wiki/Special:Random">Vietnamese</a></li>
 </ul>
 
 
