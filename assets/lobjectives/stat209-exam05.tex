@@ -1,0 +1,68 @@
+\documentclass[11pt]{article}
+\usepackage[top=1.5cm,bottom=2cm,left=2cm,right= 2cm]{geometry}
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ...
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{changepage}
+\usepackage{lscape}
+\usepackage{enumitem}
+\usepackage{ulem}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\usepackage{xcolor}
+
+\definecolor{oiB}{rgb}{.337,.608,.741}
+\definecolor{oiR}{rgb}{.941,.318,.200}
+\definecolor{oiG}{rgb}{.298,.447,.114}
+\definecolor{oiY}{rgb}{.957,.863,0}
+
+\definecolor{light}{rgb}{.337,.608,.741}
+\definecolor{dark}{rgb}{.337,.608,.741}
+
+\usepackage[colorlinks=false,pdfborder={0 0 0},urlcolor= dark,colorlinks=true,linkcolor=black]{hyperref}
+
+\newcommand{\light}[1]{\textcolor{light}{\textbf{#1}}}
+\newcommand{\dark}[1]{\textcolor{dark}{#1}}
+\newcommand{\gray}[1]{\textcolor{gray}{#1}}
+
+%\date{}                                           % Activate to display a given date or no date
+
+%
+
+\begin{document}
+
+{\LARGE \textcolor{oiB}{Learning Objectives \hfill Exam 05: Statistical Data Analysis Report}} \\
+
+\begin{enumerate}
+\renewcommand\labelenumi{\textcolor{light}{\textbf{LO \theenumi.}}}
+\item Produce a data dictionary for a dataset, describing the variable names,
+data types, and collection methods.
+
+\item Understand the typical sections of a statistical analysis report.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{Abstract}
+\item \textbf{Introduction}
+\item \textbf{Methods}
+\item \textbf{Analysis}
+\item \textbf{Results}
+\item \textbf{Discussion}
+\item \textbf{References}
+\end{itemize}
+
+\item Create HTML output from an R notebook file.
+
+\item Understand the concepts of reproducible research and how to make your
+own research reproducible by providing data, commented code, data-collection
+documentation, and a well-described methods section.
+
+\end{enumerate}
+
+
+\end{document}

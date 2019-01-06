@@ -1,0 +1,175 @@
+\documentclass[11pt]{article}
+\usepackage[top=1.5cm,bottom=2cm,left=2cm,right= 2cm]{geometry}
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ...
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{changepage}
+\usepackage{lscape}
+\usepackage{enumitem}
+\usepackage{ulem}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\usepackage{xcolor}
+
+\definecolor{oiB}{rgb}{.337,.608,.741}
+\definecolor{oiR}{rgb}{.941,.318,.200}
+\definecolor{oiG}{rgb}{.298,.447,.114}
+\definecolor{oiY}{rgb}{.957,.863,0}
+
+\definecolor{light}{rgb}{.337,.608,.741}
+\definecolor{dark}{rgb}{.337,.608,.741}
+
+\usepackage[colorlinks=false,pdfborder={0 0 0},urlcolor= dark,colorlinks=true,linkcolor=black]{hyperref}
+
+\newcommand{\light}[1]{\textcolor{light}{\textbf{#1}}}
+\newcommand{\dark}[1]{\textcolor{dark}{#1}}
+\newcommand{\gray}[1]{\textcolor{gray}{#1}}
+
+%\date{}                                           % Activate to display a given date or no date
+
+%
+
+\begin{document}
+
+{\LARGE \textcolor{oiB}{Learning Objectives \hfill Exam 01: Two Categorical Variables}} \\
+
+\begin{enumerate}
+\renewcommand\labelenumi{\textcolor{light}{\textbf{LO \theenumi.}}}
+\item Distinguish between the \textbf{explanatory variable(s)} and the
+\textbf{response variable} in an experiment.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{explanatory variable}: a variable that is either controlled
+by the experimenter or assumed to be the cause of the outcome of the
+experiment.
+\item \textbf{response variable}: the primary variable of interest that is
+believed to be affected by the values of the explanatory variables.
+\end{itemize}
+The designation of which variable is response or explanatory is often not
+fixed, and may be a decision of the investigator.
+
+\item Distinguish between \textbf{observational} and \textbf{experimental}
+studies and the conclusions that can be derived from them.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{observational study}: draws inferences from a sample to a
+population where the explanatory variable is not under the control of the
+researcher. This may be because of ethical concerns, logistical constraints,
+or taking a \textit{sample of convenience}.
+\item \textbf{experimental study}: draws inferences from a sample in which
+the explanatory variable of interest is selected at random.
+\end{itemize}
+Casual relationships can only be identified through the use of experimental
+studies.
+
+\item Understand the role of the \textbf{null hypothesis} and
+\textbf{alternative hypothesis} in inferential statistics.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{Null hypothesis}: A statement about an unknown parameter, usually
+that there is no relationship between two measured phenomena, or no association among groups.
+Denoted by $H_{0}$.
+\item \textbf{Alternative hypothesis}: A statement that directly contradicts the null
+hypothesis. Denoted by $H_{A}$
+\end{itemize}
+
+\item Define a \textbf{test statistic} and its \textbf{sampling distribution} under
+the null hypothesis ($H_{0}$). Identify the value of a test statistic within R's output
+and as seen in scientific literature.
+
+\item Understand how simulation can be used to produce a estimation of a sampling
+distribution.
+
+\item Describe the \textbf{p-value} in terms of a inferential statistics
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item The \textbf{p-value} is the probability of observing a test statistics that is
+\textit{at least as extreme} as the one observed.
+\item A small p-value indicates strong support for the alternative hypothesis
+($H_{A}$) in favor of the null hypothesis.
+\item A large p-value does \underline{not} indicate that the null hypothesis
+is likely to be true. Instead, it just indicates that there is no strong
+evidence against it. Think of a court trial where the defendant is found
+innocent.
+\end{itemize}
+
+\item Apply and interpret the use of the Z-test for differences in proportions
+within \textbf{R}. Memorize code for producing the test output from a dataset. Identify
+the null and alternative hypotheses, test statistic, p-value, and observed
+odds ratio.
+
+\item Understand the assumptions behind the Z-test for difference in proportions
+and common alternatives:
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{Z-test for proportions} (\texttt{tmod\_z\_test\_prop}): assumes
+that independent variables are selected beforehand and samples are independent
+\item \textbf{Fisher's Exact Test} (\texttt{tmod\_chi\_squared\_test}):
+assumes that the marginal sums of the contingency table are fixed and known
+\item \textbf{Chi-squared Test} (\texttt{tmod\_fisher\_test}): assumes that
+both categorical variables are randomly determined by the experiment
+\end{itemize}
+You should also understand that science and social science research commonly
+conflates these tests and you should not put much faith on their `correct'
+usage. Also, the results are generally not too far off between each of the
+tests.
+
+\item Install R, RStudio, and required packages on your laptop.
+
+\item Understand how to start a new R notebook, load libraries, and execute
+code.
+
+\item Organize tabular data using the \textbf{unit of observation}.
+
+\item Produce a comma separated values (CSV) or Excel file with tabular data.
+Memorize code for reading
+the data into R.
+
+\item Follow general naming conventions when constructing variable names.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item only include lowercase letters, underscores, and numbers
+\item do not start a variable name with a number of underscore
+\item do not use spaces; replace with underscores when needed
+\item keep names short and concise; do not add superfluous information
+(for example, use \texttt{age} instead of \texttt{patient\_age},
+\texttt{age\_years}, or \texttt{recorded\_age} unless you need to distinguish
+two types of age variables)
+\end{itemize}
+
+\item Understand the challenges of publication bias in scientific research and
+resulting replication crisis. Identify potential approaches for addressing
+these challenges, such as:
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item pre-registering results
+\item outlets for null results
+\item support for replication studies
+\item better informing journalists and public about challenges of
+over-generalizing and over-hyping a single study
+\end{itemize}
+
+\end{enumerate}
+
+
+\end{document}
+
+
+
+% \item Compute and interpret the \textbf{odds ratio} (OR) of an outcome between two groups.
+% \begin{itemize}
+% \renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+% \item If an output occurs with probability $p_A$ in group $A$ and $p_B$ in
+% group $B$, the \textbf{odds ratio} of the outcome is given by
+% \begin{align*}
+% \text{OR} &= \frac{p_A / (1 - p_A)}{p_B / (1 - p_B)}.
+% \end{align*}
+% If the OR is greater than 1, it is more likely to occur in group $A$. An
+% OR less than 1 is more likely to occur in group $B$.
+% \end{itemize}

@@ -4,19 +4,7 @@ author: "Taylor Arnold"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(eval = TRUE)
-knitr::opts_chunk$set(fig.path = "../assets/class03/")
-knitr::opts_chunk$set(fig.height = 5)
-knitr::opts_chunk$set(fig.width = 8.5)
-knitr::opts_chunk$set(out.width = "100%")
-knitr::opts_chunk$set(dpi = 300)
 
-library(dplyr)
-library(ggplot2)
-
-set.seed(1)
-```
 
 ### Learning Objectives
 

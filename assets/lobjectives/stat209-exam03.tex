@@ -1,0 +1,107 @@
+\documentclass[11pt]{article}
+\usepackage[top=1.5cm,bottom=2cm,left=2cm,right= 2cm]{geometry}
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ...
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{changepage}
+\usepackage{lscape}
+\usepackage{enumitem}
+\usepackage{ulem}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\usepackage{xcolor}
+
+\definecolor{oiB}{rgb}{.337,.608,.741}
+\definecolor{oiR}{rgb}{.941,.318,.200}
+\definecolor{oiG}{rgb}{.298,.447,.114}
+\definecolor{oiY}{rgb}{.957,.863,0}
+
+\definecolor{light}{rgb}{.337,.608,.741}
+\definecolor{dark}{rgb}{.337,.608,.741}
+
+\usepackage[colorlinks=false,pdfborder={0 0 0},urlcolor= dark,colorlinks=true,linkcolor=black]{hyperref}
+
+\newcommand{\light}[1]{\textcolor{light}{\textbf{#1}}}
+\newcommand{\dark}[1]{\textcolor{dark}{#1}}
+\newcommand{\gray}[1]{\textcolor{gray}{#1}}
+
+%\date{}                                           % Activate to display a given date or no date
+
+%
+
+\begin{document}
+
+{\LARGE \textcolor{oiB}{Learning Objectives \hfill Exam 03: Inference with several variables}} \\
+
+\begin{enumerate}
+\renewcommand\labelenumi{\textcolor{light}{\textbf{LO \theenumi.}}}
+\item Use R to compare the difference in mean across two groups using either
+a parametric or non-parametric test.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{two sample t-test}: a parametric test that relies on the central
+limit theorem. Provides a confidence interval for the differences in the
+means.
+\item \textbf{Mann-Whitney U}: a non-parametric test for differences in the
+mean. Does not include an effect size or confidence interval.
+\end{itemize}
+
+\item Use R to compare the difference in mean across more than two groups.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{one-way ANOVA}: a parametric test that relies on the central
+limit theory.
+\item \textbf{Kruskal-Wallis test}: a non-parametric test to detect whether
+samples from multiple groups come from the same distribution.
+\end{itemize}
+
+\item Understand the problem behind \textbf{multiple hypothesis testing}.
+
+\item Define the \textbf{family-wise error rate} (FWER) and the \textbf{false
+discovery rate} (FDR). Be able to control these with the Holm-Bonferroni
+method or the Benjamini-Hochberg-Yekutieli (BHY) method.
+
+\item Use R to find pairwise differences in means or proportions between
+groups, correcting for multiple hypothesis testing.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{Pairwise T-test}
+\item \textbf{Pairwise Mann-Whitney U}
+\item \textbf{Pairwise Proportions Test}
+\end{itemize}
+
+\item Understand the problem of confounding variables and the resulting bias
+caused within the model.
+
+\item Apply linear regression in R to describe a relationship with a numeric
+dependent variable, potentially with one or more  confounding variables.
+
+\item Understand the basic assumptions behind linear regression.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item The `true' mean of the dependent variable is a linear function of the
+independent variables.
+\item The observations are drawn independently from one another.
+\item The variance of the dependent variable is unrelated to the observed
+values of the independent variables.
+\item The central limit theorem is used to make assumptions about the testing
+statistics.
+\end{itemize}
+
+\item Apply logistic regression in R to describe a relationship with a
+two-category dependent variable, potentially with one or more confounding
+variables.
+
+\item Map aesthetics within the grammar of graphics to influence the size,
+color, shape, and opacity of the data points.
+
+\end{enumerate}
+
+
+\end{document}

@@ -1,0 +1,128 @@
+\documentclass[11pt]{article}
+\usepackage[top=1.5cm,bottom=2cm,left=2cm,right= 2cm]{geometry}
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ...
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{changepage}
+\usepackage{lscape}
+\usepackage{enumitem}
+\usepackage{ulem}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\usepackage{xcolor}
+
+\definecolor{oiB}{rgb}{.337,.608,.741}
+\definecolor{oiR}{rgb}{.941,.318,.200}
+\definecolor{oiG}{rgb}{.298,.447,.114}
+\definecolor{oiY}{rgb}{.957,.863,0}
+
+\definecolor{light}{rgb}{.337,.608,.741}
+\definecolor{dark}{rgb}{.337,.608,.741}
+
+\usepackage[colorlinks=false,pdfborder={0 0 0},urlcolor= dark,colorlinks=true,linkcolor=black]{hyperref}
+
+\newcommand{\light}[1]{\textcolor{light}{\textbf{#1}}}
+\newcommand{\dark}[1]{\textcolor{dark}{#1}}
+\newcommand{\gray}[1]{\textcolor{gray}{#1}}
+
+%\date{}                                           % Activate to display a given date or no date
+
+%
+
+\begin{document}
+
+{\LARGE \textcolor{oiB}{Learning Objectives \hfill Exam 02: Two Numeric Variables}} \\
+
+\begin{enumerate}
+\renewcommand\labelenumi{\textcolor{light}{\textbf{LO \theenumi.}}}
+\item Classify variables as numeric or categorical. Further distinguish
+between continuous and discrete numeric variables and
+ordinal/unordered/free-form categorical variables.
+
+\item Compute (by hand and with R) and interpret measurements of central values
+of a numeric variable.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{mean}: If we observe $n$ observations $x_1, \ldots, x_n$ of a
+variable, the mean is defined as:
+\begin{align*}
+\bar{x} &= \frac{1}{n} \cdot \sum_i x_i.
+\end{align*}
+\item \textbf{median}: If we observe an odd number of observations of a
+numeric variable the median is the \textit{middle value} that splits the data
+into two halves. That is, the median $M$ is defined such that half of the data
+is no bigger than $M$ and half of the data are no smaller than $M$. For an
+observation with an even number of points, the median is the average of the
+two middle values.
+\end{itemize}
+
+\item Compute (by hand and with R) and interpret measurements of variability
+for a numeric variable.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{variance}: If we observe $n$ observations $x_1, \ldots, x_n$ of a
+variable, the variance is the average squared distance from the mean:
+\begin{align*}
+Var(x) &= \frac{1}{n - 1} \cdot \sum_i (x_i - \bar{x})^2.
+\end{align*}
+\item \textbf{standard deviation}: The standard deviation is the square-root
+of the variance.
+\begin{align*}
+sd(x) &= \sqrt{Var(x)} = \sqrt{\frac{1}{n - 1} \cdot \sum_i (x_i - \bar{x})^2}.
+\end{align*}
+\end{itemize}
+
+\item Visually identify the \textbf{normal distribution} and understand the
+\textbf{central limit theorem (CLT)} through simulation studies. For us, the
+CTL gives that for large same sizes, the sampling distribution of the mean
+from an independent sample is approximately normal regardless of the original
+distribution.
+
+\item Define the \textbf{standard error}---the standard deviation of its
+sampling distribution---and use it to quantify the uncertainty in a test
+statistic.
+
+\item Understand the meaning of the Pearson correlation coefficient and be
+able to visually approximate the correlation from a scatter plot of data.
+
+\item Run, using R, two types of correlation tests between two numeric
+variables and interpret the results.
+\begin{itemize}
+\renewcommand{\labelitemi}{{\textcolor{dark}{{\tiny $\blacksquare$}}}}
+\item \textbf{Pearson correlation coefficient} (r): relies on the central
+limit theorem approximation
+\item \textbf{Spearman's rank correlation coefficient} ($\rho$):
+a non-parametric test that attempts to describe a relationship by a monotonic
+function.
+\item \textbf{Kendall rank correlation coefficient} ($\tau$):
+a non-parametric test that attempts to measure how similar the \textit{rank}
+order of two datasets are. Conceptually similar to Spearman's coefficent.
+\end{itemize}
+
+\item Describe the different assumptions that distinguish the Pearson correlation
+test from the Spearman/Kendall correlation tests.
+
+\item Understand the concept of \textbf{statistical power} and how this
+relates to the choice between parametric and non-parametric inference tests.
+
+\item Describe the definition of a \textbf{confidence interval} for a given
+\textbf{confidence level} and relate the concept back to hypothesis testing.
+
+\item Use the grammar of graphics to describe a data visualizations in R.
+Specifically, produce a scatter plot (with an optional best-fit line) for
+two variables from a given dataset or a histogram for a single numeric
+variable.
+
+\item Demonstrate the idea behind Simpson's paradox and explain how it can
+be alleviated through visualizations and good experimental design.
+
+\end{enumerate}
+
+
+\end{document}

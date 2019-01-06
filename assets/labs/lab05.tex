@@ -1,0 +1,82 @@
+\documentclass{tufte-handout}
+
+\usepackage{amssymb,amsmath}
+% \usepackage{mathspec}
+\usepackage{graphicx,grffile}
+\usepackage{longtable}
+\usepackage{booktabs}
+
+\newtheorem{mydef}{Definition}
+\newtheorem{thm}{Theorem}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{12pt}
+
+\begin{document}
+
+\justify
+
+{\LARGE Lab 05}
+
+\vspace*{18pt}
+
+Download the \texttt{lab05.Rmd} file and open it using RStudio. Then, use the
+R programming language to help you answer the questions below. \textbf{Don't
+forget to fill out the worksheet form before the next class!}
+
+For this lab we are going to look at a recent article (Published in
+February 2018) titled ``Acute Lateral Ankle Sprain Prediction in Collegiate
+Women's Soccer Players'' and published in the \textit{International Journal of
+Sports Physical Therapy}. Open a copy of the article through the following
+link:
+\begin{center}
+\texttt{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5808007/}
+\end{center}
+And answer the following questions (only some are about this paper).
+
+\vspace*{12pt}
+
+\textbf{1.} There are a number of statistical tests in this paper, but we are
+going to restrict ourselves to the results in Table 3 and Table 4. Read the
+abstract as best you can and look at the contingency table given in Table 3.
+Would you classify this as an experimental or observational design? Why?
+
+\textbf{2.} Read the conclusion of the paper. Do the authors correctly
+interpret the results in terms of causality? In other words, do they
+incorrectly assign a causal relationship under data collected through an
+observational study?
+
+\textbf{3.} Create a tabular dataset corresponding to the results in Table 3,
+saving the file in a CSV or Excel format.
+
+\textbf{4.} Read the dataset into R and run Fisher's Exact Test. What are the
+null and alternative hypothesis in this statistical inference test? Does your
+p-value match that given in the paper?
+
+\textbf{5.} Now apply the chi-squared test and the Z-test for proportions.
+How do these test p-values compare to the Fisher's Exact test?
+
+\textbf{6.} Given the experimental design, which of the three tests that we
+have actually seem the most applicable?
+
+\textbf{7.} Explain how publication bias may effect your ability to trust the
+results of this study.
+
+\textbf{8.} Repeat steps 3-5 for the results in Table 4. Do the tests give
+reasonably similar p-values?
+
+\textbf{9.} Think back to the first week of class. Can you recall one student
+dataset that was observational and one that was experimental? If not, try
+to devise a data collection scenario that matches the missing type.
+
+\end{document}
+
+
+
+
+
+
+

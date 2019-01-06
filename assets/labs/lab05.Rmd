@@ -1,0 +1,24 @@
+---
+title: "Lab 05"
+output: html_document
+---
+
+**Question 4**
+
+```{r}
+
+```
+
+**Question 5**
+
+```{r}
+
+```
+
+**Question 8**
+
+```{r}
+
+```
+
+
