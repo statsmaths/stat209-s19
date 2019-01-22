@@ -98,7 +98,7 @@ In our example, the alternative hypothesis is that the probability of
 survival under the white light is different than the probability under the
 red light. In symbols, we have:
 
-$$ H_{0}: p_W \neq p_R $$
+$$ H_{A}: p_W \neq p_R $$
 
 In the court example, the alternative hypothesis is like finding someone
 guilty. Do we have evidence that we can *reject* the null hypothesis of

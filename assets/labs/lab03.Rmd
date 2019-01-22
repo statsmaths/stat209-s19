@@ -24,7 +24,7 @@ The following gives the p-value of the experiment for an observed value.
 
 ```{r}
 your_phat_value <- 55
-mean(abs(phat_hat) >= your_phat_value)
+mean(abs(phat_set) >= your_phat_value)
 ```
 
 If you want the plot as well, run this code:

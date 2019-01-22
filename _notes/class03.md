@@ -86,7 +86,7 @@ In our example, the alternative hypothesis is that the probability of
 survival under the white light is different than the probability under the
 red light. In symbols, we have:
 
-$$ H_{0}: p_W \neq p_R $$
+$$ H_{A}: p_W \neq p_R $$
 
 In the court example, the alternative hypothesis is like finding someone
 guilty. Do we have evidence that we can *reject* the null hypothesis of
@@ -165,6 +165,12 @@ for (i in seq_len(N))
 {% endhighlight %}
 
 And here is the visualization of the sampling distribution:
+
+
+{% highlight text %}
+## Warning: `data_frame()` is deprecated, use `tibble()`.
+## This warning is displayed once per session.
+{% endhighlight %}
 
 <img src="../assets/class03/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
