@@ -86,18 +86,18 @@ Let's start with a relatively simple experiment. We will take 100 newly
 planted pea plants and place them under a white LED light. It will look
 something like this:
 
-<img src="https://i1.wp.com/foodiegardener.com/wp-content/uploads/2015/01/LED-bulb-grow-light-lettuce-foodie-gardener-blog-e1422601087389.jpg" style="height: 200px; display: block; margin-left: auto; margin-right: auto"/>
+<img src="https://i1.wp.com/foodiegardener.com/wp-content/uploads/2015/01/LED-bulb-grow-light-lettuce-foodie-gardener-blog-e1422601087389.jpg" style="height: 300px; display: block; margin-left: auto; margin-right: auto"/>
 
 And then, we'll take 100 newly planted pea plants and place them under
-a blue LED light:
+a red LED light:
 
-<img src="http://i.ebayimg.com/images/i/350641586971-0-1/s-l1000.jpg" style="height: 300px; display: block; margin-left: auto; margin-right: auto"/>
+<img src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.ej8fX5IwwSr2b48ukj68awHaE6%26pid%3D15.1&f=1" style="height: 300px; display: block; margin-left: auto; margin-right: auto"/>
 
 In all other respects the plants will be treated the same (same seed
 source, same water, same temperature, ect.). After 30 days, we measure
 whether a particular plant is still alive. Our research question is
 to determine whether pea plants grow better under white light compared
-to just blue light.
+to just red light.
 
 What is the data from this experiment going to look like? One easy way
 to summarize the data is through a table such as this one:
@@ -155,7 +155,7 @@ our experimental sample is, therefore, 10%.
 I said earlier that the goal of inference is to *infer* something
 about a larger population from the result of an experiment. So far
 we have only said something about the data that we actually observered.
-What we want to infer here is the effect of white versus blue LED lights
+What we want to infer here is the effect of white versus red LED lights
 when the same parameters are applied to any set of pea plants (e.g., not
 just the 200 in this particular experiment).
 
@@ -276,7 +276,7 @@ mean(dhat_set >= 10) * 100
 
 So our observed value of 10 could occur just by chance about 8.8%
 even if there is no real difference between the lighting choice. This
-is not particularly strong evidence that blue lights kill pea plants
+is not particularly strong evidence that red lights kill pea plants
 more than white light.
 
 ### Summary
