@@ -10,8 +10,10 @@ You will need to install the **tmodels** package using the following code:
 ```{r}
 if (!require("tmodels"))
 {
-  install_github("statsmaths/tmodels")
+  devtools::install_github("statsmaths/tmodels")
 }
+
+install.packages("readxl")
 ```
 
 **Question 3**
