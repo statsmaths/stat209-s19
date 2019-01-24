@@ -3,6 +3,17 @@ title: "Lab 04"
 output: html_document
 ---
 
+**Install**
+
+You will need to install the **tmodels** package using the following code:
+
+```{r}
+if (!require("tmodels"))
+{
+  install_github("statsmaths/tmodels")
+}
+```
+
 **Question 3**
 
 Read your dataset into R. Note that you will need to load the relevant
