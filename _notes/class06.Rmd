@@ -4,7 +4,19 @@ author: "Taylor Arnold"
 output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(fig.path = "../assets/class03/")
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
 
+library(dplyr)
+library(ggplot2)
+
+set.seed(1)
+```
 
 ### Learning Objectives
 
@@ -12,6 +24,10 @@ output: html_document
 studies and the conclusions that can be derived from them.
 - Understand the assumptions behind the Z-test for difference in proportions
 and common alternatives (Fisher's Exact Test and the Chi-squared Test).
+- Understand the challenges of publication bias in scientific research and
+resulting replication crisis.
+- Identify potential approaches for addressing the challenges of publication
+bias.
 
 ## Causal inference
 
@@ -126,7 +142,7 @@ full description of the original experiment from which is comes:
 
 Despite the conditions of this test being incredibly rare, the use of the test
 is quite common in medical studies. You can apply it in R using the function
-`tmod_fisher_test` in exactly the same way as the function
+`tmod_chi_squared_test` in exactly the same way as the function
 `tmod_z_test_prop`.
 
 In contrast, the chi-squared test assumes that both categorical variables are
@@ -135,10 +151,46 @@ and Wikipedia experiments, the number of observations in both independent
 variable categories are unknown. This more closely matches the sample of 1000
 U.S. households example above. While certainly not required, the chi-squared
 test assumptions are more likely to hold in observational studies compared to
-experimental studies. You can run this test using `tmod_chi_squared_test`.
+experimental studies.
 
 Today's lab will give you a chance to experiment with all three of these
 tests. Note that science and social science research commonly conflates these
-tests and you should not put much faith on their "correct" usage. Also, the
+tests and you should not put much faith on their `correct' usage. Also, the
 results are generally not too far off between each of the tests.
 
+## Publication bias
+
+Throughout this semester, we will discuss a number of challenges and problems
+that arise in making real-world decisions as a result of statistical evidence.
+The first challenge I want to discuss is called **publication bias**. It
+arises because researchers tend to only publicize interesting results. If an
+experiment is run and the treatment variable seems to have little to no effect
+on the dependent variable, it is unlikely for the research to every be
+discussed or published.
+
+Why is publication such a problem? Assume that you see an article that says
+that pea plants survive longer when exposed only to red LED lights. The
+experimental design seems solid and Z-test for the difference in proportions
+has a p-value of 0.05; the chances that these results are just due to random
+chance is fairly low. __However__, what if 19 other scientists ran the same
+experiment and found no evidence of a statistically significant difference
+between the light color and pea plant survival? Because of publication bias,
+the results of the other 19 groups may never be known to you, the pea farmer
+looking to invest in artificial lights for your growing pea farm. This is a
+problem, because if we look at all of the data, over 20 studies we would
+expect there to be at least one with a p-value less than 0.05 even if there
+is no true effect in the use of red LED lights.
+
+While it may be unlikely that there were 19 unknown studies, conflated with
+other challenges (which we will discuss, including p-hacking and multiple
+hypothesis testing), publication bias has the potential to make most published
+scientific claims dubious at best. There are, fortunately, several approaches
+for addressing this challenge:
+
+- pre-registering results
+- outlets for null results
+- support for replication studies
+- better informing journalists and public about challenges of
+over-generalizing and over-hyping a single study
+
+More on the specifics of these in the second unit of the course.
