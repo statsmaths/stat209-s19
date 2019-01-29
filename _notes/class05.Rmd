@@ -1,5 +1,5 @@
 ---
-title: "Class 05: Assumptions, Alternative tests, Publication Bias"
+title: "Class 05: Assumptions and Alternative tests"
 author: "Taylor Arnold"
 output: html_document
 ---
