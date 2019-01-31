@@ -1,0 +1,101 @@
+---
+title: "Lab 05"
+output: html_document
+---
+
+In this file, I've tried to explain some of the best practices for how to
+approach the problems in the lab file. To start, I recommend loading all of
+the libraries you will need right here at the top:
+
+```{r}
+library(readr)
+library(readxl)
+library(tmodels)
+```
+
+**Question 1**
+
+This is an observational study because the researchers were not able to manually
+assign players to being in the "tall" or "short" group. Therefore, we cannot 
+prove a causal relationship by this study.
+
+**Question 2**
+
+The author's mostly interpret the results correctly by hedging their conclusions
+with phrases such as "predictive value", "may impair", and "potentially increasing".
+
+**Question 3**
+
+See the Excel file lab05-table3.xlsx, which is posted online.
+
+**Question 4**
+
+I saved the dataset as an Excel file (you can find a link on the class website),
+and placed it in the same location as the RMarkdown file. Here is the code to read
+in the dataset and show the first few rows in RStudio:
+
+```{r}
+hlas <- read_xlsx("lab05-table3.xlsx")
+hlas
+```
+
+While not required, here is the contingency table to check against the paper:
+
+```{r}
+tmod_contingency(las ~ height, data=hlas)
+```
+
+And, here is the statistical hypothesis test:
+
+```{r}
+tmod_fisher_test(las ~ height, data=hlas)
+```
+
+Amazingly, this is not the p-value reported in the paper (which is given as
+0.04)! 
+
+**Question 5**
+
+The other tests are given by (the warning about the Chi-squared test is not something
+to worry about for now):
+
+```{r}
+tmod_chi_squared_test(las ~ height, data=hlas)
+tmod_z_test_prop(las ~ height, data=hlas)
+```
+
+These p-values are quite a bit different than the other tests. While they tend to
+be close in general, they diverge when some of the counts in the contingency tables
+are very small.
+
+**Question 6**
+
+Just given the assumptions, the best model is the chi-squared because neither the row
+nor the column sums are fixed ahead of time.
+
+**Question 7**
+
+Now, read in the second set of data:
+
+```{r}
+plas <- read_xlsx("lab05-table4.xlsx")
+plas
+```
+
+And again, here is the contingency table for us to verify with the paper:
+
+```{r}
+tmod_contingency(las ~ previous_sprain, data=plas)
+```
+
+Finally, here are the three tests:
+
+```{r}
+tmod_z_test_prop(las ~ previous_sprain, data=plas)
+tmod_chi_squared_test(las ~ previous_sprain, data=plas)
+tmod_fisher_test(las ~ previous_sprain, data=plas)
+```
+
+Notice once again that the test does not match the paper! This is not
+good, but also not our fault.
+
