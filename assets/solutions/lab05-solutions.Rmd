@@ -16,7 +16,7 @@ library(tmodels)
 **Question 1**
 
 This is an observational study because the researchers were not able to manually
-assign players to being in the "tall" or "short" group. Therefore, we cannot 
+assign players to being in the "tall" or "short" group. Therefore, we cannot
 prove a causal relationship by this study.
 
 **Question 2**
@@ -52,7 +52,7 @@ tmod_fisher_test(las ~ height, data=hlas)
 ```
 
 Amazingly, this is not the p-value reported in the paper (which is given as
-0.04)! 
+0.04)!
 
 **Question 5**
 

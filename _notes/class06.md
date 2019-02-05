@@ -4,19 +4,7 @@ author: "Taylor Arnold"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(eval = TRUE)
-knitr::opts_chunk$set(fig.path = "../assets/class06/")
-knitr::opts_chunk$set(fig.height = 5)
-knitr::opts_chunk$set(fig.width = 8.5)
-knitr::opts_chunk$set(out.width = "100%")
-knitr::opts_chunk$set(dpi = 300)
 
-library(dplyr)
-library(ggplot2)
-
-set.seed(1)
-```
 
 ### Learning Objectives
 
@@ -95,17 +83,19 @@ doing this. Start with loading all of the packages you might need (some of
 these are not 100% necessary at the moment, but I like to get in the habit of
 loading them):
 
-```{r}
+
+{% highlight r %}
 library(readr)
 library(readxl)
 library(dplyr)
 library(ggplot2)
 library(tmodels)
-```
+{% endhighlight %}
 
 Then, read in your dataset and run the functions from **tmodels**:
 
-```{r, eval=FALSE}
+
+{% highlight r %}
 hlas <- read_xlsx("lab05-table3.xlsx")
 
 tmod_contingency(las ~ height, data=hlas)
@@ -113,7 +103,7 @@ tmod_contingency(las ~ height, data=hlas)
 tmod_fisher_test(las ~ height, data=hlas)
 tmod_chi_squared_test(las ~ height, data=hlas)
 tmod_z_test_prop(las ~ height, data=hlas)
-```
+{% endhighlight %}
 
 Here I have just given you the code for all three tests as well as a function
 for printing out the contingency table. Here the columns in the dataset are
@@ -123,15 +113,55 @@ easier to include all of the tests together in one block.
 
 Here is what the output from the above code looks like:
 
-```{r, echo=FALSE, warning=FALSE}
-hlas <- read_xlsx("../assets/solutions/lab05-table3.xlsx")
 
-tmod_contingency(las ~ height, data=hlas)
+{% highlight text %}
+##          Response
+## Predictor absent present
+##     short     18       1
+##     tall      17       7
+{% endhighlight %}
 
-tmod_fisher_test(las ~ height, data=hlas)
-tmod_chi_squared_test(las ~ height, data=hlas)
-tmod_z_test_prop(las ~ height, data=hlas)
-```
+
+
+{% highlight text %}
+## 
+## Fisher's Exact Test for Count Data
+## 
+## 	H0: Group variable and response categories are independent
+## 	HA: Group variable and response categories are dependent
+## 
+## 	P-value: 0.05928
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## 
+## Pearson's Chi-squared test with Yates' continuity correction
+## 
+## 	H0: Group variable and response categories are independent
+## 	HA: Group variable and response categories are dependent
+## 
+## 	Test statistic: chi-squared(1) = 2.5785
+## 	P-value: 0.1083
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## 
+## Z-Test for Equality of Proportions (2 groups)
+## 
+## 	H0: true probability of effect is the same between groups
+## 	HA: true probability of effect is difference between groups
+## 
+## 	Test statistic: Z = -2.2554
+## 	P-value: 0.02411
+## 
+## 	Parameter: Pr(present|short) - Pr(present|tall)
+## 	Point estimate: -0.23904
+## 	Confidence interval: [-0.446760, -0.031311]
+{% endhighlight %}
 
 ### Model Assumptions
 
