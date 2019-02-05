@@ -1,5 +1,5 @@
 ---
-title: "Class 05: Assumptions, Alternative tests, Publication Bias"
+title: "Class 06: Publication Bias and Review"
 author: "Taylor Arnold"
 output: html_document
 ---
@@ -171,7 +171,7 @@ Further, you should be able to do the following things from memory in R
 (there is no other code that I would ask you to write for the in-class exam):
 
 - how to load an R package
-- how to use the function `tmod_z_test_prop` to run an hypothesis test 
+- how to use the function `tmod_z_test_prop` to run an hypothesis test
 
 
 
