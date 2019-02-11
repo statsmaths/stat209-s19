@@ -1,0 +1,93 @@
+---
+title: "Lab 07"
+output: html_document
+---
+
+Start by reading in all of the R packages that we will need for today:
+
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tmodels)
+library(readr)
+library(readxl)
+```
+
+## Graduate pay information by major
+
+Start by reading in the following dataset that describe the salaries of recent
+graduates based on their major
+
+```{r, message=FALSE}
+pay <- read_csv("https://raw.githubusercontent.com/statsmaths/stat_data/gh-pages/grad_info.csv")
+```
+
+Open the dataset with the data viewer and make sure that you understand what the variables
+all mean (if something is unclear, just ask!). The unit of observation here is a major.
+
+Run a T-test that predicts the median pay based on whether a major is in the sciences:
+
+```{r}
+
+```
+
+Is the p-value significant? Which group has a lower unemployment rate? How would you
+describe the results of this study?
+
+Run a Mann-Whitney test for median pay; how does the p-value compare to that of the
+T-test?
+
+```{r}
+
+```
+
+Now, run a T-test that predicts the unemployment rate based on whether a major is
+in the sciences:
+
+```{r}
+
+```
+
+Is the p-value significant? Which group has a lower unemployment rate? How would you
+describe the results of this study?
+
+## Robustness
+
+The tail function shows the last few rows of your dataset:
+
+```{r}
+tail(pay)
+```
+
+Library science majors do not make very much money. What if someone accidentally wrote down
+the pay of 22k per year as 22 million per year? We can change this one value with the following
+R code:
+
+```{r}
+pay$median_pay[173] <- 22000000
+```
+
+Now re-run the T-test here predicting the median pay as a result of whether a major is
+in the sciences:
+
+```{r}
+
+```
+
+Is the test still significant? Now, re-run the Mann-Whitney test:
+
+```{r}
+
+```
+
+Is this test still significant? How much does the test statistic change compared
+to the original dataset? Which of the two tests is more robust to one bad data
+point?
+
+
+
+
+
+
+
+

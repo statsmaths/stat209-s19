@@ -1,0 +1,118 @@
+---
+title: "Class 09: Multivariate Analysis with Regression"
+author: "Taylor Arnold"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(fig.path = "../assets/class09/")
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(dplyr)
+library(ggplot2)
+library(tmodels)
+
+set.seed(1)
+```
+
+### Learning Objectives
+
+- Understand the role of nuisance variables in hypothesis testing and why we need to control for them.
+- Apply the linear regression function in the **tmodels** package to test for relationships between explanatory and response variables while controlling for nuisance variables.
+- Identify and use the output of the function `tmod_tmod_linear_regression` depending on the form of the explanatory variable.
+
+## Controlling for Nuisance Variables
+
+All of the hypothesis tests that we have so far studied have exactly
+two variables: an explanatory variable (IV) and the response variable (DV).
+Our tests have null hypotheses that indicate, an various appropriate ways,
+that there is no relationship between the two variables. We want to see if
+there is evidence to support having an actual effect between the two variables.
+
+Today we will extend this setup to include any number of other variables that
+we believe may effect the response variable and that we want to *factor out*
+or *control for* in the analysis. For example, returning very briefly to the
+pea plants and colored light experiment. We assumed that the plants were all
+identical; what if instead some where snow peas (*saccharatum*) and others
+were snap peas (*macrocarpon*). One way to deal with this is to include the
+variety of the pea plant as a third variable into the model. The variety variable
+as used here is what we call a **nuisance variable**.
+
+```{r, echo=FALSE}
+cars <- select(mpg, manufacturer, class, engine_size=displ, city=cty, highway=hwy)
+cars <- cars[cars$manufacturer %in% unique(cars$manufacturer)[1:2],]
+cars <- cars[sample(nrow(cars)),]
+```
+
+Let's actually apply this technique to the cars dataset. Here I have selected
+a larger set of variables to work with:
+
+```{r}
+cars
+```
+
+If we wanted to investigate the relationship between fuel efficency and
+engine size, a reasonable model would be the Spearman rank correlation Test:
+
+```{r}
+tmod_spearman_correlation_test(city ~ engine_size, data = cars)
+```
+
+As perhaps expected, the correlation is strongly significant and negative.
+Cars with larger engines are not as efficent. What if, additionally though,
+we wanted to *control for* the class of the car? That is, do we think that
+the size of the engine matters if we are comparing two trucks to one another?
+To do this, we run a "linear regression model" using the function
+`tmod_linear_regression`. The syntax is very similar to the other models, but
+on the right-hand side of the `~` you add (literally, with the plus sign) the
+nusiance variables you want to account for:
+
+```{r}
+tmod_linear_regression(city ~ engine_size + class, data = cars)
+```
+
+And we see here that the result is still significant. The point estimate
+indicates that, after accounting for the class of the car, each additional
+litre in engine size decreases the city fuel efficency by about 1.49 miles
+per gallon.
+
+We can use the exact same syntax with an explanatory categorical input while
+controlling for nuisance variables.
+
+```{r}
+tmod_linear_regression(city ~ manufacturer + class, data = cars)
+```
+
+The output looks a bit different, but the underlying statistical model is
+exactly the same.
+
+Finally, we can also test whether fuel efficency is effect by the class of
+the car after accounting for the manufacturer.
+
+```{r}
+tmod_linear_regression(city ~ class + manufacturer, data = cars)
+```
+
+The input is exactly the same, but the output now looks different. Because
+there are more than two classes of cars we need a different test and cannot
+easily provide point estimates. This is the equivalent of the one-way ANOVA,
+but now in a regression framework where we can control for the nuisance variables.
+
+## Assumptions of linear regression models
+
+The linear regression model assumes the two standard assumptions we have across
+all of our models: uniform sampling and independent response values. There are
+additionally a host of other assumptions that all well beyond the scope of this
+course. Just know that as long as you (approximately) have the two basic
+assumptions, you are usually safe using linear regression for testing the
+relationship between a continuous response and any explanatory variable.
+
+
+
+
+
+

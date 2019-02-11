@@ -1,0 +1,150 @@
+---
+title: "Class 08: Inference for Correlation; Multiple Means"
+author: "Taylor Arnold"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(fig.path = "../assets/class08/")
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(dplyr)
+library(ggplot2)
+library(tmodels)
+
+set.seed(1)
+```
+
+### Learning Objectives
+
+- Understand the correlation between two variables.
+- Know how to use the three hypothesis tests for testing correlation between two variables.
+- Use the One-way ANOVA and Kruskal-Wallis rank sum test to extend the T-Test to 3 or more groups.
+
+## Correlation
+
+You have probably heard the term *correlation*, but may not have ever seen a
+formal definition. If we have pairs of observations from two variables x and y,
+the correlation between them is written by the following seemingly complex formula:
+
+$$ cor(x, y) = \frac{(x_1 - \bar{x})(y_1 - \bar{y}) + \cdots + (x_n - \bar{x})(y_n - \bar{y})}{\sqrt{\left[(x_1 - \bar{x})^2 + \cdots + (x_n - \bar{x})^2 \right] \cdot \left[(y_1 - \bar{y})^2 + \cdots + (y_n - \bar{y})^2 \right]}} = \frac{\sum_i (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_i (x_i - \bar{x})^2 \cdot \sum_i(y_i - \bar{x})^2 }}$$
+
+I do not want you to worry too much about the correlation equation. Rather,
+take away the following facts about this value:
+
+1. The correlation is always between -1 and 1
+2. The correlation of two unrelated variables is 0.
+3. The correlation is positive if y "tends to be larger than its mean" whenever x is larger than its mean.
+4. The correlation is negative if y "tends to be less than its mean" whenever x is larger than its mean.
+
+Here are some examples of correlations for various variable plotted along the x- and y-axes:
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Correlation_examples2.svg/1024px-Correlation_examples2.svg.png)
+
+## Testing correlation
+
+```{r, echo=FALSE}
+set.seed(1)
+cars <- select(mpg, city=cty, highway=hwy)
+cars <- cars[sample(nrow(cars)),]
+```
+
+Today, let's take a look at a different version of the same dataset from last class. Now
+we have two continuous variables: the city fuel efficency and the highway fuel efficency.
+
+```{r}
+cars
+```
+
+To run an hypothesis test on the correlation between these two variables, we will
+use a **tmodels** function with a similar format to the other tests that we have
+used. The test is called "Pearson's product-moment correlation":
+
+```{r}
+tmod_pearson_correlation_test(highway ~ city, data = cars)
+```
+
+The p-value is very low (less than 0.000000000000022%) and the sample correlation
+of 0.95592 is quite close to 1. We should not be surprised that these two variables
+are highly related. Notice that in just this one case, it doesn't matter which variable
+is treated as the response and which one is the effect (the output is exactly the same):
+
+```{r}
+tmod_pearson_correlation_test(city ~ highway, data = cars)
+```
+
+There are two alternatives to Pearson's correlation test available in **tmodels**.
+Both are similar to the Mann-Whitney test in that they are more robust to outliers
+and bad data points but more likely to incorrectly accept the null-hypothesis when
+it is not true. The first is "Kendall's rank correlation tau test":
+
+```{r}
+tmod_kendall_correlation_test(city ~ highway, data = cars)
+```
+
+And the other is "Spearman's rank correlation rho test":
+
+```{r, warning=FALSE}
+tmod_spearman_correlation_test(city ~ highway, data = cars)
+```
+
+I will be completly honest that I do not have a good sense of when you should use
+Kendall's test or Spearman's test. Just be familiar with each of them as they are
+both commonly used across the sciences and social sciences.
+
+## Testing multiple means
+
+```{r, echo=FALSE}
+set.seed(1)
+cars <- select(mpg, city=cty, manufacturer)
+cars <- cars[sample(nrow(cars)),]
+```
+
+As a totally different direction, let's return briefly to testing the means of a random
+variable by groups. Take another look at a version of the cars dataset; now it includes
+information about several different manufacturers:
+
+```{r}
+cars
+```
+
+The `tmod_mean_by_group` function shows us the means of the fuel efficency for each manufacturer:
+
+```{r}
+tmod_mean_by_group(city ~ manufacturer, data=cars)
+```
+
+What if we want to run an hypothesis test with:
+
+- H0: The means are the same for each group.
+- HA: Some of the means are different between each group.
+
+Running the T-test will not work (if you go back to the last notes, you'll see that it cannot
+be extended easily to more than two groups):
+
+```{r}
+tmod_t_test(city ~ manufacturer, data=cars)
+```
+
+The "One-way Analysis of Variance (ANOVA)" test is the multiple group extension of the
+T-Test:
+
+```{r}
+tmod_one_way_anova_test(city ~ manufacturer, data=cars)
+```
+
+The Mann-Whitney test also has a multi-group extension called the "Kruskal-Wallis rank sum test":
+
+```{r}
+tmod_kruskal_wallis_test(city ~ manufacturer, data=cars)
+```
+
+Notice that these tests do not give any point estimates; they just tell us whether
+there seem to be any differences in means across the groups.
+
+
+
