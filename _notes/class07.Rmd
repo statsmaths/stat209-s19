@@ -138,7 +138,7 @@ sum test.
 tmod_mann_whitney_test(city ~ manufacturer, data = cars)
 ```
 
-The Mann-Whitney rank sum test is more robust to outliers and is not greatly effected bya  few bad data
+The Mann-Whitney rank sum test is more robust to outliers and is not greatly effected by a few bad data
 points (compared to the T-test, which is quite sensitive). However, it is also less *powerful*: there is a
 higher chance it will fail to reject the null-hypothesis even when it is not true.
 
@@ -164,6 +164,7 @@ $$ z_1, z_2, \ldots, z_n $$
 Then, we define the summary statistics:
 
 $$ s_x^2 = \frac{1}{m-1} \cdot \sum_{i=1}^m (x_i - \bar{x})^2  $$
+
 $$ s_y^2 = \frac{1}{n-1} \cdot \sum_{i=1}^n (y_i - \bar{y})^2  $$
 
 $$ df = \frac{\left[\frac{s_x^2}{m} + \frac{s_y^2}{n}\right]^2}{\frac{\left[\frac{s_x^2}{m}\right]^2}{m-1} +\frac{\left[\frac{s_y^2}{n}\right]^2}{n-1}} $$
@@ -174,12 +175,12 @@ $$ T = \frac{\bar{x} - \bar{y}}{\sqrt{\frac{s_x^2}{m} + \frac{s_y^2}{n}}} = \fra
 
 Why do we use this fancy scaling of the differences in the means? It turns out that
 probability theory tells us that the sampling distribution of T (under the null hypothesis
-that each group has the same underlying mean) depends **only** on the value of $df$, the
+that each group has the same underlying mean) depends **only** on the value of `df`, the
 effective degress of freedom, thanks to something called the Central Limit Theorem (CLT).
 This means that we can get a p-value without having to run
 any simulations or needing to know the specific distributions from which the x's and y's
 were drawn from. You will see that the value of T and df are given in R's output.
-You can image, as is true, that deriving these formulas and proving that they have the
+As you can imagine, deriving these formulas and proving that they have the
 desired properties is a complex and lengthy process. The last steps require at least three
 semesters of calculus and an entire semester of 300-level probability theory even to get
 started.
