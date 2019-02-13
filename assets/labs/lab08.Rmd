@@ -1,0 +1,108 @@
+---
+title: "Lab 08"
+output: html_document
+---
+
+Start by reading in all of the R packages that we will need for today:
+
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tmodels)
+library(readr)
+library(readxl)
+```
+
+## Class data collection
+
+We are going to build a dataset as a class. Download the datafile and save
+it as "class08.csv". Read in the dataset and call it simply `class` using
+the `read_csv` function:
+
+```{r}
+
+```
+
+Run all three correlation tests on the data:
+
+```{r}
+
+```
+
+Are there any large differences between the p-values in the tests? What do you
+conclude from the analysis about the relationship between the variables?
+
+## Graduate pay information by major
+
+Now, read in the pay by major dataset that we used last time:
+
+```{r, message=FALSE}
+pay <- read_csv("https://raw.githubusercontent.com/statsmaths/stat_data/gh-pages/grad_info.csv")
+```
+
+Run Pearson's product-moment correlation test on this dataset with `median_pay`
+as the response and `unemployment` as the independent variable. Note the correlation
+point estimate and the p-value:
+
+```{r}
+
+```
+
+Re-run the analysis with `median_pay` as the independent variable and `unemployment`
+as the response.
+
+```{r}
+
+```
+
+The results should be exactly the same due to symmetry in the test.
+
+## Graduate pay by major in three categories
+
+The following code creates a new variable in the dataset. Run it and look at
+the dataset to see what it does
+
+```{r}
+pay$mcategory <- "non-science"
+pay$mcategory[pay$sciences == "yes"] <- "other science"
+pay$mcategory[grep("ENGINEERING", pay$major)] <- "engineering"
+```
+
+The variable `mcategory` now has three different values: non-science, other
+science, and engineering. Use the one-way ANOVA function to test a relationship
+between median pay and the variable `mcategory`:
+
+```{r}
+
+```
+
+Now, run the same test with Kruskal-Wallis rank sum test:
+
+```{r}
+
+```
+
+Finally, make a copy of the dataset and introduce a bad data point as we
+did last time:
+
+```{r}
+pay_bad <- pay
+pay_bad$median_pay[173] <- 22000000
+```
+
+Verify that the one-way ANOVA function is sensitive to this outlier but the
+Kruskal-Wallis test is not:
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
