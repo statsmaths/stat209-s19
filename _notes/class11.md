@@ -1,0 +1,199 @@
+---
+title: "Class 11: Inference Review"
+author: "Taylor Arnold"
+output: html_document
+---
+
+
+
+<style>
+#dtable {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#dtable td, #dtable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#dtable tr:first-child{background-color: #f2f2f2;}
+
+#dtable tr:hover {background-color: #ddd;}
+
+#dtable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
+### Learning Objectives
+
+-
+
+**Univariate Test** (one variable; just response)
+
+<table id="dtable">
+<tr>
+  <td>Input Type (IV)</td>
+  <td>Output Type (DV)</td>
+  <td>P/NP?</td>
+  <td>Name</td>
+  <td>Function</td>
+</tr>
+<tr>
+  <td>&mdash;</td>
+  <td>numeric</td>
+  <td>P</td>
+  <td>One Sample T-Test</td>
+  <td>`tmod_t_test_one`</td>
+</tr>
+<tr>
+  <td>&mdash;</td>
+  <td>numeric</td>
+  <td>NP</td>
+  <td>Wilcoxon Test</td>
+  <td>`tmod_wilcoxon_test`</td>
+</tr>
+<tr>
+  <td>&mdash;</td>
+  <td>categorical (2+)</td>
+  <td>P</td>
+  <td>One Sample Z-Test</td>
+  <td>`tmod_z_test_prop_one`</td>
+</tr>
+</table>
+
+<div style="padding:25px"></div>
+
+**Bivariate Test** (two variables; input and output)
+
+<table id="dtable">
+<tr>
+  <td>Input Type (IV)</td>
+  <td>Output Type (DV)</td>
+  <td>N/NP?</td>
+  <td>Name</td>
+  <td>Function</td>
+</tr>
+<tr>
+  <td>categorical (2)</td>
+  <td>categorical (2)</td>
+  <td>P</td>
+  <td>Z-Test for Equality of Proportions</td>
+  <td>`tmod_z_test_prop`</td>
+</tr>
+<tr>
+  <td>categorical (2+)</td>
+  <td>categorical (2+)</td>
+  <td>P</td>
+  <td>Fisher's Exact Test</td>
+  <td>`tmod_fisher_test`</td>
+</tr>
+<tr>
+  <td>categorical (2+)</td>
+  <td>categorical (2+)</td>
+  <td>P</td>
+  <td>Pearson's Chi-squared</td>
+  <td>`tmod_chi_squared_test`</td>
+</tr>
+<tr>
+  <td>categorical (2)</td>
+  <td>numeric</td>
+  <td>P</td>
+  <td>Two-Sample T-Test</td>
+  <td>`tmod_t_test`</td>
+</tr>
+<tr>
+  <td>categorical (2)</td>
+  <td>numeric</td>
+  <td>NP</td>
+  <td>Mann-Whitney rank sum</td>
+  <td>`tmod_mann_whitney_test`</td>
+</tr>
+<tr>
+  <td>categorical (2+)</td>
+  <td>numeric</td>
+  <td>P</td>
+  <td>One-way ANOVA</td>
+  <td>`tmod_one_way_anova_test`</td>
+</tr>
+<tr>
+  <td>categorical (2+)</td>
+  <td>numeric</td>
+  <td>NP</td>
+  <td>Kruskal-Wallis rank sum</td>
+  <td>`tmod_kruskal_wallis_test`</td>
+</tr>
+<tr>
+  <td>numeric</td>
+  <td>numeric</td>
+  <td>P</td>
+  <td>Pearson's product-moment correlation</td>
+  <td>`tmod_pearson_correlation_test`</td>
+</tr>
+<tr>
+  <td>numeric</td>
+  <td>numeric</td>
+  <td>NP</td>
+  <td>Spearman's rank correlation</td>
+  <td>`tmod_spearman_correlation_test`</td>
+</tr>
+<tr>
+  <td>numeric</td>
+  <td>numeric</td>
+  <td>NP</td>
+  <td>Kendall's rank correlation</td>
+  <td>`tmod_kendall_correlation_test`</td>
+</tr>
+</table>
+
+<div style="padding:25px"></div>
+
+**Multivariate Test** (2+ variables; IV, DV, and possible confounding variables)
+
+<table id="dtable">
+<tr>
+  <td>Input Type (IV)</td>
+  <td>Output Type (DV)</td>
+  <td>N/NP?</td>
+  <td>Name</td>
+  <td>Function</td>
+</tr>
+<tr>
+  <td>categorical</td>
+  <td>numeric</td>
+  <td>P</td>
+  <td>Linear Regression</td>
+  <td>`tmod_linear_regression`</td>
+</tr>
+<tr>
+  <td>any</td>
+  <td>categorical (2)</td>
+  <td>P</td>
+  <td>Logistic Regression</td>
+  <td>`tmod_logistic_regression`</td>
+</tr>
+</table>
+
+## Extensions
+
+- time series (`arima`)
+- mixed effects (`lme`, `glme`)
+- cox-proportional hazards regression
+- generalize linear models
+- generalized additive models
+- meta-analysis
+- regression-kriging
+
+
+
+
+
+
+
+
