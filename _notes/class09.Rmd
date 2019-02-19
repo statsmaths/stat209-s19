@@ -66,7 +66,7 @@ We can run an hypothesis test that uses the following null and alternative hypot
 
 $$ H_0: \text{the slope of the line is zero} $$
 
-$$ H_A: \text{the slope of the line is zero} $$
+$$ H_A: \text{the slope of the line is not zero} $$
 
 The way to do this should not come as a surprise to you at this point:
 
@@ -227,5 +227,9 @@ for each of the intercepts:
 ```{r}
 tmod_lin_reg_table(city ~ highway + class, data = cars)
 ```
+
+One category (the first alphabetically) is selected as the *baseline* value
+and the other categories are given offsets for how much higher or lower their
+lines should be.
 
 

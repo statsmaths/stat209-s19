@@ -40,7 +40,7 @@ We can run an hypothesis test that uses the following null and alternative hypot
 
 $$ H_0: \text{the slope of the line is zero} $$
 
-$$ H_A: \text{the slope of the line is zero} $$
+$$ H_A: \text{the slope of the line is not zero} $$
 
 The way to do this should not come as a surprise to you at this point:
 
@@ -96,7 +96,7 @@ tmod_pearson_correlation_test(city ~ engine_size, data = cars)
 {% endhighlight %}
 
 The point estimate is completely different (it is trying to find the correlation not a slope),
-but look at the test statistic and p-value. They are exactly the same as the ones given by 
+but look at the test statistic and p-value. They are exactly the same as the ones given by
 linear regression!
 
 This is no fluke. The linear regression hypothesis test and Pearson's
@@ -128,7 +128,7 @@ variable y, independent variable x, and nusiance variable z as:
 
 $$ y_i = a + b \cdot x_i + c \cdot z_i + \text{noise}_i  $$
 
-Here, we are accounting for the variable z and isolating the effect of x in the 
+Here, we are accounting for the variable z and isolating the effect of x in the
 slope term b. To run this in R, we require only a slight modification of the code
 we have used for the other hypothesis tests. Simply add (with the plus sign) the
 nusiance variable(s) as additional factors to the model:
@@ -202,7 +202,7 @@ tmod_linear_regression(city ~ engine_size + highway + class, data = cars)
 ## 	Confidence interval: [-1.08500,  0.33596]
 {% endhighlight %}
 
-The model opperates by allowing each class of car to have its own intercept
+The model operates by allowing each class of car to have its own intercept
 term. Visually, it looks something like this:
 
 <img src="../assets/class09/unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="100%" />
@@ -305,5 +305,9 @@ tmod_lin_reg_table(city ~ highway + class, data = cars)
 ## classmidsize    1.310  0.1540   2.460 2.75e-02
 ## classsuv        2.790  1.1100   4.480 1.96e-03
 {% endhighlight %}
+
+One category (the first alphabetically) is selected as the *baseline* value
+and the other categories are given offsets for how much higher or lower their
+lines should be.
 
 
