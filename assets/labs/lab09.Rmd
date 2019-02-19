@@ -1,0 +1,181 @@
+---
+title: "Lab 09: Linear Regression"
+output: html_document
+---
+
+I have produced some fixes to the **tmodels** package and you need to
+re-install it for today's lab to work. Do that by running the following
+before you do anything else today:
+
+```{r}
+devtools::install_github("statsmaths/tmodels")
+```
+
+Then, read in all of the R packages that we will need for today:
+
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tmodels)
+library(readr)
+library(readxl)
+```
+
+## Diamonds Dataset
+
+For the first part of this lab, I want you to read into R a dataset of diamond
+prices, along with various characteristics of the diamonds:
+
+```{r, message=FALSE}
+diamonds <- read_csv("https://raw.githubusercontent.com/statsmaths/stat_data/gh-pages/diamonds_small.csv")
+```
+
+We are going to run a number of regression analyses to understand how various
+features effect the price of a diamond. Unless otherwise noted, all of the models
+use `price` as the response variable.
+
+1. Start by running a regression model that predicts price as a function of
+carat (the weight of the diamond). Take note of whether the result is
+significant or not.
+
+```{r}
+
+```
+
+2. Repeat the same analysis, but this time use the Pearson Correlation
+Test. Verify that the T-statistic is the same value as for linear regression.
+
+```{r}
+
+```
+
+Are the point estimates and confidence intervals the same? Why or why not?
+
+3. Now, build a linear regression that predicts price as a function of
+the "4 C's": carat, color, clarity and cut. Treat carat as the IV and
+the other three as nusiance variables (as a reminder, the order of the
+variable only matters in terms of which one goes first after the `~`;
+otherwise there is no difference in the output).
+
+```{r}
+
+```
+
+How does the estimate compare to the result without controlling for
+the other variables? Is the effect stronger or weaker? Does this make
+sense to you?
+
+4. Now, run a regression model that predicts price as just a function
+of clarity.
+
+```{r}
+
+```
+
+Is the result significant at the 0.05 level? Notice how the output looks
+different than the first result because we now have a categorical variable
+as the input variable.
+
+5. Run a One-way ANOVA test predicting price as a function of clarity.
+
+```{r}
+
+```
+
+You should find that this has the exact same F-statistics and P-value
+(the numbers in the F-statistic are different, but lead to the same
+result).
+
+6. Run a linear regression that predicts price as a function of clarity
+with cut as a nusiance variable.
+
+```{r}
+
+```
+
+You should see that the test is now no longer significant. What does that
+mean in practice terms?
+
+7. Run the price as a function of the 4 C's again, but this time use clarity
+as the input variable.
+
+```{r}
+
+```
+
+You should see that this is once again significant. Try to summarize the
+results from questions 5-7 and take note of how tricky and difficult
+linear regression can be to use!
+
+8. There are no variables in the diamonds dataset that are categorical
+with only two categories, so we need to make one for you to see how this
+works with linear regression. Run the following to create a variable
+named `color_good` that breaks the colors into two distinct categories:
+
+```{r}
+diamonds <- mutate(diamonds, color_good = if_else(color %in% c("D", "E"), "good", "poor"))
+```
+
+Run the code and see the new variable created in the data-viewer.
+Then, run a linear regression predicting `price` as a function of
+`color_good`:
+
+```{r}
+
+```
+
+9. Run a T-sample t-test predicting price as a function of `color_good`:
+
+```{r}
+
+```
+
+How do the results compare to the regression analysis? Note that,
+for one thing, the defaults are switched so that the terms here
+are all negative. You should also see that the point estimate is
+the same, but the other values are slightly different.
+
+What is going on? There is a slightly different assumption that the
+linear regression model uses compared to the two-sample T-test. The
+regression model assumes that the variation is the of price is the
+same in both groups and the two-sample T-test doesn't. That is where
+the discrepency arises. This isn't anything to worry about, but I
+just wanted you to have seen it.
+
+10. Finally, run a regression for `price` as a function of `color_good`
+(IV) and the nusiance variables `carat`, `cut`, and `clarity`:
+
+```{r}
+
+```
+
+Notice that the output is different than in question 7 where there are
+multiple categories.
+
+## Regression in scientific literature
+
+Open the following article from the British Medical Journal on "Geographical
+variation in glaucoma prescribing trends in England 2008–2012: an observationa
+ecological study":
+
+- https://bmjopen.bmj.com/content/8/Suppl_1/A18.2
+
+Read the Abstract and Methods sections. Also look at Tables 2-4. Then,
+try to answer the following questions (you may need to search through the rest
+of the paper for some of these):
+
+1. Is this an observational or experimental study?
+2. What statistical tests were used in this analysis? Are you familiar with
+all of them from the course? If not, what tests or statistical terms are you
+unfamiliar with?
+3. Table 3 shows a multivariate linear regression model. What is the response
+variable, the input/independent variable, and the nusiance variables (look at
+the abstract for hint, and remember that this is a matter of perspective)?
+Which p-value is the important one? What is are the null and alternative hypotheses
+in this test?
+
+
+
+
+
+

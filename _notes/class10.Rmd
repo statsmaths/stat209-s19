@@ -59,13 +59,53 @@ log odds rather than the probability directly.
 
 ## Logistic regression
 
+```{r}
+data(mpg, package = "ggplot2")
+cars <- select(mpg, city = cty, highway = hwy, class)
+
+set.seed(1)
+cars$green_award <- NULL
+cars$green_award <- as.character((cars$city > 20) & (runif(nrow(cars)) > 0.6))
+```
+
+```{r}
+tmod_logistic_regression(green_award ~ city, data = cars)
+```
+
+```{r}
+tmod_logistic_regression(green_award ~ city + class + highway, data = cars)
+```
+
+## One-sample tests
+
+```{r}
+data(mpg, package = "ggplot2")
+cars <- select(mpg, city = cty, highway = hwy)
+```
 
 
 
+```{r}
+tmod_t_test_one(city ~ 1, data = cars)
+```
+
+
+```{r}
+tmod_t_test_one(highway ~ 1, data = cars, h0 = 22.5)
+```
+
+```{r}
+tmod_wilcoxon_test(highway ~ 1, data = cars, h0 = 22.5)
+```
 
 
 
+```{r}
+cars$difference <- cars$highway - cars$city
+```
 
-
+```{r}
+tmod_t_test_one(difference ~ 1, data = cars, h0 = 0)
+```
 
 

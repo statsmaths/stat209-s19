@@ -15,6 +15,7 @@ knitr::opts_chunk$set(dpi = 300)
 library(dplyr)
 library(ggplot2)
 library(tmodels)
+theme_set(theme_minimal())
 
 set.seed(1)
 ```
@@ -23,17 +24,86 @@ set.seed(1)
 
 - Understand the role of nuisance variables in hypothesis testing and why we need to control for them.
 - Apply the linear regression function in the **tmodels** package to test for relationships between explanatory and response variables while controlling for nuisance variables.
-- Identify and use the output of the function `tmod_tmod_linear_regression` depending on the form of the explanatory variable.
+- Identify and use the output of the function `tmod_linear_regression` for various types of explanatory variables.
+- Interpret and summarize the values provided by a confidence interval.
+
+## Linear regression
+
+A linear regression model in a very common type of statistical estimator. In the simpliest
+case, it is built by assuming that we can approximately model a numeric variable y as a
+linear function of another numeric variably x:
+
+$$ y_i = a + b \cdot x_i + \text{noise}_i  $$
+
+The noise term just captures the fact that the model is not perfect and we make errors in trying
+to write the y variable as a linear function from the x variable.
+
+```{r, echo=FALSE}
+cars <- select(mpg, manufacturer, class, engine_size=displ, city=cty, highway=hwy)
+cars <- cars[cars$manufacturer %in% unique(cars$manufacturer)[1:2],]
+cars <- cars[sample(nrow(cars)),]
+```
+
+Using the cars dataset again, let's see a visual description of how city fuel efficency
+is effected by the size of a car's engine (we will cover how to actually make these plots
+after the second exam) and how we can model this relationship using a line:
+
+```{r, echo=FALSE}
+model <- lm(city ~ engine_size, data = cars)
+cars$pred <- predict(model)
+
+ggplot(cars, aes(engine_size, city)) +
+  geom_line(aes(y = pred)) +
+  geom_segment(aes(xend = engine_size, yend = pred), color = "red", linetype="dashed") +
+  geom_point()
+```
+
+The solid black line shows the regression line and the red dashed vertical lines show the noise
+values.
+
+We can run an hypothesis test that uses the following null and alternative hypotheses using the
+**tmodels** package.
+
+$$ H_0: \text{the slope of the line is zero} $$
+
+$$ H_A: \text{the slope of the line is zero} $$
+
+The way to do this should not come as a surprise to you at this point:
+
+```{r}
+tmod_linear_regression(city ~ engine_size, data = cars)
+```
+
+The point estimate here is the point estimate for the term b (the slope) in the regression model.
+
+Why is linear regression useful from an hypothesis testing standpoint? More specifically, we
+have two continuous variables, what is the difference between this and the correlation tests?
+Let's compare the output of using Pearson's product-moment correlation test:
+
+```{r}
+tmod_pearson_correlation_test(city ~ engine_size, data = cars)
+```
+
+The point estimate is completely different (it is trying to find the correlation not a slope),
+but look at the test statistic and p-value. They are exactly the same as the ones given by
+linear regression!
+
+This is no fluke. The linear regression hypothesis test and Pearson's
+product-moment correlation test are exactly equivalent. They provide different point estimates,
+but test the exact same hypotheses in exactly the same way. From a statistical inference
+perspective, there is not different between the two. So why then, do we need to concern ourselves
+with linear regression?
 
 ## Controlling for Nuisance Variables
 
 All of the hypothesis tests that we have so far studied have exactly
 two variables: an explanatory variable (IV) and the response variable (DV).
-Our tests have null hypotheses that indicate, an various appropriate ways,
+Our tests have null hypotheses that indicate, in various ways,
 that there is no relationship between the two variables. We want to see if
 there is evidence to support having an actual effect between the two variables.
 
-Today we will extend this setup to include any number of other variables that
+Linear regression provides a nice way to extend hypothesis testing to account
+for other variables that
 we believe may effect the response variable and that we want to *factor out*
 or *control for* in the analysis. For example, returning very briefly to the
 pea plants and colored light experiment. We assumed that the plants were all
@@ -42,65 +112,81 @@ were snap peas (*macrocarpon*). One way to deal with this is to include the
 variety of the pea plant as a third variable into the model. The variety variable
 as used here is what we call a **nuisance variable**.
 
+Specifically, we can write down a multivariate linear regression with a response
+variable y, independent variable x, and nusiance variable z as:
+
+$$ y_i = a + b \cdot x_i + c \cdot z_i + \text{noise}_i  $$
+
+Here, we are accounting for the variable z and isolating the effect of x in the
+slope term b. To run this in R, we require only a slight modification of the code
+we have used for the other hypothesis tests. Simply add (with the plus sign) the
+nusiance variable(s) as additional factors to the model:
+
+```{r}
+tmod_linear_regression(city ~ engine_size + highway, data = cars)
+```
+
+The hypothesis tests here are:
+
+$$ H_0: \text{the slope b is zero} $$
+
+$$ H_A: \text{the slope b is not zero} $$
+
+The point estimate here is an estimate of the parameter b. The output even tells us
+explictily what we are controlling for (here, the highway fuel efficency). The p-value
+says that, even controlling for the highway fuel efficency, there is a
+significant relationship between engine size and city fuel efficency.
+
+
+
+Note: We select the independent variable of interest by putting it first (after
+the tilda) in the formula.
+
+## Linear regression with categorical variables
+
+It is possible to also include categorical variables as terms in a linear
+regression. R will handle categorical nusiance variables without any
+change to the input or output. Here we control for the class of the car in
+the cars regression model:
+
+```{r}
+tmod_linear_regression(city ~ engine_size + highway + class, data = cars)
+```
+
+The model operates by allowing each class of car to have its own intercept
+term. Visually, it looks something like this:
+
 ```{r, echo=FALSE}
-cars <- select(mpg, manufacturer, class, engine_size=displ, city=cty, highway=hwy)
-cars <- cars[cars$manufacturer %in% unique(cars$manufacturer)[1:2],]
-cars <- cars[sample(nrow(cars)),]
+model <- lm(city ~ engine_size + class, data = cars)
+cars$pred <- predict(model)
+
+ggplot(cars, aes(engine_size, city)) +
+  geom_line(aes(y = pred, color = class)) +
+  geom_point()
 ```
 
-Let's actually apply this technique to the cars dataset. Here I have selected
-a larger set of variables to work with:
+Finally, we can also have a categorical variable be the independent
+variable of the regression model. If there are only two categories,
+this will give an analog to the two-sample t-test. If there are multiple
+categories, it does a test similar to one-way ANOVA:
 
 ```{r}
-cars
+tmod_linear_regression(city ~ class + highway, data = cars)
 ```
 
-If we wanted to investigate the relationship between fuel efficency and
-engine size, a reasonable model would be the Spearman rank correlation Test:
+As with one-way ANOVA, we have a p-value but there is no consistent way
+to provide the analog of a point estimate.
 
-```{r}
-tmod_spearman_correlation_test(city ~ engine_size, data = cars)
-```
+## Confidence Intervals
 
-As perhaps expected, the correlation is strongly significant and negative.
-Cars with larger engines are not as efficent. What if, additionally though,
-we wanted to *control for* the class of the car? That is, do we think that
-the size of the engine matters if we are comparing two trucks to one another?
-To do this, we run a "linear regression model" using the function
-`tmod_linear_regression`. The syntax is very similar to the other models, but
-on the right-hand side of the `~` you add (literally, with the plus sign) the
-nusiance variables you want to account for:
+We have seen that a number of hypothesis tests return an object called
+a confidence interval. A p% confidence interval provides a range of
+guesses for a point estimate based on a dataset that will "capture the
+true parameter with probably p%". All of the intervals in the **tmodels**
+package provide 95% confidence intervals.
 
-```{r}
-tmod_linear_regression(city ~ engine_size + class, data = cars)
-```
-
-And we see here that the result is still significant. The point estimate
-indicates that, after accounting for the class of the car, each additional
-litre in engine size decreases the city fuel efficency by about 1.49 miles
-per gallon.
-
-We can use the exact same syntax with an explanatory categorical input while
-controlling for nuisance variables.
-
-```{r}
-tmod_linear_regression(city ~ manufacturer + class, data = cars)
-```
-
-The output looks a bit different, but the underlying statistical model is
-exactly the same.
-
-Finally, we can also test whether fuel efficency is effect by the class of
-the car after accounting for the manufacturer.
-
-```{r}
-tmod_linear_regression(city ~ class + manufacturer, data = cars)
-```
-
-The input is exactly the same, but the output now looks different. Because
-there are more than two classes of cars we need a different test and cannot
-easily provide point estimates. This is the equivalent of the one-way ANOVA,
-but now in a regression framework where we can control for the nuisance variables.
+We say that we are *95% percent confident* that the true population
+parameter lies somewhere in the confidence interval.
 
 ## Assumptions of linear regression models
 
@@ -111,8 +197,35 @@ course. Just know that as long as you (approximately) have the two basic
 assumptions, you are usually safe using linear regression for testing the
 relationship between a continuous response and any explanatory variable.
 
+A linear regression model is able to control for some nusiance variables, but
+can never control for all variables that might effect a response. Therefore,
+it can help more strongly *suggest* causal claims from observational data.
+However, it can never replace the strong causal proof provided by a randomized
+experimental design.
 
+Note that there is no simple non-parametric version of linear regression. In
+order for the core ideas of linear regression to work, we need to make strong
+assupmtions about how the response data values y are generated. This makes
+non-parametric tests difficult to extend in a consistant way that mirrors the
+other univariate tests we have seen.
 
+## Regression table
 
+The output of the function `tmod_linear_regression` only tells us about the
+parameter b (the slope of the independent variable of interest). Sometimes
+it is useful to see estimates and information for all of the parameters.
+
+The function `tmod_lin_reg_table` provides this information:
+
+```{r}
+tmod_lin_reg_table(city ~ highway + engine_size, data = cars)
+```
+
+When, there is a categorical variable, you'll see a number of terms
+for each of the intercepts:
+
+```{r}
+tmod_lin_reg_table(city ~ highway + class, data = cars)
+```
 
 
