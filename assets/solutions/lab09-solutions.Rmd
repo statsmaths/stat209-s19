@@ -8,7 +8,7 @@ re-install it for today's lab to work. Do that by running the following
 before you do anything else today:
 
 ```{r}
-devtools::install_github("statsmaths/tmodels")
+# devtools::install_github("statsmaths/tmodels")
 ```
 
 Then, read in all of the R packages that we will need for today:
@@ -39,17 +39,23 @@ carat (the weight of the diamond). Take note of whether the result is
 significant or not.
 
 ```{r}
-
+tmod_linear_regression(price ~ carat, data = diamonds)
 ```
+
+**Yes, the result is significant (p-value is < 2.2e-16).**
 
 2. Repeat the same analysis, but this time use the Pearson Correlation
 Test. Verify that the T-statistic is the same value as for linear regression.
 
 ```{r}
-
+tmod_pearson_correlation_test(price ~ carat, data = diamonds)
 ```
 
 Are the point estimates and confidence intervals the same? Why or why not?
+
+**The p-value and T statistic are exactly the same, however the point estimates
+(7644.2 and 0.91357) are different. They measure different things, the slope of
+the regression line and the correlation, respectively.**
 
 3. Now, build a linear regression that predicts price as a function of
 the "4 C's": carat, color, clarity and cut. Treat carat as the IV and
@@ -58,54 +64,70 @@ variable only matters in terms of which one goes first after the `~`;
 otherwise there is no difference in the output).
 
 ```{r}
-
+tmod_linear_regression(price ~ carat + color + clarity + cut, data = diamonds)
 ```
 
 How does the estimate compare to the result without controlling for
 the other variables? Is the effect stronger or weaker? Does this make
 sense to you?
 
+**The effect size is larger (its now 8760.9 and was 7644.2). It means
+that a change in the size of the diamond is actually is more strongly
+related to price when controlling for the other variables. This is because,
+in general, larger diamond sizes are typically associated with worse
+cut/color/clarity.**
+
 4. Now, run a regression model that predicts price as just a function
 of clarity.
 
 ```{r}
-
+tmod_linear_regression(price ~ clarity, data = diamonds)
 ```
 
 Is the result significant at the 0.05 level? Notice how the output looks
 different than the first result because we now have a categorical variable
 as the input variable.
 
+**Yes, it is significant at the 0.05 level (p-value: 0.04578).**
+
 5. Run a One-way ANOVA test predicting price as a function of clarity.
 
 ```{r}
-
+tmod_one_way_anova_test(price ~ clarity, data = diamonds)
 ```
 
 You should find that this has the exact same F-statistics and P-value
 (the numbers in the F-statistic are different, but lead to the same
 result).
 
+**Yes, they are exactly the same (p-value: 0.04578; statistic: 2.0553).**
+
 6. Run a linear regression that predicts price as a function of clarity
 with cut as a nusiance variable.
 
 ```{r}
-
+tmod_linear_regression(price ~ clarity + cut, data = diamonds)
 ```
 
 You should see that the test is now no longer significant. What does that
-mean in practice terms?
+mean in pratical terms?
+
+**It means that we do not have evidence that clarity effects the diamond price
+if we account for cut but not for the other variables.**
 
 7. Run the price as a function of the 4 C's again, but this time use clarity
 as the input variable.
 
 ```{r}
-
+tmod_linear_regression(price ~ clarity + carat + color + cut, data = diamonds)
 ```
 
 You should see that this is once again significant. Try to summarize the
 results from questions 5-7 and take note of how tricky and difficult
 linear regression can be to use!
+
+**Now it is again significant. So, clarity effects the price on its own and when
+controlling for all of the nusiance variables, but not when we only acount for cut.**
 
 8. There are no variables in the diamonds dataset that are categorical
 with only two categories, so we need to make one for you to see how this
@@ -121,19 +143,22 @@ Then, run a linear regression predicting `price` as a function of
 `color_good`:
 
 ```{r}
-
+tmod_linear_regression(price ~ color_good, data = diamonds)
 ```
+
+**It is significant, but notice that it suggests that diamonds with poor color
+are more expensive than diamonds with good color.**
 
 9. Run a T-sample t-test predicting price as a function of `color_good`:
 
 ```{r}
-
+tmod_t_test(price ~ color_good, data = diamonds)
 ```
 
-How do the results compare to the regression analysis? Note that,
+How do the results compare to the regression analysis? **Note that,
 for one thing, the defaults are switched so that the terms here
 are all negative. You should also see that the point estimate is
-the same, but the other values are slightly different.
+the same, but the other values are slightly different.**
 
 What is going on? There is a slightly different assumption that the
 linear regression model uses compared to the two-sample T-test. The
@@ -146,7 +171,7 @@ just wanted you to have seen it.
 (IV) and the nusiance variables `carat`, `cut`, and `clarity`:
 
 ```{r}
-
+tmod_linear_regression(price ~ color_good + carat + cut + clarity, data = diamonds)
 ```
 
 Notice that the output is different than in question 7 where there are
@@ -164,15 +189,12 @@ Read the Abstract and Methods sections. Also look at Tables 2-4. Then,
 try to answer the following questions (you may need to search through the rest
 of the paper for some of these):
 
-1. Is this an observational or experimental study?
+1. Is this an observational or experimental study? **Observation (it even says so!)**
 2. What statistical tests were used in this analysis? Are you familiar with
 all of them from the course? If not, what tests or statistical terms are you
-unfamiliar with?
-3. Table 3 shows a multivariate linear regression model. What is the response
-variable, the input/independent variable, and the nusiance variables (look at
-the abstract for hint, and remember that this is a matter of perspective)?
-Which p-value is the important one? What is are the null and alternative hypotheses
-in this test?
+unfamiliar with? **I found Spearman's rank correlation and multivariate regression.
+There was a lot of Biological jargon but you should have understood most of the 
+statistics.**
 
 
 
