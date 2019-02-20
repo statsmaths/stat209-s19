@@ -1,0 +1,161 @@
+---
+title: "Lab 10: Logistic Regression"
+output: html_document
+---
+
+I needed to make some further changes to **tmodels**. Reinstall with the
+following code:
+
+```{r}
+# devtools::install_github("statsmaths/tmodels")
+```
+
+Then, read in all of the R packages that we will need for today:
+
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tmodels)
+library(readr)
+```
+
+## NBA Dataset
+
+Today we are going to look at a dataset from the NBA. Specifically, trying to
+see what factors influence whether a shot is missed or made. Run the following
+code to load the dataset. Do not worry about what the extra lines of code are
+doing; I am just cleaning the dataset to make it easier to model. You will learn
+how to do that in the second half of the course.
+
+```{r, message=FALSE}
+nba <- read_csv("https://statsmaths.github.io/ml_data/nba_shots.csv")
+nba <- filter(nba, !is.na(fgm))
+nba <- mutate(nba, shot = if_else(fgm == 0, "Missed", "Made"), period = sprintf("p%d", period), pts_type = if_else(pts_type == 2, "two", "three"))
+nba <- select(nba, shot, pts_type, period, shot_clock, dribbles, touch_time, shot_dist, close_def_dist, shooter_height)
+```
+
+You can see the data with this command:
+
+```{r}
+nba
+```
+
+1. Let's first see how well players are able to make shots based on whether it is
+two or three point attempt. Build a contingency table of the variables `shot` (response)
+and `pts_type`:
+
+```{r}
+tmod_contingency(shot ~ pts_type, data = nba)
+```
+
+2. I want you to use of the contingency table tests that we had for the first exam on
+the shots as a function of points type contingency table. Pick the test that seems
+the most appropriate and run it below:
+
+```{r}
+tmod_z_test_prop(shot ~ pts_type, data = nba)
+```
+
+Is the test significant? What is the point estimate and what does it mean?
+Does the sign of the point estimate (negative or positive) make sense?
+
+**Yes, it is significant (pvalue: < 2.2e-16). The point estimate gives
+the increased probability of making a two-point shot compared to a three-point
+shot. It is positive, which makes sense because two-point shots are easier
+to make.**
+
+3. Re-do the analysis with logistic regression.
+
+```{r}
+tmod_logistic_regression(shot ~ pts_type, data = nba)
+```
+
+You should see that the logistic regression flips the classes due to the
+internal logic of the **tmodels** package. Notice that the point estimate
+is different from the T-test and understand why we would not expect these
+numbers to be the same.
+
+**It is different because the point estimate here indicates the increase
+(decrease here) in the log-odds rather than the probability itself.**
+
+4. Instead of only using shot type, let's use instead the variable `shot_dist`
+and see how it effects the shot type. You could use these two variables with
+a two-sample T-test like this:
+
+```{r}
+tmod_t_test(shot_dist ~ shot, data = nba)
+```
+
+Explain why this test is not appropriate for our application.
+
+**It is not appropriate because the test assumes that the shot success causes
+the shot distance, rather than the other way around.**
+
+5. Use logistic regression to instead investigate how the likelihood of a shot
+being made changes with shot length:
+
+```{r}
+tmod_logistic_regression(shot ~ shot_dist, data = nba)
+```
+
+Does the sign of the point estimate (negative or positive) make sense given what
+we are predicting here?
+
+**The point estimate is positive, indicating that the shot is more likely to be
+misseed as we move away from the basket. This seems reasonable because longer
+baskets are more difficult to make.**
+
+6. Run a logistic regression that predicts whether a shot was made based on the
+distance to the closest defender.
+
+```{r}
+tmod_logistic_regression(shot ~ close_def_dist, data = nba)
+```
+
+You should see that the p-value is less than 0.05 but not very small (larger
+than 0.01, for example). Does the sign of the point estimate make sense to you?
+
+**The point estimate is positive, meaning the the probability of shot=Missed
+increases as the distance to the defender increases. This seems a bit counterintuitive
+at first; you would think that a closer defender would make it harder to make a 
+shot, not easier. Look to the next two questions for an explanation.**
+
+7. Re-run the logistic regression in question 6 but include shot distance as a
+nusiance variable:
+
+```{r}
+tmod_logistic_regression(shot ~ close_def_dist + shot_dist, data = nba)
+```
+
+How does this nusiance variable change the p-value and the point estimate?
+Can you explain / summarize what might be going on here?
+
+**The p-value is now very small and the sign of the point estimate has flipped.
+After accounting for shot distance, the distance of the defender now works they
+way we would expect: a closer defender makes it harder to make a basket. 
+Putting this together, the univariate analysis was confounded by the shot length;
+shots that were far from defenders were also very long shots far from the basekt.
+That is why they looked hard even though there were no nearby defenders.**
+
+8. A friend claims that the shot clock (time left for a player to
+attempt a shot) is on average half-way finished when the average shot
+is made. The NBA shot clock lasts 24 seconds. Run a one-sample T-test to
+test this hypothesis:
+
+```{r}
+tmod_t_test_one(shot_clock ~ 1, data = nba, h0 = 12)
+```
+
+Does the p-value suggest that your friend is likely incorrect? Looking at
+the point estimate, however, would it be fair to say that your friend is
+completely mistaken?
+
+**The p-value is significant (p 8.1e-08), however the confidence interval
+goes from 12.1s to 12.3 seconds and therefore the value of 12s is not very
+far away in practical terms. This was we refer to a statistically significant
+result that is not practically significant. Generally we need both to hold
+to say that we have an interesting effect.**
+
+
+
+

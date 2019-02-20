@@ -1,0 +1,130 @@
+---
+title: "Lab 10: Logistic Regression"
+output: html_document
+---
+
+I needed to make some further changes to **tmodels**. Reinstall with the
+following code:
+
+```{r}
+devtools::install_github("statsmaths/tmodels")
+```
+
+Then, read in all of the R packages that we will need for today:
+
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tmodels)
+library(readr)
+```
+
+## NBA Dataset
+
+Today we are going to look at a dataset from the NBA. Specifically, trying to
+see what factors influence whether a shot is missed or made. Run the following
+code to load the dataset. Do not worry about what the extra lines of code are
+doing; I am just cleaning the dataset to make it easier to model. You will learn
+how to do that in the second half of the course.
+
+```{r, message=FALSE}
+nba <- read_csv("https://statsmaths.github.io/ml_data/nba_shots.csv")
+nba <- filter(nba, !is.na(fgm))
+nba <- mutate(nba, shot = if_else(fgm == 0, "Missed", "Made"), period = sprintf("p%d", period), pts_type = if_else(pts_type == 2, "two", "three"))
+nba <- select(nba, shot, pts_type, period, shot_clock, dribbles, touch_time, shot_dist, close_def_dist, shooter_height)
+```
+
+You can see the data with this command:
+
+```{r}
+nba
+```
+
+1. Let's first see how well players are able to make shots based on whether it is
+two or three point attempt. Build a contingency table of the variables `shot` (response)
+and `pts_type`:
+
+```{r}
+
+```
+
+2. I want you to use of the contingency table tests that we had for the first exam on
+the shots as a function of points type contingency table. Pick the test that seems
+the most appropriate and run it below:
+
+```{r}
+
+```
+
+Is the test significant? What is the point estimate and what does it mean?
+Does the sign of the point estimate (negative or positive) make sense?
+
+3. Re-do the analysis with logistic regression.
+
+```{r}
+
+```
+
+You should see that the logistic regression flips the classes due to the
+internal logic of the **tmodels** package. Notice that the point estimate
+is different from the T-test and understand why we would not expect these
+numbers to be the same.
+
+4. Instead of only using shot type, let's use instead the variable `shot_dist`
+and see how it effects the shot type. You could use these two variables with
+a two-sample T-test like this:
+
+```{r}
+tmod_t_test(shot_dist ~ shot, data = nba)
+```
+
+Explain why this test is not appropriate for our application.
+
+5. Use logistic regression to instead investigate how the likelihood of a shot
+being made changes with shot length:
+
+```{r}
+
+```
+
+Does the sign of the point estimate (negative or positive) make sense given what
+we are predicting here?
+
+6. Run a logistic regression that predicts whether a shot was made based on the
+distance to the closest defender.
+
+```{r}
+
+```
+
+You should see that the p-value is less than 0.05 but not very small (larger
+than 0.01, for example). Does the sign of the point estimate make sense to you?
+
+7. Re-run the logistic regression in question 6 but include shot distance as a
+nuisance variable:
+
+```{r}
+
+```
+
+How does this nuisance variable change the p-value and the point estimate?
+Can you explain / summarize what might be going on here?
+
+8. A friend claims that the shot clock (time left for a player to
+attempt a shot) is on average half-way finished when the average shot
+is made. The NBA shot clock lasts 24 seconds. Run a one-sample T-test to
+test this hypothesis:
+
+```{r}
+
+```
+
+Does the p-value suggest that your friend is likely incorrect? Looking at
+the point estimate, however, would it be fair to say that your friend is
+completely mistaken?
+
+
+
+
+
+

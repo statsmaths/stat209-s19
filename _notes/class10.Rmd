@@ -1,5 +1,5 @@
 ---
-title: "Class 10: Logistic Regression"
+title: "Class 10: Logistic Regression and One-sample tests"
 author: "Taylor Arnold"
 output: html_document
 ---
@@ -15,49 +15,18 @@ knitr::opts_chunk$set(dpi = 300)
 library(dplyr)
 library(ggplot2)
 library(tmodels)
+library(readr)
 
 set.seed(1)
 ```
 
 ### Learning Objectives
 
--
+- Apply logistic regression to model the probability of an event as the response variable, both with and without nusiance variables.
+- Understand the log-odds of an event and how it is used in logistic regression.
+- Apply one-sample tests for a mean.
 
-## Odds and Log Odds
-
-Looking back through your notes, you'll notice that we have not yet worked
-with an inference problem where the response (DV) variable is categorical and
-the effect (IV) variable is continuous. To do this, we will make use of logistic
-regression. This is the final hypothesis test that we will need this semester.
-
-I have saved logistic regression for last because it is defined in terms of
-a slightly more complicated quantity. Assume for a moment that we have a
-variable p that tells us the probability of observing a particular event. The
-**odds** of this event is the ratio of p divided by 1-p (the probability of
-not observing p):
-
-$$ \text{odds} = \frac{p}{1-p} $$
-
-This quantity is often used in gambling contexts. Notice that an odds of 1
-indicates that the probability is equal to 0.5; it is just as likely to observer
-the event as it is to not observe the event.
-
-The **log odds** is simply the logarithm of the odds:
-
-$$\text{log odds} = \log \left( \frac{p}{1-p} \right) $$
-
-Logistic regression tries to model the logs odds of an event. Specifically, it
-tries to build a model that look like:
-
-$$\text{log odds} = \alpha + \beta \cdot X $$
-
-For some variable X. Why model the log odds and not the probability itself?
-The probability can only be between 0 and 1, whereas the log odds can range
-over and real number. The right-hand side above could take on any value (depending
-on the inputs X), and so it is much more mathematically sound to model the
-log odds rather than the probability directly.
-
-## Logistic regression
+### Modeling probabilities
 
 ```{r}
 data(mpg, package = "ggplot2")
@@ -68,13 +37,84 @@ cars$green_award <- NULL
 cars$green_award <- as.character((cars$city > 20) & (runif(nrow(cars)) > 0.6))
 ```
 
+
+Looking back through your notes, you'll notice that we have not yet worked
+with an inference problem where the response (DV) variable is categorical and
+the effect (IV) variable is continuous. To do this, we will make use of logistic
+regression. 
+
+If you are only concerned with inference, logistic regression is very straightforward
+and virtually unchanged from linear regression. Let's take the cars dataset one last
+time and look at whether a car has been awarded a "Green Energy Award" as a function
+of its fuel efficency in the city:
+
 ```{r}
 tmod_logistic_regression(green_award ~ city, data = cars)
 ```
 
+The p-value here tells us the probability of observing an effect at least as strong
+as shown in the data if there is no change in the probability of a green award as a
+function of the city fuel efficency.
+
+We can also extend this to a categorical variable (and it becomes an F-test):
+
 ```{r}
-tmod_logistic_regression(green_award ~ city + class + highway, data = cars)
+tmod_logistic_regression(green_award ~ class, data = cars)
 ```
+
+And we can include any number of nusiance variables into the model:
+
+```{r}
+tmod_logistic_regression(green_award ~ city + highway + class, data = cars)
+```
+
+So far this is fairly straightforward, and most of the time this is the most
+import part (inference) of logistic regression in applications.
+
+## Logistic regression
+
+How does logistic regression actually work and what are the point estimates
+telling us? Let's look at these two questions now.
+
+Assume for a moment that we have a variable p that tells us the probability of
+observing a particular event. The **odds** of this event is the ratio of p divided
+by 1-p (the probability of not observing p):
+
+$$ \text{odds} = \frac{p}{1-p} $$
+
+This quantity is often used in gambling contexts. Notice that an odds of 1
+indicates that the probability is equal to 0.5; it is just as likely to observe
+the event as it is to not observe the event.
+
+The **log odds** is simply the (natural) logarithm of the odds:
+
+$$\text{log odds} = \log \left( \frac{p}{1-p} \right) $$
+
+Logistic regression tries to model the logs odds of an event. Specifically, it
+tries to build a model that look like:
+
+$$\text{log odds} = a + b \cdot X $$
+
+For some variable X. Why model the log odds and not the probability itself?
+The probability can only be between 0 and 1, whereas the log odds can range
+over and real number. The right-hand side above could take on any value (depending
+on the inputs X), and so it is much more mathematically sound to model the
+log odds rather than the probability directly. The formulation given here also
+a high-degree of symmetry about what class we pick as the event (specifically, if
+we flip 0 and 1 in the input, the values of the slopes and intercepts simply
+switch signs). 
+
+Looking again at the logistic regression of the green award as a function of 
+the city variable, how do we interpret the parameter value?
+
+```{r}
+tmod_logistic_regression(green_award ~ city, data = cars)
+```
+
+We say that the logs odds increases by 0.3892 for every unit of increase in the city
+miles per gallon fuel efficency of the car. Is this very satisfying? Probably not,
+because there is not way to directly map this statement into things about probabilites.
+It is just what we are stuck with and the best that we can do.
 
 ## One-sample tests
 
@@ -83,29 +123,45 @@ data(mpg, package = "ggplot2")
 cars <- select(mpg, city = cty, highway = hwy)
 ```
 
+There is one final type of test that we have not seen yet that is fairly common in
+applied statistics. It is actually one of the easiest tests to understand and is often
+the first type of test introduced in a statistics course. I choose to do it last because
+while the theoretical concepts are easy to understand I find it harder to explain why the
+test might be useful.
 
+Specifically, consider the hypothesis test for a variable x defined by:
+
+$$ H_0: \text{The mean of x is equal to } \mu.  $$
+
+$$ H_A: \text{The mean of x is not equal to } \mu.  $$
+
+For some value of the parameter mu. This at first looks a lot like the tests we have already
+done, but it involves testing the exact value of mean variable's mean rather than looking
+at the difference between the means of two variables. This is called a one-sample test.
+
+The two most common one-sample tests are: the one-sample t-test (parametric) and the
+Wilcoxon test (non-parametric). To run this with the **tmodels** package, use the
+function `tmod_t_test_one` and just put the number `1` on the right-hand-side. There
+are no independent variables in this test; the `1` serves as just a place-holder.
 
 ```{r}
 tmod_t_test_one(city ~ 1, data = cars)
 ```
 
+The point estimate gives the mean of the city variable and the confidence interval
+gives a range of guesses for the mean (NB: In my experience, the confidence intervals
+are actually more common and useful with one-sample tests than the p-value). We can
+change the value of mu that defines the null hypothesis by inputing the parameter `h0`
+in R:
 
 ```{r}
-tmod_t_test_one(highway ~ 1, data = cars, h0 = 22.5)
+tmod_t_test_one(city ~ 1, data = cars, h0 = 16)
 ```
 
-```{r}
-tmod_wilcoxon_test(highway ~ 1, data = cars, h0 = 22.5)
-```
-
-
+The non-parametric test works similarly:
 
 ```{r}
-cars$difference <- cars$highway - cars$city
-```
-
-```{r}
-tmod_t_test_one(difference ~ 1, data = cars, h0 = 0)
+tmod_wilcoxon_test(city ~ 1, data = cars, h0 = 16)
 ```
 
 
