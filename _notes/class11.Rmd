@@ -80,7 +80,7 @@ You will see that only the smallest two p-values are still significant at the 0.
 level; the third and fourth were significant but no longer are.
 
 Generally, if you are running an experiment that runs a number of hypothesis tests
-trying to see what effects a particular outcome variable, you should use a multiple 
+trying to see what effects a particular outcome variable, you should use a multiple
 hypothesis correction to account for this.
 
 ### kniting Rmarkdown
@@ -91,7 +91,7 @@ by walking us through how to compile the lab10.Rmd file you had from the
 last class. If you are looking back through the notes this is the general
 approach:
 
-- Finish all of the code in the lab; make sure that you do not have any 
+- Finish all of the code in the lab; make sure that you do not have any
 commands that install packages remaining!
 - Hit the "Knit" button (it includes a cute ball of yarn as a pun, making it easy to find)
 - After a few seconds it should produce an HTML file saved wherever your
@@ -105,7 +105,7 @@ that you keep any of these at the top of the file.
 
 ### Format of exam
 
-The second exam will have two parts, a take-home portion (1/2 of the total 
+The second exam will have two parts, a take-home portion (1/2 of the total
 grade) and an in-class portion (1/2 of the grade). The take home exam will be
 similar to Lab11, but will pull more generally from all of the material from
 the past two weeks. I will make this available today; you must complete, knit,
@@ -165,14 +165,6 @@ assumptions or difference between these test that you ask **today**.
   <td>Wilcoxon Test</td>
   <td>`tmod_wilcoxon_test`</td>
 </tr>
-<tr>
-  <td>&mdash;</td>
-  <td>categorical (2+)</td>
-  <td>P</td>
-  <td>One Sample Z-Test</td>
-  <td>`tmod_z_test_prop_one`</td>
-</tr>
-</table>
 
 <div style="padding:25px"></div>
 

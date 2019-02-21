@@ -1,0 +1,199 @@
+---
+title: "Lab 07: Grammar of Graphics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(smodels)
+theme_set(theme_minimal())
+```
+
+## Tea Reviews
+
+Here, we will take look at a dataset of tea reviews from Adagio Teas:
+
+```{r}
+tea <- read_csv("https://statsmaths.github.io/stat_data/tea.csv")
+```
+
+With the following variables:
+
+- name: the full name of the tea
+- type: the type of tea. One of:
+    - black
+    - chai
+    - decaf
+    - flavors
+    - green
+    - herbal
+    - masters
+    - matcha
+    - oolong
+    - pu_erh
+    - rooibos
+    - white
+- score: user rated score; from 0 to 100
+- price: estimated price of one cup of tea in cents
+- num_reviews: total number of online reviews
+
+Draw a scatter plot with num_reviews (x-axis) against score (y-axis):
+
+```{r}
+
+```
+
+Now add a best fit line to the scatter plot:
+
+```{r}
+
+```
+
+
+Does the score tend to increase, decrease, or remain the same as the number
+of reviews increases?
+
+**Answer**:
+
+Create a text plot with score (x-axis) against price (y-axis) using the tea
+name as a label. What is the most expensive tea in the data?
+
+**Answer**:
+
+Which tea has the lowest score? Does it have a high price per cup?
+
+**Answer**:
+
+Create a scatter plot of with num_reviews (x-axis) against score (y-axis) and
+a facet by tea type:
+
+```{r}
+
+```
+
+Repeat the above plot but allow the scales to be float freely:
+
+
+```{r}
+
+```
+
+Which of the two facet plots do you find more readable and why? (Hint: there is
+not a right answer here)
+
+**Answer**:
+
+## Class dataset
+
+Now, read in the class dataset once again (it should be in your labs folder already).
+
+```{r}
+class <- read_csv("class_restaurants_fixed.csv")
+```
+
+Make a text plot of the frequency of the restaurant against its price, with the name
+of the restaurant as the label.
+
+```{r}
+
+```
+
+Do you notice any interesting patterns in the plot?
+
+**Answer:**
+
+Now, in the code below, add these new layers to the plot you just made:
+`scale_x_log10()` and `scale_y_log10()`.
+
+```{r}
+
+```
+
+How do these change the plot?
+
+Now, create a plot that shows the mean price of the restaurants by cuisine:
+
+```{r}
+
+```
+
+And similarly, show the mean frequency of visits by cuisine:
+
+```{r}
+
+```
+
+Describe something you find interesting in these two plots in a couple of sentences:
+
+**Answer**:
+
+## Exploratory Analysis of Car Speeding Data
+
+To see some of the commands that we will be looking at next time, let's grab
+one more dataset. The data here concerns a study that measured the speed at
+which cars were traveling. From the documentation:
+
+> In a study into the effect that warning signs have on speeding
+> patterns, Cambridgeshire County Council considered 14 pairs of
+> locations. The locations were paired to account for factors such
+> as traffic volume and type of road.  One site in each pair had a
+> sign erected warning of the dangers of speeding and asking drivers
+> to slow down.  No action was taken at the second site.  Three sets
+> of measurements were taken at each site.  Each set of measurements
+> was nominally of the speeds of 100 cars but not all sites have
+> exactly 100 measurements. These speed measurements were taken
+> before the erection of the sign, shortly after the erection of the
+> sign, and again after the sign had been in place for some time.
+
+To read the dataset in, run the following line of code (if you get an
+error, you probably forgot to run the code at the top of the file):
+
+```{r}
+amis <- read_csv("https://raw.githubusercontent.com/statsmaths/stat_data/gh-pages/amis.csv")
+```
+
+Open the dataset in the data viewer. You'll see four variables: the
+observed speed of the car, the period of the observation (whether it was
+before signs were put up, right after, or far after they were put up),
+a variable warning indicating whether a location had a sign erected,
+and "location" indicating one of 14 location pairs.
+
+The following command plots the average value for each period colored by
+whether there was a warning given or not:
+
+```{r}
+ggplot(amis, aes(period, speed)) +
+  geom_mean(aes(color = warning))
+```
+
+How would you explain the observed effects in words? Does it seem from
+this plot that the signs had their indented effect of slowing traffic?
+
+**Answer**:
+
+The following command plots the average speed at each pair of locations
+based on whether there was a warning sign or not **in the before period*.
+That is, these measurements come before any signs were put in place.
+
+```{r}
+ggplot(filter(amis, period == "Before"), aes(location, speed)) +
+  geom_mean(aes(color = warning))
+```
+
+The study design suggests that the pairs of locations indicate similar
+road conditions. Does this seem correct to you based on this plot? What
+locations seem particularly suspicious?
+
+**Answer**:
+
+
+
+
+
+
+
+
+
