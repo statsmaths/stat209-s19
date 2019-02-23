@@ -1,0 +1,159 @@
+---
+title: "Exam II"
+output: html_document
+---
+
+Read in the following R packages that we will need for the exam:
+
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(tmodels)
+library(readr)
+```
+
+Write code as needed below and fill in your written answers in full
+sentences wherever you see the prompt "Answer:". Knit the file,
+print out the html file, and bring the answers to class.
+
+## Cancer incidence dataset
+
+Run the following code to read in a dataset about cancer incidence rates
+(per 100000 people) at the county level in the U.S.; the code also creates
+two categorical variables that will be needed for the questions that follow.
+
+```{r, message=FALSE}
+cancer <- read_csv("https://raw.githubusercontent.com/statsmaths/stat_data/gh-pages/cancer_inc_data.csv")
+cancer <- mutate(cancer, melanoma_group = if_else(melanoma < 25, "Low", "High"))
+cancer <- mutate(cancer, breast_group = if_else(breast < 110, "Low", "High"))
+cancer
+```
+
+Poverty gives the percentage of households that live below the poverty line and income
+gives the median income of households in the county. The racial demographics give the
+percentage of the population that identifies as a particular category.
+
+1. Run an hypothesis test to test whether breast cancer incidence rates are correlated
+with the median income. Use any appropriate robust non-parametric test.
+
+```{r}
+
+```
+
+Is the test statistically significant at the 0.01 level?
+
+Answer:
+
+2. Run an alternative hypothesis test to the one from question 1, but now select a
+parametric test.
+
+```{r}
+
+```
+
+Is the test statistically significant at the 0.01 level? Explain the point
+estimate and what its sign (positive or negative) means in the context of
+the dataset.
+
+Answer:
+
+3. Run an hypothesis test to see if lung cancer is effected by the region that
+the county is in. Use a parametric test.
+
+```{r}
+
+```
+
+Is the test statistically significant at the 0.01 level?
+
+Answer:
+
+4. Repeat the previous question with a non-parametric test.
+
+```{r}
+
+```
+
+Is the test statistically significant at the 0.01 level?
+
+Answer:
+
+5. Run a one-sample test with the null hypothesis that the mean
+of the breast cancer incidence is equal to 117 people per 100k.
+Use a parametric test.
+
+```{r}
+
+```
+
+5. Run a one-sample test with the null hypothesis that the mean
+of the breast cancer incidence is equal to 117 people per 100k.
+Use a non-parametric test.
+
+```{r}
+
+```
+
+Is the p-value larger, smaller, or the same as you had in the
+parametric test?
+
+Answer:
+
+6. Test the hypothesis that the categorical variable
+melanoma group (`melanoma_group`) is effected by the latitude of county:
+
+```{r}
+
+```
+
+Are northern counties more or less likely to have high rates of melanoma?
+
+Answer:
+
+7. Run a hypothesis test that predicts the rate of lung cancer as a function
+of the poverty rate, controling for region.
+
+```{r}
+
+```
+
+Are areas with higher poverty rate in the same region more or less likely
+to have higher rates of lung cancer?
+
+Answer:
+
+8. Add median income to the model you had in the previous question as
+an additional confounding variable.
+
+```{r}
+
+```
+
+This should make the test no longer significant. Explain why this seems
+reasonable given how this hypothesis test works.
+
+Answer:
+
+9. Test whether there is a connection between the categorical variable
+`breast_group` and `melanoma_group`. Use any statistical test that is
+appropriate.
+
+```{r}
+
+```
+
+## Multiple hypothesis testing
+
+10. In a completely different study from the cancer incidence rates, a
+researcher collected 6 p-values: 0.00001, 0.005, 0.01, 0.04, 0.05, and 0.3.
+Adjust the p-values using the Holm-Bonferoni method:
+
+```{r}
+
+```
+
+How many of the results remain significant at the 0.05 level after the
+multiple hypothesis correction?
+
+Answer:
+
