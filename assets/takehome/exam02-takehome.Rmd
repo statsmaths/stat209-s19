@@ -44,7 +44,7 @@ Is the test statistically significant at the 0.01 level?
 
 Answer:
 
-2. Run an alternative hypothesis test to the one from question 1, but now select a
+2. Run another hypothesis test to the one from question 1, but now select a
 parametric test.
 
 ```{r}
