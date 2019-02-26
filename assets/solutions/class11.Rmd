@@ -165,9 +165,9 @@ I thought it might be useful to have a single summary table with all of the stat
 tests in one place. Here they all are; make sure that if you are unclear on any of the
 assumptions or difference between these test that you ask **today**.
 
-**Univariate Test** (one variable; just response)
-
 <div style="padding:25px"></div>
+
+**Univariate Test** (one variable; just response)
 
 <table id="dtable">
 <tr>
@@ -191,6 +191,7 @@ assumptions or difference between these test that you ask **today**.
   <td>Wilcoxon Test</td>
   <td>`tmod_wilcoxon_test`</td>
 </tr>
+</table>
 
 <div style="padding:25px"></div>
 
