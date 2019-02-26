@@ -241,14 +241,14 @@ assumptions or difference between these test that you ask **today**.
   <td>`tmod_mann_whitney_test`</td>
 </tr>
 <tr>
-  <td>categorical (2+)</td>
+  <td>categorical (3+)</td>
   <td>numeric</td>
   <td>P</td>
   <td>One-way ANOVA</td>
   <td>`tmod_one_way_anova_test`</td>
 </tr>
 <tr>
-  <td>categorical (2+)</td>
+  <td>categorical (3+)</td>
   <td>numeric</td>
   <td>NP</td>
   <td>Kruskal-Wallis rank sum</td>
@@ -290,7 +290,7 @@ assumptions or difference between these test that you ask **today**.
   <td>Function</td>
 </tr>
 <tr>
-  <td>categorical</td>
+  <td>any</td>
   <td>numeric</td>
   <td>P</td>
   <td>Linear Regression</td>
