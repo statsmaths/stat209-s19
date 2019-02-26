@@ -137,6 +137,30 @@ it is very important to make sure that you study!
 
 ### Inference tests
 
+In general, how do you pick which model to use? First determine if one of
+the follow hold:
+
+- If you have confounding variables use linear regression if you have
+a continuous output variable and logistic regression for a categorical
+output.
+- If you have only a single variable, use one of the two univariate tests.
+Choose between them based on whether you want a parametric or non-parametric
+test (see below).
+
+Otherwise, you'll need a bivariate test, which requires some additional
+considerations:
+
+1. Determine the type of the input and output variables. Find the appropriate
+tests on the table below.
+2. If you need a point estimate, have small sample sizes, or can be fairly
+certain there are no outliers or bad data points, select the relevant
+parametric test. Otherwise use the more robust non-parametric test. You may
+always use both if you want to first show that your result is robust but then
+use a parametric test to obtain a point estimate.
+3. This should generally limit you to just one applicable test. If not:
+  - For non-parametric correlations: Spearman's and Kendall's are both equally appropriate. Just pick one.
+  - For contingency tables: if it is unclear from assumptions that we mentioned in the first unit which test to use, generally prefer the Z-test over the others and the Chi-squared over Fisher's test.
+
 I thought it might be useful to have a single summary table with all of the statistical
 tests in one place. Here they all are; make sure that if you are unclear on any of the
 assumptions or difference between these test that you ask **today**.
@@ -277,7 +301,6 @@ assumptions or difference between these test that you ask **today**.
   <td>`tmod_logistic_regression`</td>
 </tr>
 </table>
-
 
 
 
