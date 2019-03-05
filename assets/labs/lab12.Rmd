@@ -29,11 +29,11 @@ births <- read_csv("https://statsmaths.github.io/stat_data/arbuthnot.csv")
 
 What years are included in the study?
 
-Answer:
+**Answer**:
 
 Where/how do you think this data may have been collected?
 
-Answer:
+**Answer**:
 
 ### Plots
 
