@@ -3,7 +3,16 @@ title: "Lab 07: Grammar of Graphics"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+
+You'll need one new package today, something I wrote called smodels:
+
+```{r}
+devtools::install_github("statsmaths/smodels")
+```
+
+Then, read in the standard libraries.
+
+```{r}
 knitr::opts_chunk$set(echo = TRUE)
 library(readr)
 library(ggplot2)

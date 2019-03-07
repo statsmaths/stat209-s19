@@ -1,0 +1,188 @@
+---
+title: "Lab 12: Exploratory Data Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(tmodels)
+theme_set(theme_minimal())
+```
+
+The lab for today has you look at an exploratory analysis in R from two datasets.
+It introduces a lot of commands for data visualization that we will cover in
+detail next time.
+
+### Import and view the data
+
+The dataset here shows the number of children born in London on an annual
+basis, separated by their sex. Interactively in RStudio, you can see the data
+as a table by clicking on the table in the upper right-hand corner.
+
+
+```{r, message = FALSE}
+births <- read_csv("https://statsmaths.github.io/stat_data/arbuthnot.csv")
+```
+
+What years are included in the study?
+
+**Answer**: We have data from 1629 to 1710.
+
+Where/how do you think this data may have been collected?
+
+**Answer**: It was actually collected through church baptism records, by far
+the most complete record of births in England at the time.
+
+### Plots
+
+Now, let's visualize the dataset by constructing several different plots. We
+will learn later how the plotting mechanism actually works. Today just run the
+code and enjoy.
+
+```{r}
+ggplot(births, aes(year, total)) +
+  geom_line()
+```
+
+Approximately how many children were born in London in 1701?
+
+**Answer**: 15 thousand
+
+What is one change you would like to make to the way R has constructed the
+plot?
+
+**Answer**: Add better labs for the x and y axes.
+
+
+Click on the data in the top right hand pane. This will open an Excel
+like view of the dataset. Describe what the variable `head_of_state` most
+likely means:
+
+**Answer**: It means who was the head of state of the government in control
+of London. This changed, rather drastically, throughout the timeperiod of the
+dataset.
+
+### Variables
+
+You might also have noticed the row of three letter abbreviations under
+the column names. These describe the type of each variable:
+
+- `int` stands for integers.
+- `dbl` stands for doubles, or real numbers.
+- `chr` stands for character vectors, or strings.
+
+The types of graphics and data manipulation we can do with a given
+variable is highly determined by the variable data types.
+
+Explain in words why the variables `boys` and `girls` are interpreted as
+integers.
+
+**Answer**: These variables are counts and it does not make sense for us to
+have non-integer numbers here (say, half a person).
+
+### Bar Plot
+
+Create a bar plot of the heads of state:
+
+```{r}
+ggplot(births, aes(head_of_state)) +
+  geom_bar()
+```
+
+Who was the longest serving head of state during the time period of this
+data set?
+
+**Answer**: Charles II
+
+How are the heads of state arranged be default?
+
+**Answer**: Alphabetically.
+
+### Color
+
+We can add color to the line plot to combine the head of state
+information with the year and total number of births:
+
+```{r}
+ggplot(births, aes(year, total)) +
+  geom_line(aes(color = head_of_state))
+```
+
+Under which heads of state was the number of girls born consistently low?
+
+**Answer**: The Cromwells and "None", during the period known as the Interregnum (1649-1660).
+
+### Critical thinking
+
+The Arbuthnot data set refers to Dr. John Arbuthnot,
+an 18th century physician, writer, and mathematician. He gathered the
+baptism records for children born in London for every year from 1629 to
+1710. He was interested in studying what we would now call the **secondary
+sex ratio**, the ratio of males to females in a population at birth. This
+would later be a major element of study of Ronald Fisher, one of the most
+well-known, early pioneering statisticians.
+
+Why would John Arbuthnot be using baptism records to study his question of
+interest? (Note: I'll ask you a lot of "thought" questions like this that
+require critical thinking rather than coding or numerical analysis):
+
+**Answer**: The best source of data at the time.
+
+## Present Day Data
+
+Now, for practice, read in the following dataset with the same
+information for the present day:
+
+```{r}
+present <- read_csv("https://statsmaths.github.io/stat_data/present.csv")
+```
+
+What years are included in this data set?
+
+**Answer**: 1940 to 2014.
+
+How do these counts compare to Arbuthnot's? Are they of a similar
+magnitude?
+
+**Answer**: The counts are much larger because it is a whole country in the
+present day rather than just London in the 17th century.
+
+Make a plot that displays the proportion of boys born over time.
+
+```{r}
+ggplot(present, aes(year, boys)) +
+  geom_line()
+```
+
+What do you see?
+
+**Answer**: Trends with Baby-Boomers and Echo-Boomers.
+
+In what year did we see the highest total number of births in the U.S.?
+Note: You'll need another plot.
+
+```{r}
+ggplot(present, aes(year, total)) +
+  geom_line()
+```
+
+**Answer**: The highest looks like either 2007 or 1961 (its the 2007 if you look at the
+raw numbers, but not by much).
+
+Reconstruct the line plot that is colored by the current head of state.
+
+```{r}
+ggplot(present, aes(year, total)) +
+  geom_line(aes(color = head_of_state))
+```
+
+Do you see any patterns related to particular presidencies? What benefit(s)
+does including this information add to the plot?
+
+**Answer**: Nothing stands out particularly strongly to me, but it does add context by
+knowing what time period we are talking about based on who was the president. Personally,
+I remember the people better than the dates of events.
+
