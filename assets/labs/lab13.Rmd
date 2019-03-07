@@ -1,5 +1,5 @@
 ---
-title: "Lab 07: Grammar of Graphics"
+title: "Lab 13: Grammar of Graphics"
 output: html_document
 ---
 
