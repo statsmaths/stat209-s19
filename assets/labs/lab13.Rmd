@@ -95,50 +95,6 @@ not a right answer here)
 
 **Answer**:
 
-## Class dataset
-
-Now, read in the class dataset once again (it should be in your labs folder already).
-
-```{r}
-class <- read_csv("class_restaurants_fixed.csv")
-```
-
-Make a text plot of the frequency of the restaurant against its price, with the name
-of the restaurant as the label.
-
-```{r}
-
-```
-
-Do you notice any interesting patterns in the plot?
-
-**Answer:**
-
-Now, in the code below, add these new layers to the plot you just made:
-`scale_x_log10()` and `scale_y_log10()`.
-
-```{r}
-
-```
-
-How do these change the plot?
-
-Now, create a plot that shows the mean price of the restaurants by cuisine:
-
-```{r}
-
-```
-
-And similarly, show the mean frequency of visits by cuisine:
-
-```{r}
-
-```
-
-Describe something you find interesting in these two plots in a couple of sentences:
-
-**Answer**:
-
 ## Exploratory Analysis of Car Speeding Data
 
 To see some of the commands that we will be looking at next time, let's grab
