@@ -1,0 +1,124 @@
+---
+title: "Class 15: Annotating Data Visualizations"
+author: "Taylor Arnold"
+output: html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(fig.path = "../assets/class15/")
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(readr)
+library(dplyr)
+library(smodels)
+library(ggplot2)
+theme_set(theme_minimal())
+```
+
+## Learning Objectives
+
+- Review elements in the Grammar of Graphics
+- Manually annotate of data visualizations with text, lines, and points
+
+## GapMinder Data
+
+For today's notes, we will once again use the `gapminder_2007` dataset:
+
+```{r, message = FALSE}
+gapminder_2007 <- read_csv("https://statsmaths.github.io/stat_data/gapminder_2007.csv")
+```
+
+## Labels
+
+We can add labels to the plot by adding new layers to the plot:
+
+- `xlab("text for the x-axis")`
+- `ylab("text for the y-axis")`
+- `ggtitle("text for the title/top of the plot")`
+- `labs(size = "label for the size legend")`
+
+Let's add these to the current plot:
+
+```{r, message = FALSE}
+ggplot(data=gapminder_2007, aes(x=gdp_per_cap, y=life_exp)) +
+  geom_point(aes(size=pop)) +
+  xlab("Gross domestic product per capita (USD)") +
+  ylab("Life expectancy at birth (years)") +
+  labs(size = "Population") +
+  ggtitle("Macroeconomic variables by country (2007)")
+```
+
+Do not feel that you need to add complex labels to plots as we are doing
+an exploratory analysis. However, when presenting plots in a report these
+should certainly be used to clarify the plot to the audience or readers.
+
+## Annotations
+
+While we can use graphics simply for our own exploratory work, they can
+often also be used to make visual arguments. That's the case, for example,
+whenever we use a graphic in a report or presentation. In order to strengthen
+a visual argument it is useful to add manual annotations to the plot to help
+explain our main points.
+
+In order to add manual annotations, we will use the function `annotate`.
+For each annotation, simply add another layer. The exact syntax differs
+based on whether we want a point:
+
+```{r, eval = FALSE}
+annotate("point", x = [X COORDINATE], y = [Y COORDINATE], [OTHER OPTIONS])
+```
+
+Text:
+
+```{r, eval = FALSE}
+annotate("text", x = [X COORDINATE], y = [Y COORDINATE], label = [TEXT],
+         [OTHER OPTIONS])
+```
+
+Or a rect(angle):
+
+```{r, eval = FALSE}
+annotate("rect", xmin = [VALUE], xmax = [VALUE], ymin = [VALUE],
+                 ymax = [VALUE], [OTHER OPTIONS])
+```
+
+For example, to add the current life expectancy (79.1) and GDP (51736) of
+Virginia onto the plot, I would do this:
+
+```{r, message = FALSE}
+ggplot(data=gapminder_2007, aes(x=gdp_per_cap, y=life_exp)) +
+  geom_point(aes(size=pop)) +
+  annotate("point", x = 51736, y = 79.1, color = "red", size = 3)
+```
+
+Similarly, I could label the US on the plot:
+
+```{r, message = FALSE}
+ggplot(data=gapminder_2007, aes(x=gdp_per_cap, y=life_exp)) +
+  geom_point(aes(size=pop, color = continent)) +
+  annotate("text", x = 42950, y = 76.7, label = "USA")
+```
+
+Or, highlight the healthy and wealthy part of the plot:
+
+```{r, message = FALSE}
+ggplot(data=gapminder_2007, aes(x=gdp_per_cap, y=life_exp)) +
+  annotate("rect", xmin = 30000, xmax = 50000,
+                   ymin = 75, ymax = 85,
+                   fill = "purple", alpha = 0.1) +
+  geom_point(aes(size=pop)) +
+  annotate("text", x = 40000, y = 76,
+           label = "Healthiest and Wealthiest Countries")
+```
+
+Notice here that I set the aesthetics `fill` (that the filled color
+of the rectangle) and `alpha` (how opaque the rectangle is); I also
+put the rectangle first so that the points were plotted behind the
+rectangle.
+

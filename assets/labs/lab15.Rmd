@@ -1,0 +1,77 @@
+---
+title: "Lab 15: Annotating Data Visualizations"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(smodels)
+theme_set(theme_minimal())
+```
+
+
+## Today
+
+Today you'll be working with three different datasets. For each, you'll
+need to produce a single plot with labels and annotations. You should make
+use of several manual annotations in an effort to tell a visual story about
+the dataset. This will be good practice for the next exam.
+
+### Murder rates
+
+The first dataset gives murder rates across different cities in the US:
+
+```{r}
+murder <- read_csv("https://statsmaths.github.io/stat_data/murder_by_city.csv")
+```
+
+Create a plot that visualizes this dataset. The specifics are up to you,
+but it must include at least 2 manual annotations, one aesthetic, and
+labels axes.
+
+```{r}
+
+```
+
+### DJIA
+
+The second dataset for data are daily close values of the Dow Jones Industrial
+Average:
+
+```{r}
+djia <- read_csv("https://statsmaths.github.io/stat_data/djia_daily.csv")
+```
+
+Create a line plot with time on the x-axis and the close price on the y-axis.
+Then add axis labels and three manual annotations.
+
+Note that you will have to use the format `x = as.Date("2017-01-06")` to add
+annotations to an axis that uses time as a component.
+
+```{r}
+
+```
+
+### Presidential approval
+
+The final dataset investigates Donald Trump's approval rating:
+
+```{r}
+trump <- read_csv("https://statsmaths.github.io/stat_data/trump_approval.csv")
+```
+
+Create a plot the simultaneously shows the approval and disapproval ratings
+(you'll need two `geom_line` layers). Also label the axes and include three
+manual annotations.
+
+```{r}
+
+```
+
+Note that you will have to use the format `x = as.Date("2017-01-06")` to add
+annotations to an axis that uses time as a component.
+
+
