@@ -1,0 +1,196 @@
+---
+title: "Lab 14: Aesthetic Mappings"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(ggplot2)
+library(ggrepel)
+library(dplyr)
+library(smodels)
+library(tmodels)
+theme_set(theme_minimal())
+```
+
+## Miles Per Gallon
+
+Make sure to start by running the setup chunk above to load the required packages.
+Then, read in the mpg dataset. There is one row for each particular type of car,
+with information about the fuel efficiency and other metadata.
+
+```{r, message=FALSE}
+mpg <- read_csv("https://statsmaths.github.io/stat_data/mpg.csv")
+```
+
+The variable `displ` gives the size of the engine in litres and `cty` the reported
+miles per gallon of the car while driving in stop-and-go city traffic. Likewise,
+`hwy` is the miles per gallon for a car on the highway.
+
+Start by making a scatter plot (i.e., points) of engine size on the x-axis and the
+highway fuel efficiency on the y-axis.
+
+```{r}
+
+```
+
+Verify that the pattern in this plot makes sense.
+
+Next, modify the plot so that the color of the points show the class of the vehicle.
+
+```{r}
+
+```
+
+Identify a few different classes of vehicles and verify that they appear where
+you would expect on the plot.
+
+Now, make all of the points in the plot twice as big and color them the color
+green.
+
+```{r}
+
+```
+
+Next, create two scatter plots at once by adding together `geom_point` layers
+where one layer uses `hwy` as the y-axis and the other users `cty` as the
+y-axis (yes, you can override the y aesthetic just like any other).
+
+```{r}
+
+```
+
+
+In the previous plot, it is impossible to distinguish between the points that
+are of the highway fuel efficiencies values and the city fuel efficiencies.
+Change this by making the city fuel efficiencies colored in red.
+
+```{r}
+
+```
+
+The default y-axis label is no longer correct because it actually measures two
+different fuel efficiencies. Add the layer `ylab("Miles Per Gallon")` to the
+plot to fix this:
+
+```{r}
+
+```
+
+Finally, do the same with the `xlab` and `ggtitle` functions to add a better
+x-axis and title.
+
+```{r}
+
+```
+
+## Democratic Primary 2016
+
+Now, load data from the 2016 Democratic Primary elections. The data is given
+at the county level (this is the **unit of analysis**).
+
+```{r}
+primary <- read_csv("https://statsmaths.github.io/stat_data/primary2016.csv")
+```
+
+Start by drawing a scatter plot of latitude and longitude (it is up to you
+to determine which goes on the x and y axes):
+
+```{r}
+
+```
+
+Next, color the points based on the variable `division`.
+
+```{r}
+
+```
+
+Then, color the points based on the variable `prop_hillary` (the proportion of
+votes Hillary Clinton received).
+
+```{r}
+
+```
+
+Notice any interesting patterns here? Try loading the **viridis** package:
+
+```{r}
+library(viridis)
+```
+
+And add `scale_color_viridis()` to the plot:
+
+```{r}
+
+```
+
+It should look much more readable. Do you notice any patterns now?
+
+## Burritos
+
+Finally, we will look at a dataset of reviews of burritos in southern
+California. This is a data set collected by a group of college friends who
+live in the greater San Diego area.
+
+```{r}
+burrito <- read_csv("https://statsmaths.github.io/stat_data/burrito.csv")
+```
+
+The available variables in the data are:
+
+- location: the name of the restaurant
+- cost: total cost for the burrito
+- yelp: the average Yelp review score
+- google: the average Google review score
+- chips_included: equals 1 if chips are included with the burrito
+- hunger: score from 1 to 5 on how much the burrito filled up the reviewer
+- tortilla: rating from reviewer; 1 (terrible) to 5 (awesome)
+- temp: rating from reviewer; 1 (terrible) to 5 (awesome)
+- meat: rating from reviewer; 1 (terrible) to 5 (awesome)
+- fillings: rating from reviewer; 1 (terrible) to 5 (awesome)
+- meat_filling: rating from reviewer; 1 (terrible) to 5 (awesome)
+- uniformity: rating from reviewer; 1 (terrible) to 5 (awesome)
+- salsa: rating from reviewer; 1 (terrible) to 5 (awesome)
+- synergy: rating from reviewer; 1 (terrible) to 5 (awesome)
+- wrap: rating from reviewer; 1 (terrible) to 5 (awesome)
+- overall: rating from reviewer; 1 (terrible) to 5 (awesome)
+- lat: latitude (in degrees North) of the taco restaurant
+- lon: longitude (in degrees East) of the taco restaurant
+
+
+Create a plot of longitude and latitude using a `geom_point` layer
+(you'll want longitude on the x-axis):
+
+```{r}
+
+```
+
+Make a histogram for the variable synergy:
+
+```{r}
+
+```
+
+Now, make a bar plot for the variable synergy. :
+
+```{r}
+
+```
+
+Do you like this more than the histogram? Why or why not?
+
+Draw a scatterplot with google score on the x-axis and the yelp on the y-axis.
+Add a regression line to the plot:
+
+```{r}
+
+```
+
+Finally, run a regression model in R to determine whether there is a
+significant relationship between the the Google and Yelp scores.
+
+```{r}
+tmod_
+```
