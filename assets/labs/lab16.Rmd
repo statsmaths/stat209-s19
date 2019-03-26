@@ -1,0 +1,56 @@
+---
+title: "Lab 16: Filtering Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(smodels)
+theme_set(theme_minimal())
+```
+
+## Pick a dataset
+
+For the remainder of this lab, you choice of three datasets to work with.
+You can choose either to investigate the daily team ELO ratings in the NBA:
+
+```{r}
+nba <- read_csv("https://statsmaths.github.io/stat_data/nba_elo_daily.csv")
+```
+
+Metadata from US senator's tweets:
+
+```{r}
+tweets <- read_csv("https://statsmaths.github.io/stat_data/senator_tweets_meta.csv")
+```
+
+Or swear words given in the movies of Quentin Tarantino:
+
+```{r}
+tarantino <- read_csv("https://statsmaths.github.io/stat_data/tarantino.csv")
+```
+
+Pick a dataset and work on the instructions in the next section. If you have
+time before we come back together, try to use a second dataset as well. We
+will talk about all of the plots in the last 15 minutes of class.
+
+## Instructions
+
+This lab is similar to the last. You'll pick a dataset and then generate an
+analysis of that data using data visualizations. The difference here is that
+instead of a single plot, I would like you to construct 3-4 plots that
+together tell a linear story. Each plot should be separated by a sentence or
+two describing what the viewer should take away from the plot. Try to keep the
+plots similar in some way; perhaps each simply highlights a different subset
+of the data but has the same underlying layers.
+
+Notice that each of the datasets for today are larger than you will probably
+be able to use. You will need to filter the data to a particular team, year,
+subset of curse words. You may further filter the data to highlight an even
+smaller subset of the data within each plot.
+
+## Analysis
+
