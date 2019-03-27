@@ -1,5 +1,5 @@
 ---
-title: "Class 16: Annotating Data Visualizations"
+title: "Class 16: Filtering Data"
 author: "Taylor Arnold"
 output: html
 ---
@@ -231,7 +231,7 @@ ggplot(flights, aes(air_time, distance)) +
   geom_point(color = "red", data = flights_to_rva)
 {% endhighlight %}
 
-<img src="../assets/class15/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="100%" />
+<img src="../assets/class16/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="100%" />
 
 This shows all of the Richmond flights in red on top of the remainder of the
 flights. Combined with annotations, these techniques can create very

@@ -1,12 +1,12 @@
 ---
-title: "Class 16: Annotating Data Visualizations"
+title: "Class 16: Filtering Data"
 author: "Taylor Arnold"
 output: html
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(eval = TRUE)
-knitr::opts_chunk$set(fig.path = "../assets/class15/")
+knitr::opts_chunk$set(fig.path = "../assets/class16/")
 knitr::opts_chunk$set(fig.height = 5)
 knitr::opts_chunk$set(fig.width = 8.5)
 knitr::opts_chunk$set(out.width = "100%")

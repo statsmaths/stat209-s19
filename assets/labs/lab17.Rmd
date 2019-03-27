@@ -1,0 +1,122 @@
+---
+title: "Lab 17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(smodels)
+theme_set(theme_minimal())
+```
+## Weather in NYC
+
+The dataset for this practice exam consists of a single year of observed weather data
+from New York City. Read in the dataset with this command:
+
+```{r}
+weather <- read_csv("https://statsmaths.github.io/stat_data/weather-nyc.csv")
+```
+
+Here is a data dictionary for the variables:
+
+- **date**:                  the date of the weather record, formatted YYYY-MM-DD
+- **actual_mean_temp**:      the measured average temperature for that day (celsius)
+- **actual_min_temp**:       the measured minimum temperature for that day (celsius)
+- **actual_max_temp**:       the measured maximum temperature for that day (celsius)
+- **average_min_temp**:      the average minimum temperature on that day since 1880 (celsius)
+- **average_max_temp**:      the average maximum temperature on that day since 1880 (celsius)
+- **record_min_temp**:       the lowest ever temperature on that day since 1880 (celsius)
+- **record_max_temp**:       the highest ever temperature on that day since 1880 (celsius)
+- **record_min_temp_year**:  the year that the lowest ever temperature occurred
+- **record_max_temp_year**:  the year that the highest ever temperature occurred
+- **actual_precipitation**:  the measured amount of rain or snow for that day (cm)
+- **average_precipitation**: the average amount of rain or snow on that day since 1880 (cm)
+- **record_precipitation**:  the highest amount of rain or snow on that day since 1880 (cm)
+
+If other questions about what these variables mean arise, please let me know.
+
+## 1. A straightforward line plot
+
+In the first plot, create a line plot (i.e., use `geom_line`) with date
+on the x-axis and the actual maximum tempurature on the y-axis. Make sure
+that you label the two axes. Otherwise, you can leave everything else equal
+to the defaults.
+
+```{r}
+
+```
+
+## 2. Two lines on one plot with colors
+
+In the second plot, layer two line geometries that show the actual
+minimum tempurature and the actual maximum tempurature. Date is still
+on the x-axis. Further, color the minimum tempurature with the color
+"#5be5e5" (it's a pretty shade of blue) and the maximum tempurature
+with the color "#ff6666" (a pretty shade of red). Don't forget to
+include labels for the axes; you do not need to add manual labels for
+the two curves (it should be relatively obvious what they are showing).
+
+```{r}
+
+```
+
+## 3. Mapping aesthetics with variables
+
+In this plot you are going to make use of a new geometry layer that you might
+not have seen, but you have all of the tools to work with it, called `geom_segment`.
+It creates a collection of short line segments and requires four aesthetics: the
+x and y aesthetics control where the segement begins, but you must also specify
+the xend and yend aesthetics to describe what variables determine where the segment
+ends. Think of these like the label aesthetic in geom_text; additional parameters
+that we have to specify to make the layer meaningful.
+
+The plot should have data again on the x-axis, with a geom_segment layer with
+segements that start with a y-value of actual_max_temp and proceed down to the
+y-value of actual_in_temp. That is, each day will have a line going from the high
+temperature to the low tempurature. Further, the segements should be colored according
+to the actualy_mean_temp and you should add this layer:
+
+- scale_color_continuous(low = "#5be5e5", high ="#ff6666")
+
+To the plot to make the tempuratures show up on a nice-looking scale (cold tempuratures
+are blue and warm tempuratures are read).
+
+```{r}
+
+```
+
+## 4. Adding an Annotation to the Plot
+
+On this plot, you will again create a line plot with the actual_max_temp on
+the x-axis and date on the y-axis. Additionally, display a red dot indicating
+the maximum tempurature on your birthday from this year. Note that the year
+starts on 1 July 2014 and ends on 30 June 2015, so you'll label your 2014 birthday
+if you were born in the second half of the year and your 2015 birthday if born
+in the first half of the year.
+
+```{r}
+
+```
+
+## 5. Filtering Data
+
+In this final question, first create a new dataset named `rain` by
+filtering the weather dataset to those days that have an actual precipitation
+above zero (i.e., it rained or snowed on a given day).
+
+```{r}
+
+```
+
+Now, again create a line plot with the actual_max_temp on the x-axis and
+date on the y-axis using the entire dataset. Also add a layer that displays,
+using geom_point, the days that had precipitation. Make all of the points
+colored in blue.
+
+```{r}
+
+```
+

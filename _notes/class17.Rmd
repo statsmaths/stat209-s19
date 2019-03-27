@@ -1,0 +1,63 @@
+---
+title: "Class 17: Exam III Review"
+author: "Taylor Arnold"
+output: html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(fig.path = "class17/")
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(readr)
+library(dplyr)
+library(smodels)
+library(ggplot2)
+theme_set(theme_minimal())
+```
+
+## Format
+
+As with Exam II, this exam will have two parts: an in-class exam and a
+take-home component. Your grade will be distributed putting 1/2 of the
+weight on the in-class portion and 1/2 on the take-home. Unlike the
+second exam, the take-home component will be due *after* the in-class exam.
+
+- In-class, April 2nd (1/2)
+- Take home, Due April 4th (1/2)
+
+Instructions for completing the take home exam will be provided in the script.
+
+## Study Guide (In-class)
+
+There are a few things you should be able regarding statistical graphics and
+data filtering on the exam by memory:
+
+- construct a basic scatter plot from a dataset
+- assign a color to a plot by mapping a variables to the color aesthetic
+- set color aesthetic to a fixed value
+- filter a dataset according to a numeric variable with one of the
+operators `==`, `!=`, `>`, `<`, `>=`, and `<=`.
+
+You should also be able to understand, but do not need to be able to produce
+all the details from memory, all of the statistical graphics and filtering
+commands that we have used. These include:
+
+- assigning a mix of other aesthetics to a plot
+- applying `facet_wrap` to a plot
+- using the other aesthetics, including shape, size and alpha
+- overriding the `x`, `y`, and `data` values from the defaults in the first line
+- filter based on multiple conditions
+- filter based on date and time values
+- add manual annotations to a plot
+- add labels and titles to a plot
+
+I will test these through some combination of (i) showing a code snippet and
+asking you questions about what the output should look like, (ii) showing
+you code and asking you to fill in a minor mission detail, or (iii) showing
+you a plot and asking you about the aesthetics that created the plot.
