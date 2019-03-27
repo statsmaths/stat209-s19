@@ -41,7 +41,7 @@ If other questions about what these variables mean arise, please let me know.
 ## 1. A straightforward line plot
 
 In the first plot, create a line plot (i.e., use `geom_line`) with date
-on the x-axis and the actual maximum tempurature on the y-axis. Make sure
+on the x-axis and the actual maximum temperatures on the y-axis. Make sure
 that you label the two axes. Otherwise, you can leave everything else equal
 to the defaults.
 
@@ -52,9 +52,9 @@ to the defaults.
 ## 2. Two lines on one plot with colors
 
 In the second plot, layer two line geometries that show the actual
-minimum tempurature and the actual maximum tempurature. Date is still
-on the x-axis. Further, color the minimum tempurature with the color
-"#5be5e5" (it's a pretty shade of blue) and the maximum tempurature
+minimum temperatures and the actual maximum temperatures. Date is still
+on the x-axis. Further, color the minimum temperatures with the color
+"#5be5e5" (it's a pretty shade of blue) and the maximum temperatures
 with the color "#ff6666" (a pretty shade of red). Don't forget to
 include labels for the axes; you do not need to add manual labels for
 the two curves (it should be relatively obvious what they are showing).
@@ -68,21 +68,21 @@ the two curves (it should be relatively obvious what they are showing).
 In this plot you are going to make use of a new geometry layer that you might
 not have seen, but you have all of the tools to work with it, called `geom_segment`.
 It creates a collection of short line segments and requires four aesthetics: the
-x and y aesthetics control where the segement begins, but you must also specify
+x and y aesthetics control where the segment begins, but you must also specify
 the xend and yend aesthetics to describe what variables determine where the segment
 ends. Think of these like the label aesthetic in geom_text; additional parameters
 that we have to specify to make the layer meaningful.
 
 The plot should have data again on the x-axis, with a geom_segment layer with
-segements that start with a y-value of actual_max_temp and proceed down to the
+segments that start with a y-value of actual_max_temp and proceed down to the
 y-value of actual_in_temp. That is, each day will have a line going from the high
-temperature to the low tempurature. Further, the segements should be colored according
+temperature to the low temperature. Further, the segments should be colored according
 to the actualy_mean_temp and you should add this layer:
 
 - scale_color_continuous(low = "#5be5e5", high ="#ff6666")
 
-To the plot to make the tempuratures show up on a nice-looking scale (cold tempuratures
-are blue and warm tempuratures are read).
+To the plot to make the temperatures show up on a nice-looking scale (cold temperatures
+are blue and warm temperatures are read).
 
 ```{r}
 
@@ -91,7 +91,7 @@ are blue and warm tempuratures are read).
 ## 4. Adding an Annotation to the Plot
 
 On this plot, you will again create a line plot with the actual_max_temp on
-the x-axis and date on the y-axis. Additionally, display a red dot indicating
+the y-axis and date on the x-axis. Additionally, display a red dot indicating
 the maximum tempurature on your birthday from this year. Note that the year
 starts on 1 July 2014 and ends on 30 June 2015, so you'll label your 2014 birthday
 if you were born in the second half of the year and your 2015 birthday if born
