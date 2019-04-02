@@ -69,8 +69,8 @@ a histogram of the wind speeds of these storms.
 
 3. Filter the storms data to create a dataset only containing measurements from the
 2013 storm Barry ("2013-Barry"). Draw a plot with longitude on the x-axis, latitude
-on the y-axis. Include two geometries: a path geometry and a point geometry. For the
-points, color by the windspeed.
+on the y-axis. Include two geometries: a path geometry (geom_path) and a point
+geometry (geom_point). For the points, color by the windspeed.
 
 ```{r}
 
