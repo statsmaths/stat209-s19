@@ -11,12 +11,12 @@ output: html
 ## Format
 
 As with Exam II, this exam will have two parts: an in-class exam and a
-take-home component. Your grade will be distributed putting 1/3 of the
-weight on the in-class portion and 2/3 on the take-home. Unlike the
+take-home component. Your grade will be distributed putting 1/2 of the
+weight on the in-class portion and 1/2 on the take-home. Unlike the
 second exam, the take-home component will be due *after* the in-class exam.
 
-- In-class, April 2nd (1/3)
-- Take home, Due April 4th (2/3)
+- In-class, April 2nd (1/2)
+- Take home, Due April 4th (1/2)
 
 Instructions for completing the take home exam will be provided in the script.
 

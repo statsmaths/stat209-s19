@@ -1,0 +1,159 @@
+---
+title: "Lab 22: Chicago Crime Data II"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+library(forcats)
+library(smodels)
+theme_set(theme_minimal())
+```
+
+
+## Instructions
+
+Below you will find several empty R code scripts and answer prompts. Your task
+is to fill in the required code snippets and answer the corresponding
+questions.
+
+## Chicago Crime Data
+
+Today we are going to look at a fairly largerdataset. Each row
+of the data refers to a single reported crime in the City of Chicago:
+
+```{r}
+crimes <- read_csv("https://statsmaths.github.io/stat_data/chi_crimes_2016.csv")
+```
+
+The available variable are:
+
+- `area_number`: the community area code of the crime; a number from 1-77
+- `arrest_flag`: whether the crime resulted in an arrest; 0 is false and 1 is true
+- `domestic_flag`: whether the crime is classified as a domestic offense; 0 is false and 1 is true
+- `night_flag`: did the crime occur at night (9pm - 3am); 0 is false and 1 is true
+- `burglary`: was the crime classified as a burglary? 0 is false and 1 is true
+- `theft`: was the crime classified as a theft? 0 is false and 1 is true
+- `battery`: was the crime classified as a battery? 0 is false and 1 is true
+- `damage`: was the crime classified as a damage? 0 is false and 1 is true
+- `assault`: was the crime classified as an assault? 0 is false and 1 is true
+- `deception`: was the crime classified as criminal deception? 0 is false and 1 is true
+- `robbery`: was the crime classified as a robbery? 0 is false and 1 is true
+- `narcotics`: was the crime classified as a narcotics violation? 0 is false and 1 is true
+
+We also have metadata about each community area within Chicago as well.
+We will see how to use these shortly.
+
+```{r}
+ca <- read_csv("https://statsmaths.github.io/stat_data/chicago_meta.csv")
+```
+
+- `area_number`: the community area code; a number from 1 to 77
+- `area_name`: popular name of the community area
+- `median_age`: the median age of all residents in the community area
+- `num_households`: total number of households
+- `family_households`: percentage of households classified as a `family'
+                     (domestic partners, married couples, and one or more
+                     parents with children)
+- `family_w_kids`: percentage of households with children under the age of 18
+- `owner_ratio`: ratio of households that own or mortgage their primary residence
+- `mean_travel_time`: average commute time
+- `percent_walk`: percentage of commuters who walk to work (0-100)
+- `median_income`: median household income
+- `perc_20_units`: percentage of residential buildings with 20 or more units
+
+
+As before, it will be useful to group summarize the dataset and join the
+metadata. Do that here to construct the dataset `crimes_ca`:
+
+```{r}
+crimes_ca <- group_summarize(crimes, area_number)
+crimes_ca <- left_join(crimes_ca, ca)
+```
+
+### Example
+
+Last time, I said that it may be useful to summarize the dataset it in
+a different way. This will be a powerful tool in Project D. To test your
+knowledge of what this means, look at this dataset and plot:
+
+```{r}
+crimes_time_ca <- group_summarize(crimes, area_number, night_flag)
+crimes_time_ca <- left_join(crimes_time_ca, ca, by = "area_number")
+crimes_time_ca$burglary_rate <- crimes_time_ca$burglary_sum / crimes_time_ca$num_households * 1000
+
+ggplot(crimes_time_ca, aes(median_income, burglary_rate)) +
+  geom_point(aes(color = factor(night_flag))) +
+  geom_smooth(aes(color = factor(night_flag)), method = "lm") +
+  scale_color_viridis(discrete = TRUE)
+```
+
+How many observations are there in the data? What does one row represent?
+How do you interpret the plot? Do the two slopes differ; what does this
+mean in practical terms?
+
+### Prompts
+
+Address one of the following prompts. Your end goal should be to produce
+a data visualization (make sure to include labels) and a 1-2 sentence thesis
+statement. Straight from Wikipedia, a thesis statement: "offers a concise
+summary of the main point or claim of the essay, research paper, ect."
+Note, these questions are jumping off points. You can deviate or extend
+from them if something related strikes your interest.
+
+1. How is the rate of battery crimes (that is the number of crimes per
+household) effected by how central a neighborhood is to the city of Chicago?
+Centrality can be measured by several variables, including the percentage
+of people who walk to work, number of households living in buildings with
+20+ units, or total commute time. You may want to differentiate between
+crimes at night and those during the day.
+
+2. What proportion of narcotics violations result in an arrest by neighborhood?
+Do any features of a neighborhood seem to effect this rate? If you see any
+outliers try to document and explain these.
+
+3. What is the relationship between the overall arrest rate and the
+crime rate in a given neighborhood? Does income effect or correlate
+with these in any expected or unexpected ways?
+
+4. How does the relationship between income and the rate of burglaries
+change between day and nighttime? You may want to highlight 1-2 particular
+neighborhoods to make your point.
+
+
+5. Robbery and theft are similar crimes, the difference being that robbery
+involves taking something by force whereas theft is simply the taking of
+another's property. Considering only crimes at night, how does the ratio
+of robberies to the number robberies and thefts relate to demographics
+in each neighborhood. Try to find a particularly interesting or predictive
+demographic.
+
+6. There are 6 community areas where over 47% of households have
+children. How does the relationship between the number of crimes
+that occur and night and the arrest rate in each neighborhood compare
+between these 9 areas and the others?
+
+7. How does the relationship between income and the rate of assault
+change between day and nighttime? You may want to highlight any particularly
+interesting outliers.
+
+### Exploratory Analysis
+
+Write you exploratory analysis here:
+
+```{r}
+
+```
+
+

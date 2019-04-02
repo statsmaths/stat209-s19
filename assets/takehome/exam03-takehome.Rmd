@@ -1,0 +1,149 @@
+---
+title: "Exam III -- Takehome Exam"
+output: html_document
+---
+
+## Instructions
+
+Due: Start of class, Thursday 4 April 2019
+
+Write code as needed below and fill in your written answers in full
+sentences wherever you see the prompt "Answer:". I have sent you a folder on
+Box to upload your solutions to. Please upload the Rmd file and a knitted html
+file with your responses. If you have trouble with the upload, come to class
+on Thursday with the completed assignment and I will assist with the upload
+process.
+
+Note: If you believe that there is something unspecified in the question, any
+way of following the instructions will be marked correctly.
+
+## Packages
+
+Read in the following R packages that we will need for the exam:
+
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(smodels)
+library(tmodels)
+library(readr)
+
+theme_set(theme_minimal())
+```
+
+## Another Weather Dataset
+
+We are going to look at a NASA weather dataset. This particular
+collection contains information about Atlantic storms. Read it in with the
+following (it is also doing some pre-processing; you do not need to understand
+it, just run the entire chunk of code):
+
+```{r}
+storms <- read_csv("https://statsmaths.github.io/stat_data/storms.csv", guess_max = 10000)
+storms <- mutate(storms, name = paste(year, name, sep="-"))
+storms <- mutate(storms, date = as.Date(sprintf("%04d-%02d-%02d", year, month, day)))
+```
+
+It will also be useful to have a dataset giving the borders of countries:
+
+```{r}
+borders <- read_csv("https://statsmaths.github.io/stat_data/nasa_borders.csv")
+```
+
+1. Draw a bar plot showing the number of storm observations in each year:
+
+```{r}
+
+```
+
+What year seems to have had the most activity?
+
+**Answer**:
+
+2. Filter the dataset to only include storms that have a status of a hurricane. Construct
+a histogram of the wind speeds of these storms.
+
+```{r}
+
+```
+
+3. Filter the storms data to create a dataset only containing measurements from the
+2013 storm Barry ("2013-Barry"). Draw a plot with longitude on the x-axis, latitude
+on the y-axis. Include two geometries: a path geometry and a point geometry. For the
+points, color by the windspeed.
+
+```{r}
+
+```
+
+4. Create a plot with the `borders` dataset. Put longitude on the x-axis and latitude
+on the y-axis. Include a path geometry and set the `group` aesthetic to the variable
+`group` in the dataset. You should see a map of Central America and the lower half of
+the United States.
+
+```{r}
+
+```
+
+5. Combine the plots from questions 3 and 4 (not literally; make a new
+plot that contains both the map and the path of hurrican Barry). Make sure that
+the hurricane data is on top of the map.
+
+```{r}
+
+```
+
+What country seems to be have been most effected by hurricane Barry in 2013?
+
+**Answer**:
+
+6.Take the plot from the previous question, but replace the path geometry with the
+map with a polygon geometry (geom_polygon). Set the `alpha` aesthetic to 0.2 to make
+the map opaque.
+
+```{r}
+
+```
+
+7. Construct a dataset of all storms that occured in 1995. Repeat the plot from the
+prior question, but this time using all of the storms from 1995. To keep the plot from
+becoming too clutered add two additional layers: (i) a facet wrap by the name of the storm
+and (ii) the layer theme_void().
+
+```{r}
+
+```
+
+8. Create a new dataset consisting of only those measurements in 1995 that had a status
+equal to a hurricane. Starting with the plot from the previous question, add a layer of
+red points showing where each storm attained hurricane strength.
+
+```{r}
+
+```
+
+9. Construct a plot with month on the x-axis and wind (the speed of the storm) on the y-axis.
+Add a `geom_mean` layer to the plot to see the average wind speed of storms in each month.
+
+```{r}
+
+```
+
+What month or months seems to have the storms with the highest wind speeds?
+
+**Answer**:
+
+10. Draw a plot with month on the x-axis and wind speed on the y-axis. Color the
+points based on the storm status.
+
+```{r}
+
+```
+
+What wind speeds seem to be the cutoff for (i) a tropical storm and (ii) a
+hurricane?
+
+**Answer**:
+
+
+

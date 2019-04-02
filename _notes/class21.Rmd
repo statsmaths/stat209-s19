@@ -1,0 +1,73 @@
+---
+title: "Class 21: Relational Data"
+author: "Taylor Arnold"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(fig.path = "../assets/class21/")
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+```
+
+```{r, message = FALSE, include = FALSE}
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+library(kableExtra)
+library(smodels)
+
+theme_set(theme_minimal())
+msleep <- na.omit(msleep)
+```
+
+## Airline data
+
+Today we will once again look at the NYC flights dataset:
+
+```{r}
+flights <- read_csv("https://statsmaths.github.io/stat_data/flights.csv")
+```
+
+```{r}
+flights <- select(flights, year:day, hour, tailnum, carrier)
+```
+
+```{r}
+flights
+```
+
+This time we will also look at another table that describes each of the
+airlines.
+
+```{r}
+airlines <- read_csv("https://statsmaths.github.io/stat_data/f_airlines.csv")
+airlines
+```
+
+These two tables are connected by way of a common shared
+variable, known in database theory as *keys*. A key may be
+a single variable or a collection of variables (known as
+a composite key).
+
+In order to combine them, by matching up along keys, we can make use of the
+function `left_join`. Here we see that it returns a new table with the same
+number of rows as the `flights_sml` dataset but now with the full name of the
+carrier:
+
+```{r, include=FALSE}
+flights <- select(flights, year:day, hour, tailnum, carrier)
+```
+
+```{r}
+left_join(flights, airlines, by = "carrier")
+```
+
+And the resulting dataset combines all of the variables by the common key.
+
+
+
