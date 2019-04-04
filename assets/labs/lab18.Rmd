@@ -16,7 +16,6 @@ library(readr)
 library(ggplot2)
 library(dplyr)
 library(viridis)
-library(forcats)
 library(smodels)
 theme_set(theme_minimal())
 ```
@@ -39,6 +38,10 @@ borders <- read_csv("https://statsmaths.github.io/stat_data/nasa_borders.csv")
 
 Using the arrange function, sort the dataset in descending order of wind
 speed. Which two storms had the largest wind speeds:
+
+```{r}
+
+```
 
 Create a new variable in the dataset called doy (day of year) defined
 as the month plus the day divided by 32 minus 1.
