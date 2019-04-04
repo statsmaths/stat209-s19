@@ -1,0 +1,118 @@
+
+
+### Tea Data
+
+For class today, let's load a dataset of teas offered by the website Adagio:
+
+```{r, message = FALSE}
+tea <- read_csv("https://statsmaths.github.io/stat_data/tea.csv")
+tea
+```
+
+### New Variables
+
+In R, we can create new variable from old ones by apply numeric operations
+or new functions. In plots, simply manipulations can be do **in-line**; that
+is, we apply the functions to the variables within the plot. For example,
+the tea dataset gives prices in cents. We can make a plot of price in dollars
+against the score as follows:
+
+```{r}
+ggplot(tea, aes(price / 100, score)) +
+  geom_point()
+```
+
+Notice that the expression shows up verbatim in the plot. We can apply other
+functions such as `sqrt` or combine two variables similarly (note: this makes
+no practical sense here):
+
+```{r}
+ggplot(tea, aes(sqrt(price), score / num_reviews)) +
+  geom_point()
+```
+
+If a new variable is particularly useful or complex to construct, it may be
+useful to create a new variable to store it. The syntax to do this is as
+follows:
+
+```{r}
+tea$price_dollars <- tea$price / 100
+```
+
+Notice that we need to start every variable name with `tea$`; otherwise R will
+not know which dataset we are working with. In **ggplot2** commands this is
+not a problem because we have already stated what the default dataset is.
+
+### Making Numeric Data Discrete
+
+Often in plots it will be useful to convert numeric data into categorical
+data. There are three functions that I typically use to do this, depending on
+the end-goal:
+
+- `factor`: this converts each unique value of the input into its own category
+- `cut`: breaks the range of the numeric variable into equal parts and combines
+numbers in the same range together
+- `bin`: breaks the numeric data into equally sized bins
+
+The second two require an option named `n` that specifies the number of buckets.
+
+Let's take a look at how this works for factor:
+
+```{r}
+ggplot(tea, aes(price, num_reviews)) +
+  geom_point(aes(color = factor(price)))
+```
+
+Cut with 5 bins:
+
+```{r}
+ggplot(tea, aes(price, num_reviews)) +
+  geom_point(aes(color = cut(price, 5)))
+```
+
+And bin with 5 bins:
+
+```{r}
+library(smodels)
+ggplot(tea, aes(price, num_reviews)) +
+  geom_point(aes(color = bin(price, 5)))
+```
+
+You may find these useful, for one thing, when making maps in your second
+project.
+
+### Changing Categorical Variables
+
+The package **forcats** provides a number of functions for changing the
+way that categories are displayed. There are a number of functions, but
+I find that these four are most useful:
+
+- `fct_inorder`: order the categories in the order the categories appear
+- `fct_infreq`: order the categories from the smallest to largest category
+- `fct_rec`: reverse the order of the categories (useful to apply after
+`fct_infreq`)
+- `fct_lump`: lump together the smallest categories. Set the option `n` to
+specify the number of remaining categories
+
+We can see the effect of these most clearly on a bar plot, such as:
+
+```{r}
+ggplot(tea, aes(fct_infreq(type))) +
+  geom_bar()
+```
+
+Or
+
+```{r}
+ggplot(tea, aes(fct_lump(type, n = 3))) +
+  geom_bar()
+```
+
+They are very useful for when you want to use color but have too many small
+categories:
+
+```{r}
+ggplot(tea, aes(price, num_reviews)) +
+  geom_point(aes(color = fct_lump(type, n = 5)))
+```
+

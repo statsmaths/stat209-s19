@@ -1,0 +1,87 @@
+---
+title: "Lab 18: Working with Categorical Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+library(forcats)
+library(smodels)
+theme_set(theme_minimal())
+```
+
+## Instructions
+
+Below you will find several empty R code scripts.
+Your task is to fill in the required code snippets.
+
+## Arbuthnot Births Dataset
+
+Today we will be working with the Arbuthnot births dataset from the second week
+of the semester (I kept this assignment short so that you can move onto the
+project with the remaining time):
+
+```{r}
+births <- read_csv("https://statsmaths.github.io/stat_data/arbuthnot.csv")
+```
+
+## Making Numbers Categorical
+
+Start by creating a scatter plot with year on the x-axis and total number
+of births on the y-axis. Color the points based on the number of girls that
+were born in the that year:
+
+```{r}
+
+```
+
+Now, convert `girls` to a factor using the `factor()` function. Notice how
+the colors change:
+
+```{r}
+
+```
+
+Try instead to use the `bin` command to bin the girls variable:
+
+```{r}
+
+```
+
+Think about the differences between these three plots: numeric number of girls,
+factor number of girls, and binned number of girls.
+
+## Reordering Factors
+
+Now, create a line plot with year on the x-axis and the total number of births
+on the y-axis. Color the lines based on the head of state:
+
+```{r}
+
+```
+
+Now using `fct_inorder` to convert the ordering of the heads of state:
+
+```{r}
+
+```
+
+Notice that this is a better way to present the data (and something we
+wanted to do back in week 2 but did not yet know how to do it).
+
+
+
+
+
+

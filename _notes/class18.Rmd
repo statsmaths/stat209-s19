@@ -1,5 +1,5 @@
 ---
-title: "Class 18: Working with Categorical Data"
+title: "Class 18: One Table Verbs"
 author: "Taylor Arnold"
 output: html_notebook
 ---
@@ -25,127 +25,208 @@ library(forcats)
 theme_set(theme_minimal())
 ```
 
-### Learning Objectives
+## Transforming Data
 
-Today we will explore how to create new variable from old variables and,
-specifically, how to change the way that categorical variables are presented
-in plots.
+### Verbs
 
-### Tea Data
+Today we are going to cover a set of functions that take
+a data frame as an input and return a new version of the
+data frame. These functions are called *verbs* and come
+from the **dplyr** package. If you are familiar with
+running database queries, note that all of these verbs
+map onto SQL commands. In fact, R can be set up so that
+**dplyr** is called over a database rather than a local
+data frame in memory.
 
-For class today, let's load a dataset of teas offered by the website Adagio:
+There are over 30 verbs within **dplyr**, though most are
+either a minor variant or a specific application of another
+verb. Today we will see just five of them, which do the
+following:
+
+- select a subset of rows from the original dataset (`filter`)
+- rearrange the rows of the input (`arrange`)
+- pick a subset of the variable from the original (`select`)
+- create new variables (`mutate`)
+- collapse rows into a single summary (`summarize`)
+
+In the case of all verbs, the first argument is the original
+data frame and the output is a new data frame. It is important
+to note that **verbs do not modify the original data**; they
+operate on a copy of the original data.
+
+To illustrate these verbs we will work with a dataset of
+the every commercial flight that departed from New York City
+in 2013.
 
 ```{r, message = FALSE}
-tea <- read_csv("https://statsmaths.github.io/stat_data/tea.csv")
-tea
+flights <- read_csv("https://statsmaths.github.io/stat_data/flights.csv")
 ```
 
-### New Variables
+### Filtering rows
 
-In R, we can create new variable from old ones by apply numeric operations
-or new functions. In plots, simply manipulations can be do **in-line**; that
-is, we apply the functions to the variables within the plot. For example,
-the tea dataset gives prices in cents. We can make a plot of price in dollars
-against the score as follows:
+The filter function takes a dataset and returns a subset of the rows
+of the original data. The first argument is the dataset and the
+remaining arguments are logical statements that filter the data
+frame. Only rows where the statements are true will be returned.
+**Yes, we've already seen this.**
+
+Let's grab only those flights that left after 11pm (2300):
 
 ```{r}
-ggplot(tea, aes(price / 100, score)) +
-  geom_point()
+filter(flights, dep_time > 2300)
 ```
 
-Notice that the expression shows up verbatim in the plot. We can apply other
-functions such as `sqrt` or combine two variables similarly (note: this makes
-no practical sense here):
+### Arranging rows
+
+Next, we will see how to reorder to rows in a data frame using the
+`arrange` function. Like all verbs it takes the data frame as its
+first argument. Other arguments specify which variables to sort by:
 
 ```{r}
-ggplot(tea, aes(sqrt(price), score / num_reviews)) +
-  geom_point()
+arrange(flights, dep_time)
 ```
 
-If a new variable is particularly useful or complex to construct, it may be
-useful to create a new variable to store it. The syntax to do this is as
-follows:
+Other variables break ties in earlier variables:
 
 ```{r}
-tea$price_dollars <- tea$price / 100
+arrange(flights, dep_time, arr_time)
 ```
 
-Notice that we need to start every variable name with `tea$`; otherwise R will
-not know which dataset we are working with. In **ggplot2** commands this is
-not a problem because we have already stated what the default dataset is.
-
-### Making Numeric Data Discrete
-
-Often in plots it will be useful to convert numeric data into categorical
-data. There are three functions that I typically use to do this, depending on
-the end-goal:
-
-- `factor`: this converts each unique value of the input into its own category
-- `cut`: breaks the range of the numeric variable into equal parts and combines
-numbers in the same range together
-- `bin`: breaks the numeric data into equally sized bins
-
-The second two require an option named `n` that specifies the number of buckets.
-
-Let's take a look at how this works for factor:
+To sort a variable in reverse order, wrap it in the `desc` function:
 
 ```{r}
-ggplot(tea, aes(price, num_reviews)) +
-  geom_point(aes(color = factor(price)))
+arrange(flights, desc(dep_time), arr_time)
 ```
 
-Cut with 5 bins:
+You can store a dataset after arranging it, but the most useful application
+is to print out the results in order to look at them.
+
+### Selecting columns
+
+With larger datasets (or when producing reports) it is sometimes
+useful to select just a subset of the columns in the original
+dataset. To do this, we use the `select` function. The first input
+is the data set, with other arguments being variables we want to
+look at:
 
 ```{r}
-ggplot(tea, aes(price, num_reviews)) +
-  geom_point(aes(color = cut(price, 5)))
+select(flights, dep_time, origin, dest)
 ```
 
-And bin with 5 bins:
+I often now use this throughout our class notes so that you may
+more clearly see what is going on without the variables of interest
+(which tend to be on the end as we add them) being hidden.
+
+### Adding and modifying variables
+
+The `mutate` function creates new variable in our dataset as a
+function of other variables already present in the data. The
+function always add variables at the end of the dataset, so in
+order to see the results we will work with a smaller subset:
 
 ```{r}
-library(smodels)
-ggplot(tea, aes(price, num_reviews)) +
-  geom_point(aes(color = bin(price, 5)))
+flights_sml <- select(flights, year, month, day, arr_delay,
+                      dep_delay, distance, air_time)
 ```
 
-You may find these useful, for one thing, when making maps in your second
-project.
-
-### Changing Categorical Variables
-
-The package **forcats** provides a number of functions for changing the
-way that categories are displayed. There are a number of functions, but
-I find that these four are most useful:
-
-- `fct_inorder`: order the categories in the order the categories appear
-- `fct_infreq`: order the categories from the smallest to largest category
-- `fct_rec`: reverse the order of the categories (useful to apply after
-`fct_infreq`)
-- `fct_lump`: lump together the smallest categories. Set the option `n` to
-specify the number of remaining categories
-
-We can see the effect of these most clearly on a bar plot, such as:
+Lets calculate the average speed of the flight. The mutate function
+takes the data frame as its first argument followed by named arguments
+describing the new variables:
 
 ```{r}
-ggplot(tea, aes(fct_infreq(type))) +
-  geom_bar()
+mutate(flights_sml, speed = distance / air_time * 60)
 ```
 
-Or
+Similarly, we can figure out how much time was lost or gained
+between the departure delay and arrival delay:
 
 ```{r}
-ggplot(tea, aes(fct_lump(type, n = 3))) +
-  geom_bar()
+mutate(flights_sml, gain = arr_delay - dep_delay)
 ```
 
-They are very useful for when you want to use color but have too many small
-categories:
+Note that you can overwrite variables that already exist with mutate
+as well, though in general this should be avoided.
+
+### Summarizing data
+
+The `summarize` function collapses a data frame into a single row
+summary. We need to specify exactly what summaries are performed.
+Here, we will grab the mean values for arrival and departure delays:
 
 ```{r}
-ggplot(tea, aes(price, num_reviews)) +
-  geom_point(aes(color = fct_lump(type, n = 5)))
+summarize(flights, avg_dep_delay = mean(dep_delay),
+                   avg_arr_delay = mean(arr_delay))
 ```
 
+There is also a special function called `n()` that summarizes the
+total number of rows:
 
+```{r}
+summarize(flights, avg_dep_delay = mean(dep_delay),
+                   avg_arr_delay = mean(arr_delay),
+                   n = n())
+```
 
+Other summary functions that you might find useful:
+
+- `min`
+- `max`
+- `median`
+- `sd` - standard deviation
+- `quantile(x, 0.25)` - generalization of median; here, a value
+that is greater than 25% of the data
+- `first`, `last`, `nth`
+
+Summarizing datasets does not seem particularly useful here as
+we have other ways of computing the means and counts of a dataset
+without using a new function. The real power of the summary
+function comes when we learn how to group datasets next class.
+
+## Pipes
+
+The pipe operator `%>%` is a relative newcomer within the R
+ecosystem. It is incredibly useful for writing readable code
+with **dplyr** and ggplot2. The pipe passes the output of
+one function to the first argument of the next function. Because
+`ggplot` and all of the dplyr verbs take a data frame as its
+first input we can pipe together a number of operations without
+saving the intermediate results.
+
+For example, lets see the average change in delay between departure
+and arrival for flights leaving from JFK:
+
+```{r}
+flights %>%
+  filter(origin == "JFK") %>%
+  mutate(gain = arr_delay - dep_delay) %>%
+  ggplot(aes(gain)) +
+    geom_histogram()
+```
+
+We can also save the results of a long piped set of commands as
+a new dataset:
+
+```{r}
+flights_best_gain_jfk <- flights %>%
+  filter(origin == "JFK") %>%
+  mutate(gain = arr_delay - dep_delay) %>%
+  filter(gain > 10) %>%
+  arrange(desc(gain)) %>%
+  select(year, month, day, dep_time, dest, gain)
+flights_best_gain_jfk
+```
+
+Notice the standard syntax of the piped commands: each line after
+the first is indented and we usually pipe the data itself as the
+first line. With a **ggplot2** command, subsequent rows are indented
+twice.
+
+## Resources
+
+Here are several good resources if you want to learn more about
+the **dplyr** package:
+
+- [R for Data Science: Chapter 5](http://r4ds.had.co.nz/transform.html)
+- [data transformation cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+
+Of course, you can also ask me any questions you may have!
