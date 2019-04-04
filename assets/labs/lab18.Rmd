@@ -125,7 +125,7 @@ of the map that are not connected).
 ```
 
 Repeat the prior plot but now: (1) only include latitude less than
-40, (2) longitude less than -30, and (3) add `coord_map(ylim = c(0, 40))`
+40, (2) longitude less than -30, and (3) add `coord_cartesian(ylim = c(0, 40))`
 to the plot. Again, use a pipe.
 
 ```{r}
