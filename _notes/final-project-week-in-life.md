@@ -5,9 +5,7 @@ author: "Taylor Arnold"
 
 **Due**: 2018-04-25 (start of class)
 
-**Starter code**: <a href="https://raw.githubusercontent.com/statsmaths/stat209-s18/master/projects/final-project.Rmd" download="final-project.Rmd" target="_blank">project-i.Rmd</a>
-
-**Rubric**: [project-i-rubric.csv](https://github.com/statsmaths/stat209-f18/blob/master/projects/project-i-rubric.csv)
+**Starter code**: <a href="https://raw.githubusercontent.com/statsmaths/stat209-s18/master/projects/final-project.Rmd" download="final-project.Rmd" target="_blank">final-project.Rmd</a>
 
 The overarching goal of the first project is to collect a data set, produce a
 data dictionary, and provide an exploratory analysis from your data.
@@ -45,8 +43,8 @@ know as soon as possible.
 Here are template files for these three datasets (they fill in the same
 activity, sleeping, for every hour):
 
-- <a href="https://raw.githubusercontent.com/statsmaths/stat209-s19/master/projects/hourly.csv" download="hourly.csv" target="_blank">hourly.csv</a>
-- <a href="https://raw.githubusercontent.com/statsmaths/stat209-s19/master/projects/places.csv" download="places.csv" target="_blank">places.csv</a>
-- <a href="https://raw.githubusercontent.com/statsmaths/stat209-s19/master/projects/activities.csv" download="activities.csv" target="_blank">activities.csv</a>
+- <a href="https://raw.githubusercontent.com/statsmaths/stat209-s19/master/assets/projects/hourly.csv" download="hourly.csv" target="_blank">hourly.csv</a>
+- <a href="https://raw.githubusercontent.com/statsmaths/stat209-s19/master/assets/projects/places.csv" download="places.csv" target="_blank">places.csv</a>
+- <a href="https://raw.githubusercontent.com/statsmaths/stat209-s19/master/assets/projects/activities.csv" download="activities.csv" target="_blank">activities.csv</a>
 
 There will be time to work on the project in class on Thursday, 18 April.
