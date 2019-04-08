@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(message = FALSE)
 knitr::opts_chunk$set(fig.height = 5)
@@ -199,7 +199,7 @@ storms %>%
     geom_path(aes(group = name), color = "salmon") +
     geom_point(aes(size = category), color = "salmon") +
     facet_wrap(~year) +
-    coord_map() + # can replace with coord_cartesian if you do not have the maps package 
+    coord_map() + # can replace with coord_cartesian if you do not have the maps package
     theme_void()
 ```
 
