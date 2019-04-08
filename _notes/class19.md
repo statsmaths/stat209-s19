@@ -1,5 +1,5 @@
 ---
-title: "Class 19: Summarizing Data"
+title: "Class 19: Collecting Relational Data"
 author: "Taylor Arnold"
 output: html_notebook
 ---
@@ -8,50 +8,51 @@ output: html_notebook
 
 
 
-### Learning Objectives
+In order to let you get started on the final project, I have reordered the
+typical order of my notes on data manipulation. Today we are going to see 
+how to collect and manipulate data stored in multiple tables.
 
-Understand the concepts behind summarizing datasets by a grouping variable
-and be able to apply this to a new dataset using the syntax in R.
+## Tidy data
 
-### NYC Flights Data
+## Three principles
 
-Once again we are going to work today with the NYC Flights dataset.
+We have already discussed at length how to store tablular datasets and 
+some good practices for naming variables. As datasets become more complex,
+there are some additional concerns that arise. All of the principles of
+constructing a dataset (equivalently, a database) could easily fill a
+whole course. Here are three principles that get us on the right track:
+
+- determine the objects of study; each of these gets its own table,
+and each example gets its own row; **movies**, **actors**,
+**actor-movie links**
+- information about an object of study should be put on the relevant
+table; the information should remain internally consistent regardless of
+changes made within a data table
+- each column should be indivisible and the variable type clear;
+for example, budget should not include the dollar sign, if needed
+create a new column; name columns with no spaces or special characters
+
+If you would like to know about specifics of these principals I highly
+recommend the Hadley Wickhams "Tidy Data" paper:
+
+- ["Tidy Data" (2014)](http://vita.had.co.nz/papers/tidy-data.html)
+
+The Tidy Data chapter of R for Data Science covers several useful
+functions the show to convert a dataset that has already been collected
+into a tidy format:
+
+- [Tidy Data R4DS](http://r4ds.had.co.nz/tidy-data.html)
+
+To better explain these principles, let's look at several tables from the
+airline dataset.
+
+## Airline data
+
+Today we will once again look at the NYC flights dataset:
 
 
 {% highlight r %}
 flights <- read_csv("https://statsmaths.github.io/stat_data/flights.csv")
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Parsed with column specification:
-## cols(
-##   year = col_double(),
-##   month = col_double(),
-##   day = col_double(),
-##   dep_time = col_double(),
-##   sched_dep_time = col_double(),
-##   dep_delay = col_double(),
-##   arr_time = col_double(),
-##   sched_arr_time = col_double(),
-##   arr_delay = col_double(),
-##   carrier = col_character(),
-##   flight = col_double(),
-##   tailnum = col_character(),
-##   origin = col_character(),
-##   dest = col_character(),
-##   air_time = col_double(),
-##   distance = col_double(),
-##   hour = col_double(),
-##   minute = col_double(),
-##   time_hour = col_datetime(format = "")
-## )
-{% endhighlight %}
-
-
-
-{% highlight r %}
 flights
 {% endhighlight %}
 
@@ -77,164 +78,279 @@ flights
 ## #   minute <dbl>, time_hour <dttm>
 {% endhighlight %}
 
-Take note of the unit of observation here: each row is a flight.
-
-### Changing the Unit of Observation
-
-Often, it is useful to change the unit of observation within a dataset.
-The most common way of doing this is to group the dataset by a combination
-of variables and aggregate the numeric variables by taking sums, means, or
-some other summary statistics. Some common examples include:
-
-- aggregating individual shot attempts in soccer to summary statistics about each player
-- aggregating census tract data to a county or state level
-- aggregating information about individual patients to summaries about demographic groups
-
-We have seen a few simple ways of doing this already within a plot (such as
-counting occurances in a group with `geom_bar`). Today we will see how to do this
-with the `group_summarize` command.
-
-### Summarizing data
-
-The group summarize command comes from the **smodels** package. Applying it to a
-dataset with no additional options yields a new dataset with just a single line.
-Variables in the new dataset summarize the numeric variables in the raw data.
+This time we will also look at another table that describes each of the
+airlines.
 
 
 {% highlight r %}
-flight_line <- group_summarize(flights)
-flight_line
+airlines <- read_csv("https://statsmaths.github.io/stat_data/f_airlines.csv")
+airlines
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## # A tibble: 1 x 57
-##   year_mean month_mean day_mean dep_time_mean sched_dep_time_…
-##       <dbl>      <dbl>    <dbl>         <dbl>            <dbl>
-## 1      2013       6.56     15.7         1349.            1340.
-## # … with 52 more variables: dep_delay_mean <dbl>, arr_time_mean <dbl>,
-## #   sched_arr_time_mean <dbl>, arr_delay_mean <dbl>, flight_mean <dbl>,
-## #   air_time_mean <dbl>, distance_mean <dbl>, hour_mean <dbl>,
-## #   minute_mean <dbl>, year_median <dbl>, month_median <dbl>,
-## #   day_median <dbl>, dep_time_median <dbl>, sched_dep_time_median <dbl>,
-## #   dep_delay_median <dbl>, arr_time_median <dbl>,
-## #   sched_arr_time_median <dbl>, arr_delay_median <dbl>,
-## #   flight_median <dbl>, air_time_median <dbl>, distance_median <dbl>,
-## #   hour_median <dbl>, minute_median <dbl>, year_sd <dbl>, month_sd <dbl>,
-## #   day_sd <dbl>, dep_time_sd <dbl>, sched_dep_time_sd <dbl>,
-## #   dep_delay_sd <dbl>, arr_time_sd <dbl>, sched_arr_time_sd <dbl>,
-## #   arr_delay_sd <dbl>, flight_sd <dbl>, air_time_sd <dbl>,
-## #   distance_sd <dbl>, hour_sd <dbl>, minute_sd <dbl>, year_sum <dbl>,
-## #   month_sum <dbl>, day_sum <dbl>, dep_time_sum <dbl>,
-## #   sched_dep_time_sum <dbl>, dep_delay_sum <dbl>, arr_time_sum <dbl>,
-## #   sched_arr_time_sum <dbl>, arr_delay_sum <dbl>, flight_sum <dbl>,
-## #   air_time_sum <dbl>, distance_sum <dbl>, hour_sum <dbl>,
-## #   minute_sum <dbl>, n <int>
+## # A tibble: 16 x 2
+##    carrier name                       
+##    <chr>   <chr>                      
+##  1 9E      Endeavor Air Inc.          
+##  2 AA      American Airlines Inc.     
+##  3 AS      Alaska Airlines Inc.       
+##  4 B6      JetBlue Airways            
+##  5 DL      Delta Air Lines Inc.       
+##  6 EV      ExpressJet Airlines Inc.   
+##  7 F9      Frontier Airlines Inc.     
+##  8 FL      AirTran Airways Corporation
+##  9 HA      Hawaiian Airlines Inc.     
+## 10 MQ      Envoy Air                  
+## 11 OO      SkyWest Airlines Inc.      
+## 12 UA      United Air Lines Inc.      
+## 13 US      US Airways Inc.            
+## 14 VX      Virgin America             
+## 15 WN      Southwest Airlines Co.     
+## 16 YV      Mesa Airlines Inc.
 {% endhighlight %}
 
-Specifically, we see the following summaries for each numeric variable (the new names add a suffix
-to the original variable name):
-
-- `mean`: the average of all the observations
-- `median`: if we ordered all observations from smallest to largest, the middle value
-- `sd`: the standard deviation, a measurment of how much the number varies across observations (more on this after the break)
-- `sum`: the sum of all the observations
-
-There is also a variable just called `n` at the end, giving the total number of observations in
-the entire dataset.
-
-### Group Summarize
-
-The magic of the `group_summarize` command comes from specifying other variables in function call.
-If we specify a grouping variable, here I'll use `month`, the summarizing will be done *within*
-each month. So, here, the new dataset has 12 rows with each row summarizing a given month:
+Another describing the planes:
 
 
 {% highlight r %}
-flight_month <- group_summarize(flights, month)
-print(flight_month, n = 12)
+planes <- read_csv("https://statsmaths.github.io/stat_data/f_planes.csv")
+planes
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## # A tibble: 12 x 54
-##    month year_mean day_mean dep_time_mean sched_dep_time_… dep_delay_mean
-##    <dbl>     <dbl>    <dbl>         <dbl>            <dbl>          <dbl>
-##  1     1      2013     15.8         1347.            1339.           9.99
-##  2     2      2013     15.0         1348.            1340.          10.8 
-##  3     3      2013     16.1         1359.            1352.          13.2 
-##  4     4      2013     15.4         1353.            1345.          13.8 
-##  5     5      2013     15.9         1351.            1341.          12.9 
-##  6     6      2013     15.5         1350.            1336.          20.7 
-##  7     7      2013     16.2         1352.            1339.          21.5 
-##  8     8      2013     15.9         1350.            1342.          12.6 
-##  9     9      2013     15.7         1334.            1330.           6.63
-## 10    10      2013     16.0         1340.            1335.           6.23
-## 11    11      2013     15.3         1345.            1342.           5.42
-## 12    12      2013     15.9         1357.            1342.          16.5 
-## # … with 48 more variables: arr_time_mean <dbl>,
-## #   sched_arr_time_mean <dbl>, arr_delay_mean <dbl>, flight_mean <dbl>,
-## #   air_time_mean <dbl>, distance_mean <dbl>, hour_mean <dbl>,
-## #   minute_mean <dbl>, year_median <dbl>, day_median <dbl>,
-## #   dep_time_median <dbl>, sched_dep_time_median <dbl>,
-## #   dep_delay_median <dbl>, arr_time_median <dbl>,
-## #   sched_arr_time_median <dbl>, arr_delay_median <dbl>,
-## #   flight_median <dbl>, air_time_median <dbl>, distance_median <dbl>,
-## #   hour_median <dbl>, minute_median <dbl>, year_sd <dbl>, day_sd <dbl>,
-## #   dep_time_sd <dbl>, sched_dep_time_sd <dbl>, dep_delay_sd <dbl>,
-## #   arr_time_sd <dbl>, sched_arr_time_sd <dbl>, arr_delay_sd <dbl>,
-## #   flight_sd <dbl>, air_time_sd <dbl>, distance_sd <dbl>, hour_sd <dbl>,
-## #   minute_sd <dbl>, year_sum <dbl>, day_sum <dbl>, dep_time_sum <dbl>,
-## #   sched_dep_time_sum <dbl>, dep_delay_sum <dbl>, arr_time_sum <dbl>,
-## #   sched_arr_time_sum <dbl>, arr_delay_sum <dbl>, flight_sum <dbl>,
-## #   air_time_sum <dbl>, distance_sum <dbl>, hour_sum <dbl>,
-## #   minute_sum <dbl>, n <int>
+## # A tibble: 3,322 x 9
+##    tailnum  year type       manufacturer  model  engines seats speed engine
+##    <chr>   <dbl> <chr>      <chr>         <chr>    <dbl> <dbl> <dbl> <chr> 
+##  1 N10156   2004 Fixed win… EMBRAER       EMB-1…       2    55    NA Turbo…
+##  2 N102UW   1998 Fixed win… AIRBUS INDUS… A320-…       2   182    NA Turbo…
+##  3 N103US   1999 Fixed win… AIRBUS INDUS… A320-…       2   182    NA Turbo…
+##  4 N104UW   1999 Fixed win… AIRBUS INDUS… A320-…       2   182    NA Turbo…
+##  5 N10575   2002 Fixed win… EMBRAER       EMB-1…       2    55    NA Turbo…
+##  6 N105UW   1999 Fixed win… AIRBUS INDUS… A320-…       2   182    NA Turbo…
+##  7 N107US   1999 Fixed win… AIRBUS INDUS… A320-…       2   182    NA Turbo…
+##  8 N108UW   1999 Fixed win… AIRBUS INDUS… A320-…       2   182    NA Turbo…
+##  9 N109UW   1999 Fixed win… AIRBUS INDUS… A320-…       2   182    NA Turbo…
+## 10 N110UW   1999 Fixed win… AIRBUS INDUS… A320-…       2   182    NA Turbo…
+## # … with 3,312 more rows
 {% endhighlight %}
 
-This dataset can then be used in further visualizations. Such as:
+The airports:
 
 
 {% highlight r %}
-ggplot(flight_month, aes(month, dep_delay_mean)) +
-  geom_line(color = "salmon", size = 1) +
-  geom_line(aes(y = arr_delay_mean), color = "olivedrab", size = 1) +
-  scale_x_continuous(breaks = c(1,2,3,4,5,6,7,8,9,10,11,12)) +
-  annotate("text", x = 6.5, y = 23, label = "Delays Peak in July and August...") +
-  annotate("text", x = 9, y = -5, label = "... And dip in September") +
-  annotate("text", x = 3, y = 15, color = "salmon", label = "Departure") +
-  annotate("text", x = 3, y = 4, color = "olivedrab", label = "Arrival") +
-  xlab("Month of the Year") +
-  ylab("Average Delay in Minutes")
+airports <- read_csv("https://statsmaths.github.io/stat_data/f_airports.csv")
+airports
 {% endhighlight %}
 
-<img src="../assets/class19/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="100%" />
 
-Notice that it would be impossible to produce this graphic without the summarize command.
 
-### Summarize By Multiple Variables
+{% highlight text %}
+## # A tibble: 1,458 x 8
+##    faa   name                    lat    lon   alt    tz dst   tzone        
+##    <chr> <chr>                 <dbl>  <dbl> <dbl> <dbl> <chr> <chr>        
+##  1 04G   Lansdowne Airport      41.1  -80.6  1044    -5 A     America/New_…
+##  2 06A   Moton Field Municipa…  32.5  -85.7   264    -6 A     America/Chic…
+##  3 06C   Schaumburg Regional    42.0  -88.1   801    -6 A     America/Chic…
+##  4 06N   Randall Airport        41.4  -74.4   523    -5 A     America/New_…
+##  5 09J   Jekyll Island Airport  31.1  -81.4    11    -5 A     America/New_…
+##  6 0A9   Elizabethton Municip…  36.4  -82.2  1593    -5 A     America/New_…
+##  7 0G6   Williams County Airp…  41.5  -84.5   730    -5 A     America/New_…
+##  8 0G7   Finger Lakes Regiona…  42.9  -76.8   492    -5 A     America/New_…
+##  9 0P2   Shoestring Aviation …  39.8  -76.6  1000    -5 U     America/New_…
+## 10 0S9   Jefferson County Intl  48.1 -123.    108    -8 A     America/Los_…
+## # … with 1,448 more rows
+{% endhighlight %}
 
-By supplying multiple variables to the `group_summarize` command, we can group simultaneously by both.
-Here we have a unique row for each combination of carrier and departure airport:
+And the weather:
 
 
 {% highlight r %}
-flight_carrier <- group_summarize(flights, carrier, origin)
+weather <- read_csv("https://statsmaths.github.io/stat_data/f_weather.csv")
+weather
 {% endhighlight %}
 
-Which allows us to make plots like this:
+
+
+{% highlight text %}
+## # A tibble: 26,130 x 15
+##    origin  year month   day  hour  temp  dewp humid wind_dir wind_speed
+##    <chr>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>    <dbl>      <dbl>
+##  1 EWR     2013     1     1     0  37.0  21.9  54.0      230      10.4 
+##  2 EWR     2013     1     1     1  37.0  21.9  54.0      230      13.8 
+##  3 EWR     2013     1     1     2  37.9  21.9  52.1      230      12.7 
+##  4 EWR     2013     1     1     3  37.9  23    54.5      230      13.8 
+##  5 EWR     2013     1     1     4  37.9  24.1  57.0      240      15.0 
+##  6 EWR     2013     1     1     6  39.0  26.1  59.4      270      10.4 
+##  7 EWR     2013     1     1     7  39.0  27.0  61.6      250       8.06
+##  8 EWR     2013     1     1     8  39.0  28.0  64.4      240      11.5 
+##  9 EWR     2013     1     1     9  39.9  28.0  62.2      250      12.7 
+## 10 EWR     2013     1     1    10  39.0  28.0  64.4      260      12.7 
+## # … with 26,120 more rows, and 5 more variables: wind_gust <dbl>,
+## #   precip <dbl>, pressure <dbl>, visib <dbl>, time_hour <dttm>
+{% endhighlight %}
+
+Each of these tables captures a specific unit of observation. Information
+about a unit of observation is only included in a specific table. Note that,
+for example, including the origin airport in the flights table is not an
+error: this **is** information about the flight. However, if we put in
+information about the timezone of the flight, this would break the tidy
+data principles.
+
+## Two table verbs
+
+Having data places across different tables is useful, but often we need to
+put the data back together before using it. Notice that the various tables
+are connected by way of common shared variables, known in database theory
+as *keys*. A key may be a single variable or a collection of variables
+(a composite key).
+
+In order to combine them, by matching up along keys, we can make use of the
+function `left_join`. Here we see that it returns a new table with the same
+number of rows as the `flights` dataset but now with the full name of the
+carrier. I'll make use of a pipe to reduce the number of variables to make it
+easier to see:
 
 
 {% highlight r %}
-ggplot(flight_carrier, aes(carrier, arr_delay_mean)) +
-  geom_point(aes(color = origin)) +
-  xlab("Carrier Code") +
-  ylab("Average Arrival Delay (minutes)")
+left_join(flights, airlines, by = "carrier") %>%
+  select(year, month, day, origin, dest, carrier, name)
 {% endhighlight %}
 
-<img src="../assets/class19/unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="100%" />
 
-As you can imagine, summarizing data can quickly allow for very complex
-graphics and analyses.
 
+{% highlight text %}
+## # A tibble: 327,346 x 7
+##     year month   day origin dest  carrier name                    
+##    <dbl> <dbl> <dbl> <chr>  <chr> <chr>   <chr>                   
+##  1  2013     1     1 EWR    IAH   UA      United Air Lines Inc.   
+##  2  2013     1     1 LGA    IAH   UA      United Air Lines Inc.   
+##  3  2013     1     1 JFK    MIA   AA      American Airlines Inc.  
+##  4  2013     1     1 JFK    BQN   B6      JetBlue Airways         
+##  5  2013     1     1 LGA    ATL   DL      Delta Air Lines Inc.    
+##  6  2013     1     1 EWR    ORD   UA      United Air Lines Inc.   
+##  7  2013     1     1 EWR    FLL   B6      JetBlue Airways         
+##  8  2013     1     1 LGA    IAD   EV      ExpressJet Airlines Inc.
+##  9  2013     1     1 JFK    MCO   B6      JetBlue Airways         
+## 10  2013     1     1 LGA    ORD   AA      American Airlines Inc.  
+## # … with 327,336 more rows
+{% endhighlight %}
+
+The resulting dataset combines all of the variables by the common key.
+
+### Composite keys
+
+Recall that a key may consist of multiple variables. To
+join on many variables at once, provide a vector of all the names
+to the option `by`:
+
+
+{% highlight r %}
+flights_sml <- flights %>%
+  select(year:day, hour, origin, dest)
+
+inner_join(flights_sml, weather,
+          by = c("year", "month", "day", "hour", "origin"))
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## # A tibble: 326,160 x 16
+##     year month   day  hour origin dest   temp  dewp humid wind_dir
+##    <dbl> <dbl> <dbl> <dbl> <chr>  <chr> <dbl> <dbl> <dbl>    <dbl>
+##  1  2013     1     1     6 LGA    ATL    39.9  26.1  57.3      260
+##  2  2013     1     1     6 EWR    FLL    39.0  26.1  59.4      270
+##  3  2013     1     1     6 LGA    IAD    39.9  26.1  57.3      260
+##  4  2013     1     1     6 JFK    MCO    39.0  26.1  59.4      260
+##  5  2013     1     1     6 LGA    ORD    39.9  26.1  57.3      260
+##  6  2013     1     1     6 JFK    PBI    39.0  26.1  59.4      260
+##  7  2013     1     1     6 JFK    TPA    39.0  26.1  59.4      260
+##  8  2013     1     1     6 JFK    LAX    39.0  26.1  59.4      260
+##  9  2013     1     1     6 EWR    SFO    39.0  26.1  59.4      270
+## 10  2013     1     1     6 LGA    DFW    39.9  26.1  57.3      260
+## # … with 326,150 more rows, and 6 more variables: wind_speed <dbl>,
+## #   wind_gust <dbl>, precip <dbl>, pressure <dbl>, visib <dbl>,
+## #   time_hour <dttm>
+{% endhighlight %}
+
+### Common variables
+
+Sometimes there may be a variable name present in two datasets that
+we want to merge together but that has a different meaning in each
+dataset. For example, `year` is the year of the flight in the `flights`
+dataset but the year of creating in the `airplanes` dataset. If
+we join these two, we see that a suffix is added to each variable:
+
+
+{% highlight r %}
+flights_sml <- flights %>%
+  select(year:day, tailnum)
+inner_join(flights_sml, planes,
+          by = c("tailnum"))
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## # A tibble: 279,017 x 12
+##    year.x month   day tailnum year.y type  manufacturer model engines seats
+##     <dbl> <dbl> <dbl> <chr>    <dbl> <chr> <chr>        <chr>   <dbl> <dbl>
+##  1   2013     1     1 N14228    1999 Fixe… BOEING       737-…       2   149
+##  2   2013     1     1 N24211    1998 Fixe… BOEING       737-…       2   149
+##  3   2013     1     1 N619AA    1990 Fixe… BOEING       757-…       2   178
+##  4   2013     1     1 N804JB    2012 Fixe… AIRBUS       A320…       2   200
+##  5   2013     1     1 N668DN    1991 Fixe… BOEING       757-…       2   178
+##  6   2013     1     1 N39463    2012 Fixe… BOEING       737-…       2   191
+##  7   2013     1     1 N516JB    2000 Fixe… AIRBUS INDU… A320…       2   200
+##  8   2013     1     1 N829AS    1998 Fixe… CANADAIR     CL-6…       2    55
+##  9   2013     1     1 N593JB    2004 Fixe… AIRBUS       A320…       2   200
+## 10   2013     1     1 N793JB    2011 Fixe… AIRBUS       A320…       2   200
+## # … with 279,007 more rows, and 2 more variables: speed <dbl>,
+## #   engine <chr>
+{% endhighlight %}
+
+This behavior is fine, but it is better to manually describe
+what the suffix should be:
+
+
+{% highlight r %}
+inner_join(flights_sml, planes,
+          by = c("tailnum"),
+          suffix = c("", "_plane"))
+{% endhighlight %}
+
+
+
+{% highlight text %}
+## # A tibble: 279,017 x 12
+##     year month   day tailnum year_plane type  manufacturer model engines
+##    <dbl> <dbl> <dbl> <chr>        <dbl> <chr> <chr>        <chr>   <dbl>
+##  1  2013     1     1 N14228        1999 Fixe… BOEING       737-…       2
+##  2  2013     1     1 N24211        1998 Fixe… BOEING       737-…       2
+##  3  2013     1     1 N619AA        1990 Fixe… BOEING       757-…       2
+##  4  2013     1     1 N804JB        2012 Fixe… AIRBUS       A320…       2
+##  5  2013     1     1 N668DN        1991 Fixe… BOEING       757-…       2
+##  6  2013     1     1 N39463        2012 Fixe… BOEING       737-…       2
+##  7  2013     1     1 N516JB        2000 Fixe… AIRBUS INDU… A320…       2
+##  8  2013     1     1 N829AS        1998 Fixe… CANADAIR     CL-6…       2
+##  9  2013     1     1 N593JB        2004 Fixe… AIRBUS       A320…       2
+## 10  2013     1     1 N793JB        2011 Fixe… AIRBUS       A320…       2
+## # … with 279,007 more rows, and 3 more variables: seats <dbl>,
+## #   speed <dbl>, engine <chr>
+{% endhighlight %}
+
+### Unspecified key
+
+If we do not specify the key to join with in the `by` option, **dplyr**
+will assume that we want to join on all common keys. A warning will be
+produced warning which variables were choosen. This can be useful in a
+pinch, but generally is a bad idea to rely on.
+
+### Practice (or not)
+
+In the interest of time, we will practice the `left_join` function on the
+next lab. We will spend the end of class today discussing the final project.

@@ -1,5 +1,5 @@
 ---
-title: "Class 19: Summarizing Data"
+title: "Class 19: Collecting Relational Data"
 author: "Taylor Arnold"
 output: html_notebook
 ---
@@ -24,105 +24,156 @@ library(smodels)
 theme_set(theme_minimal())
 ```
 
-### Learning Objectives
+In order to let you get started on the final project, I have reordered the
+typical order of my notes on data manipulation. Today we are going to see 
+how to collect and manipulate data stored in multiple tables.
 
-Understand the concepts behind summarizing datasets by a grouping variable
-and be able to apply this to a new dataset using the syntax in R.
+## Tidy data
 
-### NYC Flights Data
+## Three principles
 
-Once again we are going to work today with the NYC Flights dataset.
+We have already discussed at length how to store tablular datasets and 
+some good practices for naming variables. As datasets become more complex,
+there are some additional concerns that arise. All of the principles of
+constructing a dataset (equivalently, a database) could easily fill a
+whole course. Here are three principles that get us on the right track:
 
-```{r}
+- determine the objects of study; each of these gets its own table,
+and each example gets its own row; **movies**, **actors**,
+**actor-movie links**
+- information about an object of study should be put on the relevant
+table; the information should remain internally consistent regardless of
+changes made within a data table
+- each column should be indivisible and the variable type clear;
+for example, budget should not include the dollar sign, if needed
+create a new column; name columns with no spaces or special characters
+
+If you would like to know about specifics of these principals I highly
+recommend the Hadley Wickhams "Tidy Data" paper:
+
+- ["Tidy Data" (2014)](http://vita.had.co.nz/papers/tidy-data.html)
+
+The Tidy Data chapter of R for Data Science covers several useful
+functions the show to convert a dataset that has already been collected
+into a tidy format:
+
+- [Tidy Data R4DS](http://r4ds.had.co.nz/tidy-data.html)
+
+To better explain these principles, let's look at several tables from the
+airline dataset.
+
+## Airline data
+
+Today we will once again look at the NYC flights dataset:
+
+```{r, message=FALSE}
 flights <- read_csv("https://statsmaths.github.io/stat_data/flights.csv")
 flights
 ```
 
-Take note of the unit of observation here: each row is a flight.
+This time we will also look at another table that describes each of the
+airlines.
 
-### Changing the Unit of Observation
-
-Often, it is useful to change the unit of observation within a dataset.
-The most common way of doing this is to group the dataset by a combination
-of variables and aggregate the numeric variables by taking sums, means, or
-some other summary statistics. Some common examples include:
-
-- aggregating individual shot attempts in soccer to summary statistics about each player
-- aggregating census tract data to a county or state level
-- aggregating information about individual patients to summaries about demographic groups
-
-We have seen a few simple ways of doing this already within a plot (such as
-counting occurances in a group with `geom_bar`). Today we will see how to do this
-with the `group_summarize` command.
-
-### Summarizing data
-
-The group summarize command comes from the **smodels** package. Applying it to a
-dataset with no additional options yields a new dataset with just a single line.
-Variables in the new dataset summarize the numeric variables in the raw data.
-
-```{r}
-flight_line <- group_summarize(flights)
-flight_line
+```{r, message=FALSE}
+airlines <- read_csv("https://statsmaths.github.io/stat_data/f_airlines.csv")
+airlines
 ```
 
-Specifically, we see the following summaries for each numeric variable (the new names add a suffix
-to the original variable name):
+Another describing the planes:
 
-- `mean`: the average of all the observations
-- `median`: if we ordered all observations from smallest to largest, the middle value
-- `sd`: the standard deviation, a measurment of how much the number varies across observations (more on this after the break)
-- `sum`: the sum of all the observations
-
-There is also a variable just called `n` at the end, giving the total number of observations in
-the entire dataset.
-
-### Group Summarize
-
-The magic of the `group_summarize` command comes from specifying other variables in function call.
-If we specify a grouping variable, here I'll use `month`, the summarizing will be done *within*
-each month. So, here, the new dataset has 12 rows with each row summarizing a given month:
-
-```{r}
-flight_month <- group_summarize(flights, month)
-print(flight_month, n = 12)
+```{r, message=FALSE}
+planes <- read_csv("https://statsmaths.github.io/stat_data/f_planes.csv")
+planes
 ```
 
-This dataset can then be used in further visualizations. Such as:
+The airports:
 
-```{r}
-ggplot(flight_month, aes(month, dep_delay_mean)) +
-  geom_line(color = "salmon", size = 1) +
-  geom_line(aes(y = arr_delay_mean), color = "olivedrab", size = 1) +
-  scale_x_continuous(breaks = c(1,2,3,4,5,6,7,8,9,10,11,12)) +
-  annotate("text", x = 6.5, y = 23, label = "Delays Peak in July and August...") +
-  annotate("text", x = 9, y = -5, label = "... And dip in September") +
-  annotate("text", x = 3, y = 15, color = "salmon", label = "Departure") +
-  annotate("text", x = 3, y = 4, color = "olivedrab", label = "Arrival") +
-  xlab("Month of the Year") +
-  ylab("Average Delay in Minutes")
+```{r, message=FALSE}
+airports <- read_csv("https://statsmaths.github.io/stat_data/f_airports.csv")
+airports
 ```
 
-Notice that it would be impossible to produce this graphic without the summarize command.
+And the weather:
 
-### Summarize By Multiple Variables
-
-By supplying multiple variables to the `group_summarize` command, we can group simultaneously by both.
-Here we have a unique row for each combination of carrier and departure airport:
-
-```{r}
-flight_carrier <- group_summarize(flights, carrier, origin)
+```{r, message=FALSE}
+weather <- read_csv("https://statsmaths.github.io/stat_data/f_weather.csv")
+weather
 ```
 
-Which allows us to make plots like this:
+Each of these tables captures a specific unit of observation. Information
+about a unit of observation is only included in a specific table. Note that,
+for example, including the origin airport in the flights table is not an
+error: this **is** information about the flight. However, if we put in
+information about the timezone of the flight, this would break the tidy
+data principles.
+
+## Two table verbs
+
+Having data places across different tables is useful, but often we need to
+put the data back together before using it. Notice that the various tables
+are connected by way of common shared variables, known in database theory
+as *keys*. A key may be a single variable or a collection of variables
+(a composite key).
+
+In order to combine them, by matching up along keys, we can make use of the
+function `left_join`. Here we see that it returns a new table with the same
+number of rows as the `flights` dataset but now with the full name of the
+carrier. I'll make use of a pipe to reduce the number of variables to make it
+easier to see:
 
 ```{r}
-ggplot(flight_carrier, aes(carrier, arr_delay_mean)) +
-  geom_point(aes(color = origin)) +
-  xlab("Carrier Code") +
-  ylab("Average Arrival Delay (minutes)")
+left_join(flights, airlines, by = "carrier") %>%
+  select(year, month, day, origin, dest, carrier, name)
 ```
 
-As you can imagine, summarizing data can quickly allow for very complex
-graphics and analyses.
+The resulting dataset combines all of the variables by the common key.
 
+### Composite keys
+
+Recall that a key may consist of multiple variables. To
+join on many variables at once, provide a vector of all the names
+to the option `by`:
+
+```{r}
+flights_sml <- flights %>%
+  select(year:day, hour, origin, dest)
+
+inner_join(flights_sml, weather,
+          by = c("year", "month", "day", "hour", "origin"))
+```
+
+### Common variables
+
+Sometimes there may be a variable name present in two datasets that
+we want to merge together but that has a different meaning in each
+dataset. For example, `year` is the year of the flight in the `flights`
+dataset but the year of creating in the `airplanes` dataset. If
+we join these two, we see that a suffix is added to each variable:
+
+```{r}
+flights_sml <- flights %>%
+  select(year:day, tailnum)
+inner_join(flights_sml, planes,
+          by = c("tailnum"))
+```
+
+This behavior is fine, but it is better to manually describe
+what the suffix should be:
+
+```{r}
+inner_join(flights_sml, planes,
+          by = c("tailnum"),
+          suffix = c("", "_plane"))
+```
+
+### Unspecified key
+
+If we do not specify the key to join with in the `by` option, **dplyr**
+will assume that we want to join on all common keys. A warning will be
+produced warning which variables were choosen. This can be useful in a
+pinch, but generally is a bad idea to rely on.
+
+### Practice (or not)
+
+In the interest of time, we will practice the `left_join` function on the
+next lab. We will spend the end of class today discussing the final project.

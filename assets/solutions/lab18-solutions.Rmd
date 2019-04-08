@@ -1,0 +1,205 @@
+---
+title: "Lab 18: Working one table verbs and pipes"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+library(smodels)
+theme_set(theme_minimal())
+```
+
+## Storm dataset again
+
+Today, we are going to look at a NASA weather dataset. This particular
+one contains information about Atlantic storms. Read it in with the
+following:
+
+```{r}
+storms <- read_csv("https://statsmaths.github.io/stat_data/storms.csv")
+```
+
+It may also be useful to have a dataset giving the borders of countries:
+
+```{r}
+borders <- read_csv("https://statsmaths.github.io/stat_data/nasa_borders.csv")
+```
+
+Using the arrange function, sort the dataset in descending order of wind
+speed. Which two storms had the largest wind speeds:
+
+```{r}
+storms %>%
+  arrange(desc(wind))
+```
+
+Create a new variable in the dataset called doy (day of year) defined
+as the month plus the day divided by 32 minus 1.
+
+```{r}
+storms %>%
+  mutate(doy = month + day / 32 - 1)
+```
+
+Create a scatter plot of wind speed as a function of doy. Use a pipe
+to do this.
+
+```{r}
+storms %>%
+  mutate(doy = month + day / 32 - 1) %>%
+  ggplot(aes(doy, wind)) +
+    geom_point()
+```
+Create a histogram of storms per year between 2000 and 2010 using the
+filter function and a pipe.
+
+```{r}
+storms %>%
+  filter(between(year, 2000, 2010)) %>%
+  ggplot(aes(factor(year))) +
+    geom_bar() # the question says histogram; but this looks nicer
+```
+
+Create a dataset that consists only of tropical storms and construct a
+histogram of wind speeds from this data.
+
+
+```{r}
+storms %>%
+  filter(status == "tropical storm") %>%
+  ggplot(aes(wind)) +
+    geom_histogram(color = "black", fill = "white", bins=5)
+```
+
+Using the summarize command, compute the mean, median, and 25%
+percentile of wind speeds from all storms.
+
+```{r}
+storms %>%
+  summarize(wind_mean = mean(wind),
+            wind_median = median(wind),
+            wind_q25 = quantile(wind, 0.25))
+```
+
+Combine the prior function with a filter command to compute the mean,
+median, and 25% percentile of wind speeds from all category 5 storms.
+
+```{r}
+storms %>%
+  filter(category == 5) %>%
+  summarize(wind_mean = mean(wind),
+            wind_median = median(wind),
+            wind_q25 = quantile(wind, 0.25))
+```
+
+Construct a scatter plot with longitude on the x-axis and latitude on
+the y-axis of all storms. Use color to denote the category of the storm.
+
+```{r}
+storms %>%
+  ggplot(aes(long, lat)) +
+    geom_point(aes(color = category))
+```
+
+Create a new variable `category_fct` that applies the function `factor`
+to the category variable of the dataset `storms`. Use the `mutate` function
+to do this.
+
+```{r}
+storms %>%
+  mutate(category_fct = factor(category))
+```
+
+Construct a scatter plot with longitude on the x-axis and latitude on
+the y-axis of all storms. Use color to denote the category of the storm,
+but now use the `category_fct` variable.
+
+```{r}
+storms %>%
+  mutate(category_fct = factor(category)) %>%
+  ggplot(aes(long, lat)) +
+    geom_point(aes(color = category_fct))
+```
+
+Using filter and pipes, construct a path plot with longitude and
+latitude of all storms from 2015. Color the lines based on the name of the
+storm.
+
+```{r}
+storms %>%
+  filter(year == 2015) %>%
+  ggplot(aes(long, lat)) +
+    geom_path(aes(color = name))
+```
+
+Add a `geom_path` layer to the prior plot that uses the borders data
+and adds the aesthetic `group = group` (this stops it from connecting parts
+of the map that are not connected).
+
+```{r}
+storms %>%
+  filter(year == 2015) %>%
+  ggplot(aes(long, lat)) +
+    geom_path(aes(group = group), alpha = 0.7, data = borders) +
+    geom_path(aes(color = name))
+```
+
+Repeat the prior plot but now: (1) only include latitude less than
+40, (2) longitude less than -30, and (3) add `coord_cartesian(ylim = c(0, 40))`
+to the plot. Again, use a pipe.
+
+```{r}
+storms %>%
+  filter(year == 2015) %>%
+  filter(lat < 40, long < -30) %>%
+  ggplot(aes(long, lat)) +
+    geom_path(aes(group = group), alpha = 0.7, data = borders) +
+    geom_path(aes(color = name)) +
+    coord_cartesian(ylim = c(0, 40))
+```
+
+Add points to the prior map where the size of the point is
+determined by the category of storm. Make sure the color of the points
+matches that of the storm name as well.
+
+```{r}
+storms %>%
+  filter(year == 2015) %>%
+  filter(lat < 40, long < -30) %>%
+  ggplot(aes(long, lat)) +
+    geom_path(aes(group = group), alpha = 0.7, data = borders) +
+    geom_path(aes(color = name)) +
+    geom_point(aes(color = name, size = category)) +
+    coord_cartesian(ylim = c(0, 40))
+```
+
+Modify the prior plot so that we have all years from 2010 to
+2015, the color is no longer given by the storm name (set it to "red" to
+distinguish it from the borders), and use facets to facet by year. Note
+that you will have to use the `group` aesthetic to get this to look right.
+
+```{r}
+# I changed this a bit from the instructions to make it look a little nicer
+storms %>%
+  filter(between(year, 2010, 2015)) %>%
+  filter(lat < 40, long < -30) %>%
+  ggplot(aes(long, lat)) +
+    geom_polygon(aes(group = group), alpha = 0.4, data = borders, color = "black", fill = "olivedrab") +
+    geom_path(aes(group = name), color = "salmon") +
+    geom_point(aes(size = category), color = "salmon") +
+    facet_wrap(~year) +
+    coord_map() + # can replace with coord_cartesian if you do not have the maps package 
+    theme_void()
+```
+

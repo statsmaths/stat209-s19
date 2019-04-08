@@ -1,0 +1,63 @@
+---
+title: "Final Project: Exploring A Week in the Life"
+output: html_document
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+For this project, you need to describe the dataset that you have collected
+and then write a short (approx. 500 words with 3-5 graphics) exploratory
+analysis of the dataset. In order to get an 'A' on the assignment, you should
+integrate some of the advanced graphics and data manipulation techniques that
+we have been learning. There is no need, however, to exhaustively use every
+technique; only apply what makes sense for your dataset.
+
+To submit, upload your three datasets, this script, and a knitted version of
+the HTML file. The project is due before class on Thursday, 25 April.
+
+## Data dictionary
+
+Table of hourly activities :
+
+- **name**:
+- **year**:
+- **day**:
+- **month**:
+- **hour**:
+- **location**:
+- **activity**:
+- **new_var**:
+
+Table of locations:
+
+- **location**:
+- **lat**:
+- **lon**:
+- **new_var**:
+
+Table of hourly activities:
+
+- **activity**:
+- **score**:
+- **new_var**
+
+## Read in the datasets
+
+The code below reads in your datasets. It also attaches a date-like object
+to the hourly table that may be useful in your plots:
+
+```{r}
+hourly <- read_csv2("hourly.csv")
+activities <- read_csv("activities.csv")
+places <- read_csv("places.csv")
+
+hourly <- mutate(hourly,
+                 time = as.POSIXct(sprintf("%04d-%02d-%02d %02d:00", year, month, day, hour)))
+```
+
+
+## Analysis
+
+
