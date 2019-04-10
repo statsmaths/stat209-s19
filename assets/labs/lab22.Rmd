@@ -16,7 +16,6 @@ library(readr)
 library(ggplot2)
 library(dplyr)
 library(viridis)
-library(forcats)
 library(smodels)
 theme_set(theme_minimal())
 ```
@@ -30,7 +29,7 @@ questions.
 
 ## Chicago Crime Data
 
-Today we are going to look at a fairly largerdataset. Each row
+Today we are going to look at a fairly large dataset. Each row
 of the data refers to a single reported crime in the City of Chicago:
 
 ```{r}
@@ -85,7 +84,7 @@ crimes_ca <- left_join(crimes_ca, ca)
 ### Example
 
 Last time, I said that it may be useful to summarize the dataset it in
-a different way. This will be a powerful tool in Project D. To test your
+a different way. To test your
 knowledge of what this means, look at this dataset and plot:
 
 ```{r}

@@ -1,0 +1,164 @@
+---
+title: "Class 20: Grouped Summaries"
+author: "Taylor Arnold"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(fig.path = "../assets/class20/")
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+```
+
+```{r, message = FALSE}
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+```
+
+![](../assets/img/data_pipeline_transform.png)
+
+# Grouping data
+
+Today we are going to look at the NYC flights dataset once again:
+
+```{r, message = FALSE}
+flights <- read_csv("https://statsmaths.github.io/stat_data/flights.csv")
+```
+
+Our object of study will be the function `group_by`, a **dplyr**
+verb that seemingly does nothing (or very little) to a dataset.
+Here, we group the flights data by month:
+
+```{r}
+group_by(flights, month)
+```
+
+Other than a note in the output, the dataset is completely unchanged.
+I like to think of the `group_by` function as putting a post-it note
+on the dataset saying "treat unique combinations of the grouped variables
+as their own data frames". When passing the output of this function
+to `summarize`, it will not return one summary row *for each group*.
+
+For example:
+
+```{r}
+flights %>%
+  group_by(month) %>%
+  summarize(avg_dep_delay = mean(dep_delay),
+            avg_arr_delay = mean(arr_delay),
+            n = n())
+```
+
+We see that flights in June take off on average 20 minutes late, whereas
+flights in November took off only a 5.4 minutes late.
+
+We can group by multiple variables at once as well. Here we show the
+average departure delay by airport and by month:
+
+```{r}
+flights %>%
+  group_by(origin, month) %>%
+  summarize(avg_dep_delay = mean(dep_delay),
+            avg_arr_delay = mean(arr_delay),
+            n = n()) %>%
+  ggplot(aes(month, avg_dep_delay)) +
+    geom_point(aes(color = origin), size = 4) +
+    geom_line(aes(color = origin)) +
+    scale_color_viridis(discrete = TRUE)
+```
+
+Notice that when grouping by multiple variables the summarize
+function *peels off* the outer most layer of the grouping:
+
+```{r}
+flights %>%
+  group_by(origin, month) %>%
+  summarize(avg_dep_delay = mean(dep_delay),
+            avg_arr_delay = mean(arr_delay),
+            n = n())
+```
+
+To remove all grouping, using the `ungroup()` function:
+
+```{r}
+flights %>%
+  group_by(origin, month) %>%
+  summarize(avg_dep_delay = mean(dep_delay),
+            avg_arr_delay = mean(arr_delay),
+            n = n()) %>%
+  ungroup()
+```
+
+It is also possible to use grouped data with `mutate` and
+`filter`. For example, here we return the 3 latest flights
+for each day in the dataset:
+
+```{r}
+flights %>%
+  group_by(year, month, day) %>%
+  filter(rank(desc(arr_delay)) <= 3) %>%
+  select(year, month, day, arr_delay)
+```
+
+Here, we see what proportion of the arrival delays is taken
+up by each destination airport:
+
+```{r}
+flights %>%
+  group_by(origin, dest) %>%
+  summarize(dep_delay_total = sum(dep_delay)) %>%
+  mutate(dep_delay_prop = dep_delay_total / sum(dep_delay_total) * 100) %>%
+  arrange(desc(dep_delay_prop))
+```
+
+Yes, pipes with chained together grouped mutates and summaries
+can get complex very quickly! Try to keep up with the basic ideas
+and the more complicated examples will begin making sense soon.
+
+# Variable types in plots
+
+The `factor` function turns any variable into a factor
+variable; a factor is a type of object that R knows to treat as categories.
+We can use the `mutate` function to make a permanent
+change, or apply it inline to effect the way a plot is built.
+For example, compare this:
+
+```{r}
+filter(flights, day == 1, hour > 21) %>%
+  ggplot(aes(dep_delay, arr_delay)) +
+    geom_point(aes(color = month)) +
+    theme_minimal()
+```
+
+And this:
+
+```{r}
+filter(flights, day == 1, hour > 21) %>%
+  ggplot(aes(dep_delay, arr_delay)) +
+    geom_point(aes(color = factor(month))) +
+    theme_minimal()
+```
+
+Alternatively, if a variable is truly continuous we can convert
+it into a factor by using the `cut` function. This function splits
+the range of the variable into evenly sized buckets and associates
+each input with a specific value of the bucket. For example,
+take the following example:
+
+```{r}
+filter(flights, day == 1, hour > 21) %>%
+  ggplot(aes(dep_delay, arr_delay)) +
+    geom_point(aes(color = cut(dep_delay, 4))) +
+    theme_minimal()
+```
+
+Of course, we would usually not color the points using the same
+variable as one of the axes, but this helps illustrate what the
+function is doing.
+
+

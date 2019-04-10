@@ -5,7 +5,7 @@ author: "Taylor Arnold"
 
 **Due**: 2018-04-25 (start of class)
 
-**Starter code**: <a href="https://raw.githubusercontent.com/statsmaths/stat209-s18/master/assets/projects/final-project.Rmd" download="final-project.Rmd" target="_blank">final-project.Rmd</a>
+**Starter code**: <a href="https://raw.githubusercontent.com/statsmaths/stat209-s19/master/assets/labs/final-project.Rmd" download="final-project.Rmd" target="_blank">final-project.Rmd</a>
 
 The overarching goal of the first project is to collect a data set, produce a
 data dictionary, and provide an exploratory analysis from your data.

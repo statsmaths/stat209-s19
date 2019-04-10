@@ -1,5 +1,5 @@
 ---
-title: "Lab 20: Chicago Crime Data I"
+title: "Lab 20: Summarizing Bird Data"
 output: html_document
 ---
 
@@ -16,232 +16,134 @@ library(readr)
 library(ggplot2)
 library(dplyr)
 library(viridis)
-library(forcats)
 library(smodels)
 theme_set(theme_minimal())
 ```
 
 ## Instructions
 
-Below you will find several empty R code scripts and answer prompts. Your task
-is to fill in the required code snippets and answer the corresponding
-questions.
+Below you will find several empty R code scripts.
+Your task is to fill in the required code snippets.
 
-## Chicago Crime Data
+## Birds Data
 
-Today we are going to look at a fairly largerdataset. Each row
-of the data refers to a single reported crime in the City of Chicago:
+Today you will be working with a datasets of birds:
 
 ```{r}
-crimes <- read_csv("https://statsmaths.github.io/stat_data/chi_crimes_2016.csv")
+birds <- read_csv("https://statsmaths.github.io/stat_data/birds.csv")
 ```
 
-The available variable are:
+Here is a full data dictionary describing all of the variables
 
-- `area_number`: the community area code of the crime; a number from 1-77
-- `arrest_flag`: whether the crime resulted in an arrest; 0 is false and 1 is true
-- `domestic_flag`: whether the crime is classified as a domestic offense; 0 is false and 1 is true
-- `night_flag`: did the crime occur at night (9pm - 3am); 0 is false and 1 is true
-- `burglary`: was the crime classified as a burglary? 0 is false and 1 is true
-- `theft`: was the crime classified as a theft? 0 is false and 1 is true
-- `battery`: was the crime classified as a battery? 0 is false and 1 is true
-- `damage`: was the crime classified as a damage? 0 is false and 1 is true
-- `assault`: was the crime classified as an assault? 0 is false and 1 is true
-- `deception`: was the crime classified as criminal deception? 0 is false and 1 is true
-- `robbery`: was the crime classified as a robbery? 0 is false and 1 is true
-- `narcotics`: was the crime classified as a narcotics violation? 0 is false and 1 is true
+- **genus** (chr): taxonomic rank of the bird
+- **species** (chr): scientific species name of the bird
+- **name** (chr): common name of the bird
+- **type** (chr): common name of the type of bird
+- **egg_mass** (dbl): average mass of an egg when laid (grams)
+- **male_mass** (dbl): average observed mass of an adult male (grams)
+- **mating_system** (int): scores of mating system. Intensity of male-male competition increases from 1 to 5.
+    - (1) polyandry
+    - (2) monogamy (<5% polygyny)
+    - (3) mostly monogamy, but occasional polygyny (5–15% polygyny)
+    - (4) mostly polygyny (> 15% polygyny)
+    - (5) lek or promiscuous
+- **display** (int): mating display agility
+    - (1) ground displays only, including displays on trees and bushes
+    - (2) ground displays, but with occasional jumps/leaps into the air
+    - (3) both ground and non-acrobatic flight displays
+    - (4) mainly aerial displays, non-acrobatic
+    - (5) mainly aerial displays, acrobatic
+- **resource** (int): scores of territoriality and between-mate resource sharing
+    - (0) males and females don't share resources and they feed away from their breeding territory
+    - (1) males and females share resources on their territory only during the breeding season
+    - (2) males and females share resources on their territory all year round.
+- **clutch_size** (dbl): average number of eggs produced per clutch
 
-We also have metadata about each community area within Chicago as well.
-We will see how to use these shortly.
+Notice that the last two variables are integer codes. They are stored as numbers but
+correspond to a category.
 
-```{r}
-ca <- read_csv("https://statsmaths.github.io/stat_data/chicago_meta.csv")
-```
+## Starting plot
 
-- `area_number`: the community area code; a number from 1 to 77
-- `area_name`: popular name of the community area
-- `median_age`: the median age of all residents in the community area
-- `num_households`: total number of households
-- `family_households`: percentage of households classified as a `family'
-                     (domestic partners, married couples, and one or more
-                     parents with children)
-- `family_w_kids`: percentage of households with children under the age of 18
-- `owner_ratio`: ratio of households that own or mortgage their primary residence
-- `mean_travel_time`: average commute time
-- `percent_walk`: percentage of commuters who walk to work (0-100)
-- `median_income`: median household income
-- `perc_20_units`: percentage of residential buildings with 20 or more units
-
-
-It is difficult to do much of anything directly with the raw data. We
-need to utilize the group_summarize function to get somewhere interesting.
-Before doing that on the whole dataset, let's make sure that we understand
-exactly what is going on by using the mean() and sum() functions directly.
-Take the mean of arrest_flag for the whole dataset:
+Create a scatter plot showing the mass of a male bird (x-axis) and the mass of an egg:
 
 ```{r}
 
 ```
 
-Describe what this means in words.
+You should notice that the plot's scale makes it hard to see the relationship between the two variables.
 
-**Answer**:
+## Changing the scale
 
-Now, take the mean of the theft variable over the entire dataset:
-
-```{r}
-
-```
-
-Describe what this means in words.
-
-**Answer**:
-
-Take the sum of the theft variable:
+Now add the layers `scale_x_log10` and `scale_y_log10`
 
 ```{r}
 
 ```
 
-Describe what this means in words.
+## Parrots
 
-**Answer**:
-
-Take the dataset `ca` and calculate the sum of the variable `num_households`:
-
-```{r}
-
-```
-
-Divide the sum of the theft variable by the sum of the number of
-households variable and multiply by 1000.
+Create a new dataset called `parrots` consisting of just those birds that are
+parrots:
 
 ```{r}
 
 ```
 
-Describe what this means in words.
-
-**Answer**:
-
-Use the filter function to construct a dataset `temp` consisting only of
-those rows in `crimes` that come from area_number 23. This is the area
-named Humboldt Park.
+Now add a layer to the previous plot (keeping the log scales) where the
+parrots are highlighted in the color "red". To make them stand out, make the
+base layer have an alpha value of 0.15. Finally, add a text annotation
+describing to the reader that the red points are parrots.
 
 ```{r}
 
 ```
 
-Take the mean of the variable arrests on the data `temp`.
+## Outliers
+
+If you look at the plot, you'll see one bird in particular who has a very
+large egg size given the mass of the bird itself. This is the the Red-tailed
+tropicbird (also, you can add pictures to Rmarkdown!):
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Red-tailed_Tropicbird_RWD2.jpg/640px-Red-tailed_Tropicbird_RWD2.jpg)
+
+The tropicbird as a male mass of 218.7g and an egg mass of 87.00g. Annotate
+this point on the graph and give a label for it, but instead of using the
+annotate function, make use of the `filter` command:
 
 ```{r}
 
 ```
 
-Is this smaller, larger, or about the same as the mean of the arrest flag
-over the entire dataset? Can we safely compare these measurements? If so
-describe the relationship in words.
+## Summarizing the Data
 
-**Answer**:
-
-Take the mean of the variable `theft` on the data `temp`.
-
-``{r}
-
-```
-
-Is this smaller, larger, or about the same as the mean of the theft flag
-over the entire dataset? Can we safely compare these measurements? If so
-describe the relationship in words.
-
-**Answer**:
-
-Manually look up the number of households in area 23, Humboldt Park, by
-looking at the dataset `ca` in the data viewer. Take the sum of the number
-of thefts in temp, divide this by the number of households in Humboldt Park,
-and multiply by 1000:
+Create a new dataset which summarizes everything to the level of a bird
+type using the `group_summarize` function:
 
 ```{r}
 
 ```
 
-Is this smaller, larger, or about the same as the same measurement over the
-over the entire dataset? Can we safely compare these measurements? If so
-describe the relationship in words.
-
-**Answer**:
-
-You have the tools to get the number of households in Humboldt Park
-entirely using R code. Specifically, filter `ca` to only include area 23
-and then pull off `num_households` with the `$` operator. Try this here:
+Create a log-log plot of the median egg mass and median male mass for each
+bird type.
 
 ```{r}
 
 ```
 
-Now that we have an idea of what it means to take means and sums over
-this dataset, use `group_summarize` to summarize `crimes` at the community
-area level. Save the result as `crimes_ca`:
+Now create a new dataset filtered to only those bird types with 5 or more
+birds in the original dataset:
 
 ```{r}
 
 ```
 
-We want to combine the datasets `crimes_ca` and `ca`. To do this we use
-a new function `left_join`, as follows:
-
-```{r}
-crimes_ca <- left_join(crimes_ca, ca)
-```
-
-What variable is R using the match these datasets up?
-
-**Answer**:
-
-By default, R will use any commonly named variables to match the datasets
-up. If we need it, I will show you how to modify this behavior later.
-
-Construct a variable `theft_rate` equal to the number of thefts in each
-community area, divided by the number of households and multiplied by 1000.
+Finally, add two layers to the first plot that (1) colors the smaller set
+of birds in red and (2) provides a textual label for the red colored points.
+Try to make the labels readable (hint: perhaps add the `alpha` aesthetic
+to the first set of points and/or jitter the y-axis of the labels):
 
 ```{r}
 
 ```
-
-Draw a scatter plot with median income on the x-axis and theft rate on
-the y-axis.
-
-```{r}
-
-```
-
-Describe the general pattern and any outliers.
-
-**Answer**:
-
-Modify the previous plot so that the points are labeled with the area
-name:
-
-```{r}
-
-```
-
-What is the name of the outlier?
-
-**Answer**:
-
-(Critical Thinking) Look up the neighborhood that is the outlier on
-Wikipedia. Give an explanation for why this neighborhood has a high rate
-of theft per household. Hint: There are two distinct reasons.
-
-**Answer**:
-
-
-
-
-
-
-
-
 
 
