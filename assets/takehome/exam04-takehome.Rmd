@@ -1,0 +1,195 @@
+---
+title: "Exam IV -- Takehome Exam"
+output: html_document
+---
+
+## Instructions
+
+Due: Start of class, Thursday 25 April 2019
+
+Write code as needed below and fill in your written answers in full
+sentences wherever you see the prompt "Answer:". I have sent you a folder on
+Box to upload your solutions to. Please upload the Rmd file and a knitted html
+file with your responses. If you have trouble with the upload, come to class
+on Thursday with the completed assignment and I will assist with the upload
+process.
+
+Note: If you believe that there is something unspecified in the question, any
+way of following the instructions will be marked correctly.
+
+**Remember, this exam can be skipped if you are happy with your first three
+exam grades.**
+
+## Packages
+
+Read in the following R packages that we will need for the exam:
+
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(smodels)
+library(tmodels)
+library(readr)
+
+theme_set(theme_minimal())
+```
+
+## Bike Rentals in DC
+
+Bike sharing systems are variants of traditional bicycle rentals, where
+the process of renting and returning is heavily automated; typically, bikes
+can be rented at one location and returned at another without ever having
+to deal with a human being. There are currently several hundred bike sharing
+programs in many different cities, and a great deal of interest in their
+potential.
+
+For this data analysis, we have a set of data from a bike sharing program
+derived from a two-year usage log of a Washington, D.C. bike-sharing system
+called Captial Bike Sharing (CBS). You can read the data in with the following
+
+```{r}
+bikes <- read_csv("https://statsmaths.github.io/stat_data/bikes.csv")
+bikes <- mutate(bikes, date = as.Date("2011-01-01") + seq_len(nrow(bikes)) - 1L)
+```
+
+The following fields are available for you to work with:
+
+-  season       - season of the year, 1 to 4 (Winter, Spring, Summer, Fall)
+-  year         - code for the year: 0=inital year of program, 1=second year
+-  workingday   - 1 for working days, 0 for weekends and holidays
+-  weather      - weather, coded as follows:
+    - 1 = Clear to partly cloudy
+    - 2= Mist but no heavier precipitation
+    - 3= Light rain or snow, possibly with thunder
+    - 4= Heavy rain or snow
+-  temp         - temperature in Celsius
+-  humidity     - humidity percentage
+-  windspeed    - windspeed in kilometers per hour
+-  registered   - number of bike rentals that day by registered users
+-  count        - count of total bike rentals that day, including both casual
+                  and registered users
+-  date         - a data classed object that contains the day of the dataset;
+                  created in the code block above
+
+1. Using pipes, draw a scatterplot with the number of bikes registered
+on the y-axis and the tempurature on the x-axis for just the initial year
+of the program.
+
+```{r}
+
+```
+
+2. Approximately, what seems to be the ideal tempurature for biking in DC?
+
+**Answer**:
+
+3. Create a new variable called `temp_f` that gives the tempurature in fahrenheit
+(you need look up the formula for converting from celcius). Then, redo the plot from
+question 1 with `temp_f` on the x-axis. Do all of this in a single sequence of commands
+with a pipe staring with the full dataset bike.
+
+```{r}
+
+```
+
+4. Using a pipe along with the `arrange` and select function, sort the
+dataset in descending order by the total number of bikes rented and
+select just the variables count and data.
+
+```{r}
+
+```
+
+On what date were the highest number of bikes rented?
+
+**Answer**:
+
+5. Using a single pipe function, create a new variable called
+`year_season` that pastes together year and season (paste(year, season, sep="-")).
+Then, summarize the average, minimum, and maximum number of bikes
+and construct a plot with `year_season` on the x-axis and number
+of bikes on the y-axis. Show three lines (geom_line): one for the
+minimum, one for the maximum, and one for the average value.
+Somehow differentiate the max/min from the average value (you can use
+linetype, color, or line size to do this; completely up to you).
+
+Note: In order for this to work, the first line of your plot needs to
+be this (without the quotes): `ggplot(aes(year_season, count_avg, group=1)) +`
+
+```{r}
+
+```
+
+6. Given a date object in R, you can extract a string giving the year and month using
+the format command. For example, take this code:
+
+```{r}
+format(as.Date("2019-04-15"), "%Y-%m")
+```
+
+Create a new dataset called `bikes_month` by constructing a variable year_month that
+extracts the year and month from the date variable in the dataset, grouping by the
+year_month variable, and summarizing by adding a variable called `avg_bikes` to get
+the average number of bikes rented in each time period. Do all of this with a single
+pipe command.
+
+```{r}
+
+```
+
+7. Using the left_join function, join the information from the `bikes_month` dataset.
+Note: you will have to reconstruct the year_month variable in the bikes dataset. Pipe
+this joined dataset into a plot that shows the average number of bikes rented in each
+month (y-axis) as a function of the date variable using a line and the actual counts
+of the bikes as points. Change the color of line to something other than black and make
+its size equal to 3. Set the opacity of the points (alpha) to 0.3 and make sure that the
+points are behind the line.
+
+```{r}
+
+```
+
+8. The following code snippet illustrates the usage of the `if_else` function. It creates
+a new variable based on whether a logical statement is ture or false; the code apply this
+function to the numbers 1 through 10
+
+```{r}
+if_else(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10) > 5, "Large number", "Small number")
+```
+
+Modify the plot from the previous question to make the color of the points change based on
+whether they are below the line of the average monthly count or above the line. Do this using
+a single pipe command and the if_else function.
+
+```{r}
+
+```
+
+9 This last question requires you to apply two new functions: lag
+and lead. They are used within a mutate function in order to allow the construction
+of new variables based on the values of the previous and subsequent data rows. They
+are particularly useful for datasets such as the bikes data that have a sequence of
+observations over time. You can look here for more information about these functions:
+
+- https://dplyr.tidyverse.org/reference/lead-lag.html
+
+Using a set of pipes, construct a variable named count_prev and count_next to grab
+the number of bikes rented in the previous and next days, respectively. Then create
+a variable avg_before_after that is equal to the average of these two counts. That
+is, (count_prev + count_next) / 2. Finally, pipe this into a plot that shows the
+relationship between the average number of bikes on the subsequent days (x-axis) and
+the number of bikes rented on the day itself (y-axis). Add a regression line to the
+plot. Note: you may get a warning that two rows were removed from the dataset. This
+is normal and not somethign to worry about.
+
+```{r}
+
+```
+
+10. There is nothing for you to do for this question. Your grade for question 10 depends
+on how well your code is formated throughout the exam. Make sure all pipes start with just
+the dataset and that your plots and variables follow the conventions from the course.
+
+
+
+
