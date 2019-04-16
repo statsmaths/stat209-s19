@@ -113,7 +113,8 @@ Take the dataset `ca` and calculate the sum of the variable `num_households`:
 ```
 
 Divide the sum of the theft variable by the sum of the number of
-households variable and multiply by 1000.
+households variable and multiply by 1000 (Note: you may need to do this
+manually by copy and pasting).
 
 ```{r}
 
@@ -170,13 +171,6 @@ describe the relationship in words.
 
 **Answer**:
 
-You have the tools to get the number of households in Humboldt Park
-entirely using R code. Specifically, filter `ca` to only include area 23
-and then pull off `num_households` with the `$` operator. Try this here:
-
-```{r}
-
-```
 
 Now that we have an idea of what it means to take means and sums over
 this dataset, use `group_summarize` to summarize `crimes` at the community
