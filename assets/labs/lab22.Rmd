@@ -7,10 +7,6 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(message = FALSE)
-knitr::opts_chunk$set(fig.height = 5)
-knitr::opts_chunk$set(fig.width = 8.5)
-knitr::opts_chunk$set(out.width = "100%")
-knitr::opts_chunk$set(dpi = 300)
 
 library(readr)
 library(ggplot2)
@@ -72,35 +68,52 @@ ca <- read_csv("https://statsmaths.github.io/stat_data/chicago_meta.csv")
 - `median_income`: median household income
 - `perc_20_units`: percentage of residential buildings with 20 or more units
 
+### Example
 
 As before, it will be useful to group summarize the dataset and join the
 metadata. Do that here to construct the dataset `crimes_ca`:
 
 ```{r}
-crimes_ca <- group_summarize(crimes, area_number)
-crimes_ca <- left_join(crimes_ca, ca)
+crimes_ca <- crimes %>%
+  group_summarize(area_number) %>%
+  left_join(ca)
 ```
 
-### Example
-
 Last time, I said that it may be useful to summarize the dataset it in
-a different way. To test your
-knowledge of what this means, look at this dataset and plot:
+a different way. To test your knowledge of what this means, look at this
+visualization:
 
 ```{r}
-crimes_time_ca <- group_summarize(crimes, area_number, night_flag)
-crimes_time_ca <- left_join(crimes_time_ca, ca, by = "area_number")
-crimes_time_ca$burglary_rate <- crimes_time_ca$burglary_sum / crimes_time_ca$num_households * 1000
-
-ggplot(crimes_time_ca, aes(median_income, burglary_rate)) +
-  geom_point(aes(color = factor(night_flag))) +
-  geom_smooth(aes(color = factor(night_flag)), method = "lm") +
-  scale_color_viridis(discrete = TRUE)
+crimes %>%
+  group_summarize(area_number, night_flag) %>%
+  left_join(ca, by = "area_number") %>%
+  mutate(burglary_rate = burglary_sum / num_households * 1000) %>%
+  ggplot(aes(median_income, burglary_rate)) +
+    geom_point(aes(color = factor(night_flag))) +
+    geom_bestfit(aes(color = factor(night_flag)))
 ```
 
 How many observations are there in the data? What does one row represent?
 How do you interpret the plot? Do the two slopes differ; what does this
 mean in practical terms?
+
+### Just for example
+
+This is entirely optional, but if you want to see some modifications of the
+previous plot, here is how I would make it look nicer:
+
+```{r}
+crimes %>%
+  group_summarize(area_number, night_flag) %>%
+  left_join(ca, by = "area_number") %>%
+  mutate(burglary_rate = burglary_sum / num_households * 1000) %>%
+  mutate(night_flag = if_else(night_flag == 0, "Day", "Night")) %>%
+  ggplot(aes(median_income, burglary_rate)) +
+    geom_point(aes(color = factor(night_flag)), alpha = 0.4) +
+    geom_smooth(aes(color = factor(night_flag)), method="lm", se = FALSE) +
+    scale_color_manual(values = c("Day"="skyblue", "Night"="black")) +
+    labs(x = "Median Income", y = "Burglaries per 1000 Households", color = "Time of Day")
+```
 
 ### Prompts
 

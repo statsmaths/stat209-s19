@@ -1,0 +1,262 @@
+---
+title: "Lab 21: Chicago Crime Data I"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+library(smodels)
+theme_set(theme_minimal())
+```
+
+## Instructions
+
+Below you will find several empty R code scripts and answer prompts. Your task
+is to fill in the required code snippets and answer the corresponding
+questions.
+
+## Chicago Crime Data
+
+Today we are going to look at a fairly largerdataset. Each row
+of the data refers to a single reported crime in the City of Chicago:
+
+```{r}
+crimes <- read_csv("https://statsmaths.github.io/stat_data/chi_crimes_2016.csv")
+```
+
+The available variable are:
+
+- `area_number`: the community area code of the crime; a number from 1-77
+- `arrest_flag`: whether the crime resulted in an arrest; 0 is false and 1 is true
+- `domestic_flag`: whether the crime is classified as a domestic offense; 0 is false and 1 is true
+- `night_flag`: did the crime occur at night (9pm - 3am); 0 is false and 1 is true
+- `burglary`: was the crime classified as a burglary? 0 is false and 1 is true
+- `theft`: was the crime classified as a theft? 0 is false and 1 is true
+- `battery`: was the crime classified as a battery? 0 is false and 1 is true
+- `damage`: was the crime classified as a damage? 0 is false and 1 is true
+- `assault`: was the crime classified as an assault? 0 is false and 1 is true
+- `deception`: was the crime classified as criminal deception? 0 is false and 1 is true
+- `robbery`: was the crime classified as a robbery? 0 is false and 1 is true
+- `narcotics`: was the crime classified as a narcotics violation? 0 is false and 1 is true
+
+We also have metadata about each community area within Chicago as well.
+We will see how to use these shortly.
+
+```{r}
+ca <- read_csv("https://statsmaths.github.io/stat_data/chicago_meta.csv")
+```
+
+- `area_number`: the community area code; a number from 1 to 77
+- `area_name`: popular name of the community area
+- `median_age`: the median age of all residents in the community area
+- `num_households`: total number of households
+- `family_households`: percentage of households classified as a `family'
+                     (domestic partners, married couples, and one or more
+                     parents with children)
+- `family_w_kids`: percentage of households with children under the age of 18
+- `owner_ratio`: ratio of households that own or mortgage their primary residence
+- `mean_travel_time`: average commute time
+- `percent_walk`: percentage of commuters who walk to work (0-100)
+- `median_income`: median household income
+- `perc_20_units`: percentage of residential buildings with 20 or more units
+
+
+It is difficult to do much of anything directly with the raw data. We
+need to utilize the group_summarize function to get somewhere interesting.
+Before doing that on the whole dataset, let's make sure that we understand
+exactly what is going on by using the mean() and sum() functions directly.
+Take the mean of arrest_flag for the whole dataset:
+
+```{r}
+crimes %>%
+  summarize(arrest_flag_mean = mean(arrest_flag))
+```
+
+Describe what this means in words.
+
+**Answer**: 17.2 percent of crimes in the dataset result in an arrest
+
+Now, take the mean of the theft variable over the entire dataset:
+
+```{r}
+crimes %>%
+  summarize(theft_mean = mean(theft))
+```
+
+Describe what this means in words.
+
+**Answer**: 27.5 percent of the crimes in the dataset are thefts
+
+Take the sum of the theft variable:
+
+```{r}
+crimes %>%
+  summarize(theft_sum = sum(theft))
+```
+
+Describe what this means in words.
+
+**Answer**: There are 38816 thefts in the datasets.
+
+Take the dataset `ca` and calculate the sum of the variable `num_households`:
+
+```{r}
+ca %>%
+  summarize(num_households_sum = sum(num_households))
+```
+
+Divide the sum of the theft variable by the sum of the number of
+households variable and multiply by 1000 (Note: you may need to do this
+manually by copy and pasting).
+
+```{r}
+38816 / 1061928 * 1000
+```
+
+Describe what this means in words.
+
+**Answer**: There are 36 thefts per 1000 households in this dataset.
+
+Use the filter function to construct a dataset `temp` consisting only of
+those rows in `crimes` that come from area_number 23. This is the area
+named Humboldt Park.
+
+```{r}
+temp <- crimes %>%
+  filter(area_number == 23)
+```
+
+Take the mean of the variable arrests on the data `temp`.
+
+```{r}
+temp %>%
+  summarize(arrest_flag_mean = mean(arrest_flag))
+```
+
+Is this smaller, larger, or about the same as the mean of the arrest flag
+over the entire dataset? Can we safely compare these measurements? If so
+describe the relationship in words.
+
+**Answer**: It's larger. Yes, we can compare these because they are both rates.
+
+Take the mean of the variable `theft` on the data `temp`.
+
+```{r}
+temp %>%
+  summarize(theft_mean = mean(theft))
+```
+
+Is this smaller, larger, or about the same as the mean of the theft flag
+over the entire dataset? Can we safely compare these measurements? If so
+describe the relationship in words.
+
+**Answer**: It is larger.
+
+Manually look up the number of households in area 23, Humboldt Park, by
+looking at the dataset `ca` in the data viewer. Take the sum of the number
+of thefts in temp, divide this by the number of households in Humboldt Park,
+and multiply by 1000:
+
+```{r}
+ca %>%
+  filter(area_number == 23) %>%
+  select(num_households) # answer: 17830
+
+temp %>%
+  summarize(theft_mean = sum(theft) / 17830 * 1000)
+```
+
+Is this smaller, larger, or about the same as the same measurement over the
+over the entire dataset? Can we safely compare these measurements? If so
+describe the relationship in words.
+
+**Answer**: Larger! And yes, again these are again rates and therefore can be
+compared.
+
+Now that we have an idea of what it means to take means and sums over
+this dataset, use `group_summarize` to summarize `crimes` at the community
+area level. Save the result as `crimes_ca`:
+
+```{r}
+crimes_ca <- crimes %>%
+  group_summarize(area_number)
+```
+
+We want to combine the datasets `crimes_ca` and `ca`. To do this we use
+a new function `left_join`, as follows:
+
+```{r}
+crimes_ca <- left_join(crimes_ca, ca)
+```
+
+What variable is R using the match these datasets up?
+
+**Answer**: area_number
+
+By default, R will use any commonly named variables to match the datasets
+up. If we need it, I will show you how to modify this behavior later.
+
+Construct a variable `theft_rate` equal to the number of thefts in each
+community area, divided by the number of households and multiplied by 1000.
+
+```{r}
+crimes_ca <- crimes_ca %>%
+  mutate(theft_rate = theft_sum / num_households * 1000)
+```
+
+Draw a scatter plot with median income on the x-axis and theft rate on
+the y-axis.
+
+```{r}
+crimes_ca %>%
+  ggplot(aes(median_income, theft_rate)) +
+    geom_point()
+```
+
+Describe the general pattern and any outliers.
+
+**Answer**: Generally there is weak negative relationship, but there is one large outlier
+that has a high median income (fourth largest) and by far the most crimes per households.
+
+Modify the previous plot so that the points are labeled with the area
+name:
+
+```{r}
+crimes_ca %>%
+  ggplot(aes(median_income, theft_rate)) +
+    geom_point(alpha = 0.2) +
+    geom_text(aes(label = area_name))
+```
+
+What is the name of the outlier?
+
+**Answer**: The loop
+
+(Critical Thinking) Look up the neighborhood that is the outlier on
+Wikipedia. Give an explanation for why this neighborhood has a high rate
+of theft per household. Hint: There are two distinct reasons.
+
+**Answer**: It is a busy commercial and tourist area but few people live there.
+The number of crimes *per household* is therefore very high even though we would
+not think of it as a crime-ridden area.
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,188 @@
+---
+title: "Lab 20: Summarizing Bird Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.height = 5)
+knitr::opts_chunk$set(fig.width = 8.5)
+knitr::opts_chunk$set(out.width = "100%")
+knitr::opts_chunk$set(dpi = 300)
+
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(viridis)
+library(smodels)
+theme_set(theme_minimal())
+```
+
+## Instructions
+
+Below you will find several empty R code scripts.
+Your task is to fill in the required code snippets.
+
+## Birds Data
+
+Today you will be working with a datasets of birds:
+
+```{r}
+birds <- read_csv("https://statsmaths.github.io/stat_data/birds.csv")
+```
+
+Here is a full data dictionary describing all of the variables
+
+- **genus** (chr): taxonomic rank of the bird
+- **species** (chr): scientific species name of the bird
+- **name** (chr): common name of the bird
+- **type** (chr): common name of the type of bird
+- **egg_mass** (dbl): average mass of an egg when laid (grams)
+- **male_mass** (dbl): average observed mass of an adult male (grams)
+- **mating_system** (int): scores of mating system. Intensity of male-male competition increases from 1 to 5.
+    - (1) polyandry
+    - (2) monogamy (<5% polygyny)
+    - (3) mostly monogamy, but occasional polygyny (5–15% polygyny)
+    - (4) mostly polygyny (> 15% polygyny)
+    - (5) lek or promiscuous
+- **display** (int): mating display agility
+    - (1) ground displays only, including displays on trees and bushes
+    - (2) ground displays, but with occasional jumps/leaps into the air
+    - (3) both ground and non-acrobatic flight displays
+    - (4) mainly aerial displays, non-acrobatic
+    - (5) mainly aerial displays, acrobatic
+- **resource** (int): scores of territoriality and between-mate resource sharing
+    - (0) males and females don't share resources and they feed away from their breeding territory
+    - (1) males and females share resources on their territory only during the breeding season
+    - (2) males and females share resources on their territory all year round.
+- **clutch_size** (dbl): average number of eggs produced per clutch
+
+Notice that the last two variables are integer codes. They are stored as numbers but
+correspond to a category.
+
+## Starting plot
+
+Create a scatter plot showing the mass of a male bird (x-axis) and the mass of an egg:
+
+```{r}
+birds %>%
+  ggplot(aes(male_mass, egg_mass)) +
+    geom_point()
+```
+
+You should notice that the plot's scale makes it hard to see the relationship between the two variables.
+
+## Changing the scale
+
+Now add the layers `scale_x_log10` and `scale_y_log10`
+
+```{r}
+birds %>%
+  ggplot(aes(male_mass, egg_mass)) +
+    geom_point() +
+    scale_x_log10() +
+    scale_y_log10()
+```
+
+## Parrots
+
+Create a new dataset called `parrots` consisting of just those birds that are
+parrots:
+
+```{r}
+parrots <- filter(birds, type == "Parrot")
+```
+
+Now add a layer to the previous plot (keeping the log scales) where the
+parrots are highlighted in the color "red". To make them stand out, make the
+base layer have an alpha value of 0.15. Finally, add a text annotation
+describing to the reader that the red points are parrots.
+
+```{r}
+birds %>%
+  ggplot(aes(male_mass, egg_mass)) +
+    geom_point(alpha = 0.15) +
+    geom_point(color = "red", data = parrots) +
+    scale_x_log10() +
+    scale_y_log10()
+```
+
+## Outliers
+
+If you look at the plot, you'll see one bird in particular who has a very
+large egg size given the mass of the bird itself. This is the the Red-tailed
+tropicbird (also, you can add pictures to Rmarkdown!):
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Red-tailed_Tropicbird_RWD2.jpg/640px-Red-tailed_Tropicbird_RWD2.jpg)
+
+The tropicbird as a male mass of 218.7g and an egg mass of 87.00g. Annotate
+this point on the graph and give a label for it, but instead of using the
+annotate function, make use of the `filter` command:
+
+```{r}
+topicbird <- filter(birds, type == "Tropicbird")
+
+birds %>%
+  ggplot(aes(male_mass, egg_mass)) +
+    geom_point(alpha = 0.15) +
+    geom_label(aes(label = type, y = egg_mass + 45), color = "red", data = topicbird) +
+    geom_point(color = "red", data = topicbird) +
+    scale_x_log10() +
+    scale_y_log10()
+```
+
+## Summarizing the Data
+
+Create a new dataset which summarizes everything to the level of a bird
+type using the `group_summarize` function:
+
+```{r}
+birds %>%
+  group_summarize(type)
+```
+
+Create a log-log plot of the median egg mass and median male mass for each
+bird type.
+
+```{r}
+birds %>%
+  group_summarize(type) %>%
+  ggplot(aes(male_mass_mean, egg_mass_mean)) +
+    geom_point() +
+    scale_x_log10() +
+    scale_y_log10()  
+```
+
+Now create a new dataset filtered to only those bird types with 5 or more
+birds in the original dataset:
+
+```{r}
+birds_sml <- birds %>%
+  group_summarize(type) %>%
+  ungroup() %>%
+  filter(n >= 5)
+```
+
+Finally, add two layers to the first plot (*IN THIS SECTION*)
+that (1) colors the smaller set of birds in red and (2) provides a
+textual label for the red colored points. Try to make the labels
+readable (hint: perhaps add the `alpha` aesthetic to the first set
+of points and/or jitter the y-axis of the labels):
+
+```{r}
+library(ggrepel)
+
+birds %>%
+  group_summarize(type) %>%
+  ggplot(aes(male_mass_mean, egg_mass_mean)) +
+    geom_point(alpha = 0.15) +
+    geom_point(data = birds_sml, color = "red") +
+    geom_text_repel(aes(label = type), data = birds_sml) +
+    scale_x_log10() +
+    scale_y_log10()  
+```
+
+
+
